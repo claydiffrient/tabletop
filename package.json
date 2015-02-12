@@ -1,0 +1,46 @@
+{
+  "name": "tabletop",
+  "version": "0.0.1",
+  "description": "A game picker app",
+  "main": "index.js",
+  "scripts": {
+    "start": "script/run.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/claydiffrient/tabletop.git"
+  },
+  "author": "Clay Diffrient",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/claydiffrient/tabletop/issues"
+  },
+  "homepage": "https://github.com/claydiffrient/tabletop",
+  "dependencies": {
+    "axios": "^0.5.0",
+    "bundle-loader": "^0.5.3",
+    "cookies": "^0.5.0",
+    "expose-loader": "^0.6.0",
+    "jsx-loader": "^0.12.2",
+    "node-jsx": "^0.12.4",
+    "react": "^0.12.2",
+    "react-router": "^0.12.0",
+    "react-tools": "^0.12.2",
+    "uglify-js": "^2.4.16",
+    "uuid": "^2.0.1",
+    "webpack": "^1.5.3",
+    "when": "^3.7.2"
+  },
+  "devDependencies": {
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-cli": "0.0.4",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-mocha": "^0.1.10",
+    "karma-webpack": "^1.5.0",
+    "mocha": "^2.1.0",
+    "supervisor": "^0.6.0",
+    "webpack-dev-server": "^1.7.0"
+  }
+}
