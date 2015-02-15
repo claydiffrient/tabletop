@@ -1,7 +1,7 @@
 var React = require('react');
 
-var NotFound = React.createClass({
-  displayName: 'NotFound',
+var GameList = React.createClass({
+  displayName: 'GameList',
 
   componentDidMount () {
     console.log(this.props);
@@ -10,10 +10,10 @@ var NotFound = React.createClass({
   render () {
     return (
       <div>
-        404 Not Found
+        List of Games
       </div>
     );
   }
 });
 
-module.exports = NotFound;
+module.exports = GameList;

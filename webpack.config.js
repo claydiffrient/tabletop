@@ -1,7 +1,11 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
-  entry: './client/app',
+  entry: {
+    main:'./client/app',
+    vendor: ['react', 'react-router', 'react-chartjs']
+  },
 
   output: {
     filename: 'main.js',
@@ -12,5 +16,9 @@ module.exports = {
     loaders: [
       {test: /\.(js|jsx)$/, loader: 'jsx-loader?harmony&insertPragma=React.DOM'}
     ]
-  }
+  },
+
+  plugins: [
+      new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
+    ]
 };

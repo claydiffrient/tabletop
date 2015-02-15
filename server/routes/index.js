@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('home', { title: 'Express' });
+/* GET All routes, let react-router handle routing */
+router.get('*', function(req, res) {
+  res.render('home');
 });
 
 module.exports = router;
