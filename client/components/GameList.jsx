@@ -28,7 +28,15 @@ var GameList = React.createClass({
     var uppercaseLetter = letter.toUpperCase();
     var newGames;
     if (lowercaseLetter === 'available') {
-
+      newGames = GameStore.getState().games.filter((game) => {
+        var isAvailable = false;
+        game.owners.forEach((owner) => {
+          if (owner.available) {
+            isAvailable = true;
+          }
+        });
+        return isAvailable;
+      });
     }
     else if (lowercaseLetter === 'all') {
       newGames = GameStore.getState().games;
@@ -46,6 +54,9 @@ var GameList = React.createClass({
 
   renderGames () {
     if (this.state.loaded) {
+      if (!this.state.games.length) {
+        return (<h4>No games found.</h4>);
+      }
       return this.state.games.map( (game) => {
         return (<Game
            key={game._id}

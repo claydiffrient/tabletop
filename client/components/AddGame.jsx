@@ -4,13 +4,30 @@ var GameStore = require('../stores/GameStore');
 var AddGame = React.createClass({
   displayName: 'AddGame',
 
+  mixins: [Router.Navigation],
+
   componentDidMount () {
   },
 
   handleSubmit (event) {
     event.preventDefault();
-    console.log(event);
-    return false;
+    var requestObj = {};
+    requestObj.owners = [];
+    var ownerObj = {}
+    for (key in this.refs) {
+      if ((key === 'name') || (key === 'slackId') || (key === 'available' )) {
+        var value = this.refs[key].getDOMNode().value;
+        if (key === 'available') {
+          value = this.refs[key].getDOMNode().checked;
+        }
+        ownerObj[key] = value;
+        continue;
+      }
+      requestObj[key] = this.refs[key].getDOMNode().value;
+    }
+    requestObj.owners.push(ownerObj);
+    GameStore.addNewGame(requestObj);
+    this.transitionTo('games');
   },
 
   render () {
@@ -24,7 +41,8 @@ var AddGame = React.createClass({
         <div className="AddGame__Instructions row">
           <div className="col-xs-12 alert alert-info">
             You can fill out everything, but if you include a BoardGameGeek Id
-            then most fields will be autopopulated in the system.
+            then the second set of fields will be overriden by the data from
+            BoardGameGeek.com
           </div>
         </div>
         <div className="AddGame__Form-Container row center-xs">
@@ -35,24 +53,24 @@ var AddGame = React.createClass({
                   <label htmlFor="bggId">BGG Id:</label>
                 </div>
                 <div className="col-xs-4">
-                  <input className="form-control" type="text" id="bggId" name="bggId" />
+                  <input className="form-control" type="text" ref="bggId" id="bggId" name="bggId" />
                 </div>
               </div>
               <hr />
               <div className="row center-xs">
                 <div className="col-xs-2">
-                  <label htmlFor="gameTitle">Game Title:</label>
+                  <label htmlFor="title">Game Title:</label>
                 </div>
                 <div className="col-xs-4">
-                  <input className="form-control" type="text" id="gameTitle" name="gameTitle" />
+                  <input className="form-control" type="text" ref="title" id="title" name="title" />
                 </div>
               </div>
               <div className="row center-xs">
                 <div className="col-xs-2">
-                  <label htmlFor="gameThumbnail">Game Thumbnail:</label>
+                  <label htmlFor="thumbnail">Game Thumbnail:</label>
                 </div>
                 <div className="col-xs-4">
-                  <input className="form-control" type="text" id="gameThumbnail" name="gameThumbnail" />
+                  <input className="form-control" type="text" ref="thumbnail" id="thumbnail" name="thumbnail" />
                 </div>
               </div>
               <div className="row center-xs">
@@ -60,7 +78,7 @@ var AddGame = React.createClass({
                   <label htmlFor="numPlayers">Number of Players:</label>
                 </div>
                 <div className="col-xs-4">
-                  <input className="form-control" placeholder="Min-Max" type="text" id="numPlayers" name="numPlayers" />
+                  <input className="form-control" placeholder="Min-Max" type="text" ref="numPlayers" id="numPlayers" name="numPlayers" />
                 </div>
               </div>
               <div className="row center-xs">
@@ -68,7 +86,7 @@ var AddGame = React.createClass({
                   <label htmlFor="playTime">Time to Play:</label>
                 </div>
                 <div className="col-xs-4">
-                  <input className="form-control" type="text" id="playTime" name="playTime" />
+                  <input className="form-control" type="text" ref="playTime" id="playTime" name="playTime" />
                 </div>
               </div>
               <div className="row center-xs">
@@ -76,32 +94,32 @@ var AddGame = React.createClass({
                   <label htmlFor="description">Description:</label>
                 </div>
                 <div className="col-xs-4">
-                  <textarea className="form-control" id="description" name="description" />
+                  <textarea className="form-control" ref="description" id="description" name="description" />
                 </div>
               </div>
               <hr />
               <div className="row center-xs">
                 <div className="col-xs-2">
-                  <label htmlFor="ownerName">Owner Name:</label>
+                  <label htmlFor="name">Owner Name:</label>
                 </div>
                 <div className="col-xs-4">
-                  <input className="form-control" type="text" id="ownerName" name="ownerName" />
+                  <input className="form-control" type="text" ref="name" id="name" name="name" />
                 </div>
               </div>
               <div className="row center-xs">
                 <div className="col-xs-2">
-                  <label htmlFor="ownerSlackId">Slack Id:</label>
+                  <label htmlFor="slackId">Slack Id:</label>
                 </div>
                 <div className="col-xs-4">
-                  <input className="form-control" type="text" id="ownerSlackId" name="ownerSlackId" />
+                  <input className="form-control" type="text" ref="slackId" id="slackId" name="slackId" />
                 </div>
               </div>
               <div className="row center-xs">
                 <div className="col-xs-2">
-                  <label htmlFor="gameAvailable">Available:</label>
+                  <label htmlFor="available">Available:</label>
                 </div>
                 <div className="col-xs-4">
-                  <input type="checkbox" className="form-control" id="gameAvailable" name="gameAvailable" />
+                  <input type="checkbox" className="form-control" ref="available" id="available" name="available" />
                 </div>
               </div>
               <hr />

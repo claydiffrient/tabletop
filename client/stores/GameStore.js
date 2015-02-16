@@ -8,7 +8,8 @@ var fixDescriptionEntities = function (data) {
   data.forEach( (game, index) => {
     newDesc = game.description
                   .replace(/&#10;/g, '\n')
-                  .replace(/&mdash;/g, '—');
+                  .replace(/&mdash;/g, '—')
+                  .replace(/&quot;/g, '"');
     data[index].description = newDesc;
   });
 
@@ -51,6 +52,22 @@ var GameStore = {
     .catch((response) => {
       this._state.games = [];
       this._state.loaded = false;
+    });
+  },
+
+  addNewGame (request) {
+    var url = this.apiUrl + 'games';
+
+    axios.post(url, request, {
+      headers: {'X-Access-Token': this.token}
+    })
+    .then((response) => {
+      this._state.games.push(response.data);
+      this._state.loaded = true;
+      emitter.emit('change', this._state);
+    })
+    .catch((response) => {
+      console.log(response.errors);
     });
   }
 
