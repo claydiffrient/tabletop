@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   entry: {
     main:'./client/app',
-    vendor: ['react', 'react-router', 'react-chartjs']
+    vendor: ['react', 'react-router', 'react-chartjs', 'axios']
   },
 
   output: {

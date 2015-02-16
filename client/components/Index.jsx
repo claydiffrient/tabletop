@@ -19,10 +19,6 @@ var Index = React.createClass({
     };
   },
 
-  componentWillMount () {
-    GameStore.fetch();
-  },
-
   handleClick () {
     this.props.handleVoteClick();
   },
