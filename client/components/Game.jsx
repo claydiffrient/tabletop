@@ -32,6 +32,7 @@ var Game = React.createClass({
   render () {
 
     var available = this.checkForAvailability();
+    var details = " # of Players: " + this.props.numPlayers + " | Playing Time: " + this.props.playTime;
 
     return (
       <div className="Game row middle-xs">
@@ -39,7 +40,7 @@ var Game = React.createClass({
           <img className="Game__Image img-responsive" src={this.props.thumbnailUrl} />
         </div>
         <div className="Game__DescriptionColumn col-xs-8">
-          <h3 className="Game__Title">{this.props.title}</h3>
+          <h3 className="Game__Title">{this.props.title}<small>{details}</small></h3>
           <p className="Game__Description">{this.props.description}</p>
           <h4>Owners:</h4>
           <ul className="Game__Owners">
