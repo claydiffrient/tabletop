@@ -28,8 +28,12 @@ var App = React.createClass({
 
   render () {
     return (
-      <div className="container">
-        <h1>TableTop Game Selector</h1>
+      <div className="container-fluid">
+        <div className="row center-xs">
+          <div className="col-xs">
+            <h1>TableTop Game Selector</h1>
+          </div>
+        </div>
         <RouteHandler />
       </div>
     );
