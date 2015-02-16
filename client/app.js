@@ -28,7 +28,7 @@ var App = React.createClass({
 
   render () {
     return (
-      <div>
+      <div className="container">
         <h1>TableTop Game Selector</h1>
         <RouteHandler />
       </div>
