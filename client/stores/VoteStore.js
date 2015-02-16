@@ -42,7 +42,6 @@ var VoteStore = {
       emitter.emit('change', this._state);
     })
     .catch((response) => {
-      debugger;
       this._state.votes = [];
       this._state.loaded = false;
     });

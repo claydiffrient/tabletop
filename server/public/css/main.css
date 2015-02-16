@@ -19,3 +19,21 @@
 .Game__Owner--available {
   font-weight: bold;
 }
+
+.GameList__Actions {
+  margin-bottom: 10px;
+}
+
+.GameList__Actions-AddGame {
+  align-self: center;
+}
+
+.GameList__Actions-AddGame-Container {
+  align-self: center;
+}
+
+.AddGame__Form-Container {
+  border: 1px solid #e1e1e8;
+  background-color: #f7f7f9;
+  padding: 5px;
+}

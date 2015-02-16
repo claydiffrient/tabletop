@@ -1,8 +1,8 @@
 var React = require('react');
+var Link = require('react-router').Link;
 var GameStore = require('../stores/GameStore');
 var Game = require('./Game.jsx');
-
-count = 0;
+var Filter = require('./Filter.jsx');
 
 var GameList = React.createClass({
   displayName: 'GameList',
@@ -17,19 +17,36 @@ var GameList = React.createClass({
   },
 
   componentDidMount () {
-    console.log(this.props);
   },
 
   handleChange (newState) {
-    console.log(newState);
     this.setState(newState);
+  },
+
+  handleFilterChange (letter) {
+    var lowercaseLetter = letter.toLowerCase();
+    var uppercaseLetter = letter.toUpperCase();
+    var newGames;
+    if (lowercaseLetter === 'available') {
+
+    }
+    else if (lowercaseLetter === 'all') {
+      newGames = GameStore.getState().games;
+    }
+    else {
+      newGames = GameStore.getState().games.filter ( (game) => {
+        return ((game.title.indexOf(lowercaseLetter) === 0) ||
+                (game.title.indexOf(uppercaseLetter) === 0));
+      });
+    }
+    this.setState({
+      games: newGames
+    });
   },
 
   renderGames () {
     if (this.state.loaded) {
-      console.log(this.state.games)
       return this.state.games.map( (game) => {
-        console.log('in map');
         return (<Game
            key={game._id}
            id={game._id}
@@ -47,10 +64,16 @@ var GameList = React.createClass({
   },
 
   render () {
-    console.log(count++)
     return (
       <div>
-        <h2> Games </h2>
+        <div className="GameList__Actions row center-xs">
+          <Filter onChange={this.handleFilterChange} />
+          <div className="GameList__Actions-AddGame-Container col-xs-2">
+            <Link to="addGame" className="GameList__Actions-AddGame btn btn-primary">
+              <i className="glyphicon glyphicon-plus" /> Add Game
+            </Link>
+          </div>
+        </div>
         {this.renderGames()}
       </div>
     );

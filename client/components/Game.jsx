@@ -48,7 +48,8 @@ var Game = React.createClass({
           </ul>
         </div>
         <div className="Game__VoteColumn col-xs-2">
-          <button className="btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick}>Vote</button>
+          <button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick}>Vote</button>
+          <button className="Game__Buttons-Edit btn btn-link" type="button" onClick={this.handleEditClick}>Edit Game</button>
         </div>
       </div>
     );
