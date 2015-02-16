@@ -1,11 +1,25 @@
 var React = require('react/addons');
 var classSet = React.addons.classSet;
+var VoteStore = require('../stores/VoteStore');
+var Navigation = require('react-router').Navigation;
 
 var Game = React.createClass({
   displayName: 'Game',
 
+  mixins: [Navigation],
+
   componentDidMount () {
     console.log(this.props);
+  },
+
+  handleVoteClick (event) {
+    event.preventDefault();
+    var requestObj = {
+      date: new Date(),
+      game: this.props.id
+    };
+    VoteStore.submitVote(requestObj);
+    this.transitionTo('index');
   },
 
   checkForAvailability () {

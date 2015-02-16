@@ -45,6 +45,23 @@ var VoteStore = {
       this._state.votes = [];
       this._state.loaded = false;
     });
+  },
+
+  submitVote (request) {
+    var url = this.apiUrl + 'votes';
+
+    axios.post(url, request, {
+      headers: {'X-Access-Token': this.token}
+    })
+    .then((response) => {
+      this._state.votes.push(response.data);
+      this._state.loaded = true;
+      emitter.emit('change', this._state);
+    })
+    .catch((response) => {
+      console.log(response.errors);
+    });
+
   }
 
 }
