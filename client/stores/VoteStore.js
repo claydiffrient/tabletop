@@ -1,13 +1,15 @@
 
 var axios = require('axios');
 var EventEmitter = require('events').EventEmitter;
+var config = require('./config');
+console.log(config);
 
 var emitter = new EventEmitter();
 
 var VoteStore = {
 
-  apiUrl: 'http://localhost:3000/v1/',
-  token: 'test123',
+  apiUrl: config.apiUrl,
+  token: config.accessToken,
 
   _state: {
     votes: [],
