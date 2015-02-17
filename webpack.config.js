@@ -12,7 +12,7 @@ module.exports = {
 
   output: {
     filename: 'main.js',
-    path: path.resolve('./../server/public/javascripts')
+    path: path.resolve('./server/public/javascripts')
   },
 
   module: {
@@ -20,6 +20,8 @@ module.exports = {
       {test: /\.(js|jsx)$/, loader: 'jsx-loader?harmony&insertPragma=React.DOM'}
     ]
   },
+
+  debug: true,
 
   plugins: [
       new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
