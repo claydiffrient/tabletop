@@ -1,15 +1,18 @@
 var path = require('path');
 var webpack = require('webpack');
 
+console.log(path.resolve('./server/public/javascripts'));
+
 module.exports = {
   entry: {
     main:'./client/app',
-    vendor: ['react', 'react-router', 'react-chartjs', 'axios']
+    vendor: ['react', 'react-router', 'react-chartjs',
+             'axios', 'lodash']
   },
 
   output: {
     filename: 'main.js',
-    path: path.join('server', 'public', 'javascripts'),
+    path: path.resolve('./../server/public/javascripts')
   },
 
   module: {
