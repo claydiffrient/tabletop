@@ -13,6 +13,8 @@ var NotFound = require('./components/NotFound.jsx');
 var GameList = require('./components/GameList.jsx');
 var Game = require('./components/Game.jsx');
 var AddGame = require('./components/AddGame.jsx');
+var EditGame = require('./components/EditGame.jsx');
+
 
 var App = React.createClass({
   displayName: 'App',
@@ -50,6 +52,7 @@ var routes = (
     <DefaultRoute name="index" handler={Index} />
     <Route name="games" path="games" handler={GameList} />
     <Route name="addGame" path="games/add" handler={AddGame} />
+    <Route name="editGame" path="games/edit/:id" handler={EditGame} />
     <NotFoundRoute name="notfound" handler={ NotFound }/>
   </Route>
 );

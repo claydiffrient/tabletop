@@ -3,6 +3,7 @@ var axios = require('axios');
 var EventEmitter = require('events').EventEmitter;
 var config = require('./config');
 var emitter = new EventEmitter();
+var _ = require('lodash');
 
 var fixDescriptionEntities = function (data) {
   data.forEach( (game, index) => {
@@ -53,6 +54,14 @@ var GameStore = {
       this._state.games = [];
       this._state.loaded = false;
     });
+  },
+
+  get (id) {
+    if (this._state.loaded) {
+      return _.find(this._state.games, '_id', id)
+    } else {
+      return new Error('Store not loaded.');
+    }
   },
 
   addNewGame (request) {

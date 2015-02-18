@@ -33,6 +33,10 @@ var Game = React.createClass({
     };
     VoteStore.submitVote(requestObj, this.afterVote);
   },
+
+  handleEditClick (event) {
+    event.preventDefault();
+    this.transitionTo('editGame', {id: this.props.id});
   },
 
   checkForAvailability () {
