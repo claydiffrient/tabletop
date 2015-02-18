@@ -9,7 +9,20 @@ var Game = React.createClass({
   mixins: [Navigation],
 
   componentDidMount () {
-    console.log(this.props);
+  },
+
+  getInitialState () {
+    return {
+      hasVoted: false
+    };
+  },
+
+  afterVote (gameId) {
+    if (this.props.id === gameId) {
+      this.setState({
+        hasVoted: true
+      });
+    }
   },
 
   handleVoteClick (event) {
@@ -18,8 +31,8 @@ var Game = React.createClass({
       date: new Date(),
       game: this.props.id
     };
-    VoteStore.submitVote(requestObj);
-    this.transitionTo('index');
+    VoteStore.submitVote(requestObj, this.afterVote);
+  },
   },
 
   checkForAvailability () {
@@ -42,10 +55,26 @@ var Game = React.createClass({
     });
   },
 
+  renderVoteButton () {
+    var available = this.checkForAvailability();
+    if (!this.state.hasVoted) {
+      return (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick}>Vote</button>);
+    } else {
+      return (
+        <button className="Game__Buttons-Vote btn btn-success" type="button" disabled={this.state.hasVoted}>
+          <i className="glyphicon glyphicon-ok">
+            <span className="sr-only">Voted Successfully</span>
+          </i>
+        </button>
+      );
+    }
+
+  },
+
 
   render () {
 
-    var available = this.checkForAvailability();
+
     var details = " # of Players: " + this.props.numPlayers + " | Playing Time: " + this.props.playTime;
 
     return (
@@ -62,7 +91,7 @@ var Game = React.createClass({
           </ul>
         </div>
         <div className="Game__VoteColumn col-xs-2">
-          <button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick}>Vote</button>
+          {this.renderVoteButton()}
           <button className="Game__Buttons-Edit btn btn-link" type="button" onClick={this.handleEditClick}>Edit Game</button>
         </div>
       </div>

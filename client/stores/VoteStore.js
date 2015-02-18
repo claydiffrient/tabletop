@@ -49,7 +49,7 @@ var VoteStore = {
     });
   },
 
-  submitVote (request) {
+  submitVote (request, afterVoteHandler) {
     var url = this.apiUrl + 'votes';
 
     axios.post(url, request, {
@@ -59,6 +59,7 @@ var VoteStore = {
       this._state.votes.push(response.data);
       this._state.loaded = true;
       emitter.emit('change', this._state);
+      afterVoteHandler(request.game);
     })
     .catch((response) => {
       console.log(response.errors);
