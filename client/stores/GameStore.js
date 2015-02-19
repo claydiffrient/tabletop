@@ -39,7 +39,10 @@ var GameStore = {
     emitter.removeListener('change', handler);
   },
 
-  fetch () {
+  fetch (force) {
+    if (this._state.loaded && !force) {
+      return;
+    }
     var url = this.apiUrl + 'games';
     axios.get(url, {
       headers: {'X-Access-Token': this.token}
@@ -58,10 +61,10 @@ var GameStore = {
 
   get (id) {
     if (this._state.loaded) {
-      return _.find(this._state.games, '_id', id)
-    } else {
-      return new Error('Store not loaded.');
-    }
+      return _.find(this._state.games, '_id', id);
+    } //else {
+      // return new Error('Store not loaded.');
+    // }
   },
 
   addNewGame (request) {
@@ -73,6 +76,22 @@ var GameStore = {
     .then((response) => {
       this._state.games.push(response.data);
       this._state.loaded = true;
+      emitter.emit('change', this._state);
+    })
+    .catch((response) => {
+      console.log(response.errors);
+    });
+  },
+
+  updateGame (request) {
+    var url = this.apiUrl + 'games/' + request._id;
+
+    axios.put(url, request, {
+      headers: {'X-Access-Token': this.token}
+    })
+    .then((response) => {
+      var gameIndex = _.findIndex(this._state.games, {'_id': request._id});
+      this._state.games[gameIndex] = response.data;
       emitter.emit('change', this._state);
     })
     .catch((response) => {

@@ -41,22 +41,13 @@ var EditGame = React.createClass({
 
   handleSubmit (event) {
     event.preventDefault();
-    var requestObj = {};
-    requestObj.owners = [];
-    var ownerObj = {}
+    var requestObj = {
+      _id: this.state.game._id
+    };
     for (key in this.refs) {
-      if ((key === 'name') || (key === 'slackId') || (key === 'available' )) {
-        var value = this.refs[key].getDOMNode().value;
-        if (key === 'available') {
-          value = this.refs[key].getDOMNode().checked;
-        }
-        ownerObj[key] = value;
-        continue;
-      }
       requestObj[key] = this.refs[key].getDOMNode().value;
     }
-    requestObj.owners.push(ownerObj);
-    GameStore.addNewGame(requestObj);
+    GameStore.updateGame(requestObj);
     this.transitionTo('games');
   },
 
@@ -132,31 +123,6 @@ var EditGame = React.createClass({
                   <textarea value={this.state.game.description} className="form-control"
                             ref="description" id="description" name="description"
                             onChange={this.handleInputChange} />
-                </div>
-              </div>
-              <hr />
-              <div className="row center-xs">
-                <div className="col-xs-2">
-                  <label htmlFor="name">Owner Name:</label>
-                </div>
-                <div className="col-xs-4">
-                  <input className="form-control" type="text" ref="name" id="name" name="name" />
-                </div>
-              </div>
-              <div className="row center-xs">
-                <div className="col-xs-2">
-                  <label htmlFor="slackId">Slack Id:</label>
-                </div>
-                <div className="col-xs-4">
-                  <input className="form-control" type="text" ref="slackId" id="slackId" name="slackId" />
-                </div>
-              </div>
-              <div className="row center-xs">
-                <div className="col-xs-2">
-                  <label htmlFor="available">Available:</label>
-                </div>
-                <div className="col-xs-4">
-                  <input type="checkbox" className="form-control" ref="available" id="available" name="available" />
                 </div>
               </div>
               <hr />
