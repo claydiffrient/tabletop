@@ -2,6 +2,7 @@ var React = require('react');
 var BarChart = require('react-chartjs').Bar;
 var Link = require('react-router').Link;
 var VoteStore = require('../stores/VoteStore');
+var VoteTable = require('./VoteTable.jsx');
 var _ = require('lodash');
 
 var Index = React.createClass({
@@ -62,7 +63,7 @@ var Index = React.createClass({
         </div>
         <div className="row center-xs">
           <div className="col-xs-5">
-            <BarChart data={chartData} />
+            <VoteTable votes={votes} />
           </div>
         </div>
         <div className="row center-xs">
