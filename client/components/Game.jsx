@@ -39,6 +39,11 @@ var Game = React.createClass({
     this.transitionTo('editGame', {id: this.props.id});
   },
 
+  handleAvailabilityClick (event) {
+    event.preventDefault();
+    this.transitionTo('editAvailability', {id: this.props.id});
+  },
+
   checkForAvailability () {
     var availables = this.props.owners.filter( (owner) => {
       return owner.available;
@@ -97,6 +102,7 @@ var Game = React.createClass({
         <div className="Game__VoteColumn col-xs-2">
           {this.renderVoteButton()}
           <button className="Game__Buttons-Edit btn btn-link" type="button" onClick={this.handleEditClick}>Edit Game</button>
+          <button className="Game__Buttons-Available btn btn-link" type="button" onClick={this.handleAvailabilityClick}>Modify Availability</button>
         </div>
       </div>
     );

@@ -14,6 +14,7 @@ var GameList = require('./components/GameList.jsx');
 var Game = require('./components/Game.jsx');
 var AddGame = require('./components/AddGame.jsx');
 var EditGame = require('./components/EditGame.jsx');
+var EditAvailability = require('./components/EditAvailability.jsx');
 
 
 var App = React.createClass({
@@ -53,6 +54,7 @@ var routes = (
     <Route name="games" path="games" handler={GameList} />
     <Route name="addGame" path="games/add" handler={AddGame} />
     <Route name="editGame" path="games/edit/:id" handler={EditGame} />
+    <Route name="editAvailability" path="games/availability/:id" handler={EditAvailability} />
     <NotFoundRoute name="notfound" handler={ NotFound }/>
   </Route>
 );
