@@ -32,8 +32,12 @@
   align-self: center;
 }
 
-.AddGame__Form-Container {
+.EditAvailability__Form-Container, .AddGame__Form-Container {
   border: 1px solid #e1e1e8;
   background-color: #f7f7f9;
   padding: 5px;
+}
+
+.EditAvailability__DeleteIcon {
+  margin-right: 4px;
 }
