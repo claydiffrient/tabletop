@@ -97,6 +97,26 @@ var GameStore = {
     .catch((response) => {
       console.log(response.errors);
     });
+  },
+
+  updateGameOwner (request) {
+    var url = this.apiUrl + 'games/' + request.gameId + '/owners/' + request.ownerId;
+
+    // Don't need these moving forward.
+    delete request.gameId;
+    delete request.ownerId;
+
+    axios.put(url, request, {
+      headers: {'X-Access-Token': this.token}
+    })
+    .then((response) => {
+      var gameIndex = _.findIndex(this._state.games, {'_id': request._id});
+      this._state.games[gameIndex] = response.data;
+      emitter.emit('change', this._state);
+    })
+    .catch((response) => {
+      console.log(response.errors);
+    });
   }
 
 }

@@ -1,6 +1,7 @@
 var React = require('react');
 var Router = require('react-router');
 var GameStore = require('../stores/GameStore');
+var OwnerRow = require('./OwnerRow.jsx');
 
 var EditAvailability = React.createClass({
   displayName: 'EditAvailability',
@@ -9,7 +10,7 @@ var EditAvailability = React.createClass({
 
   statics: {
     willTransitionTo () {
-      GameStore.fetch();
+      GameStore.fetch(true);
     }
   },
 
@@ -27,25 +28,20 @@ var EditAvailability = React.createClass({
     });
   },
 
+  handleAddNewOwner () {
+    var newGame = this.state.game;
+    newGame.owners.push({isNew: true})
+    this.setState({
+      game: newGame
+    });
+  },
+
   renderCurrentOwners () {
     if (this.state.game && this.state.game.owners) {
       return this.state.game.owners.map( (owner) => {
+        console.log(owner);
         return (
-          <tr>
-            <td>
-              <a href="#">
-                <i className="EditAvailability__DeleteIcon glyphicon glyphicon-minus-sign text-danger"></i>
-                <span className="sr-only">
-                  Delete {owner.name}
-                </span>
-              </a>
-               {owner.name}
-            </td>
-            <td>{owner.slackId}</td>
-            <td>
-              <input type="checkbox" defaultChecked={owner.available} />
-            </td>
-          </tr>
+          <OwnerRow key={owner._id} owner={owner} game={this.state.game} isEditing={owner.isNew}/>
         );
 
       });
@@ -79,7 +75,7 @@ var EditAvailability = React.createClass({
                 {this.renderCurrentOwners()}
                 <tr>
                   <td colSpan="3">
-                    <a href="#">
+                    <a href="#" onClick={this.handleAddNewOwner}>
                       <i className="glyphicon glyphicon-plus-sign text-success"></i>
                       Add a new owner
                     </a>
