@@ -5,6 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
+var session = require('express-session');
+var methodOverride = require('method-override');
+var compress = require('compression');
+var config = require('./config/config');
+var passport = require('passport');
 
 var routes = require('./routes/index');
 
@@ -20,13 +25,27 @@ app.engine('handlebars', exphbs({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+if (process.env.NODE_ENV === 'development') {
+    app.use(logger('dev'));
+} else if (process.env.NODE_ENV === 'production') {
+    app.use(compress());
+}
+
+app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-console.log(path.join(__dirname, 'public'));
+app.use(session({
+    saveUninitialized: true,
+    resave: true,
+    secret: config.sessionSecret
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
