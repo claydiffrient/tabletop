@@ -3,6 +3,10 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
   console.log('made it in.');
+  res.render('home', {
+    apiUrl: process.env.API_URL || 'http://localhost:3000/v1/',
+    accessToken: process.env.ACCESS_TOKEN || 'test'
+  });
 });
 
 /* GET All routes, let react-router handle routing */

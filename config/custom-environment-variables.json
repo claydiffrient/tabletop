@@ -6,5 +6,8 @@
   },
   "Session": {
     "sessionSecret": "EXPRESS_SESSION_SECRET"
+  },
+  "Db": {
+    "url": "MONGOLAB_URI"
   }
 }

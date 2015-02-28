@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var fs = require('fs');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -11,7 +12,24 @@ var compress = require('compression');
 var config = require('config');
 var passport = require('passport');
 var SlackStrategy = require('passport-slack').Strategy;
+var mongoose = require('mongoose');
 
+// Make sure our env variable is set
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+
+mongoose.connect(config.get('Db.url'));
+mongoose.connection.on('connected', function () {
+    console.log('Mongoose Connected');
+})
+
+
+// Read in all the models.
+fs.readdirSync(__dirname + "/models").forEach(function(file) {
+  require("./models/" + file);
+});
+
+// Include in the route files
 var routes = require('./routes/index');
 var authorizationRoutes  = require('./routes/authorization');
 
@@ -27,16 +45,11 @@ app.engine('handlebars', exphbs({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-if (process.env.NODE_ENV === 'development') {
+if (app.get('env') === 'development') {
     app.use(logger('dev'));
-} else if (process.env.NODE_ENV === 'production') {
+} else if (app.get('env') === 'production') {
     app.use(compress());
 }
 
@@ -50,14 +63,50 @@ app.use(session({
     secret: config.get('Session.sessionSecret')
 }));
 
+// Use passport for authentication/authorization
+var User = mongoose.model('User');
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
 passport.use(new SlackStrategy({
     clientID: config.get('Slack.clientId'),
     clientSecret: config.get('Slack.clientSecret'),
     callbackURL: config.get('Slack.callbackURL')
 }, function (accessToken, refreshToken, profile, done) {
-    User.findOrCreate({SlackId:profile.id}, function (err, user) {
-        return done(err, user);
+    User.findOne({slackId: profile.id}, function (err, user) {
+        if (err) {return done(err);}
+        if (user) {return done(err, user);}
+        if (!user) {
+            var user = new User({
+                provider: profile.provider,
+                slackId: profile.id,
+                displayName: profile.displayName,
+                slackTeamId: profile._json.team_id
+            });
+            user.save(function (err) {
+                if (err) {return done(err);}
+                return done(err, user);
+            });
+        }
     });
+    // User.findOrCreate({
+    //     provider: profile.provider,
+    //     slackId: profile.id,
+    //     displayName: profile.displayName,
+    //     slackTeamId: profile._json.team_id
+    // }, accessToken, function (err, user) {
+    //     return done(err, user);
+    // });
 }
 ));
 

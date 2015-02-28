@@ -2,8 +2,6 @@
 var debug = require('debug')('testing-express');
 var app = require('../server/app');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
 app.set('port', process.env.PORT || 4000);
 
 var server = app.listen(app.get('port'), function() {

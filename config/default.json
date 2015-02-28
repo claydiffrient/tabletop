@@ -4,5 +4,8 @@
   },
   "Slack": {
     "callbackURL": "http://localhost:4000/auth/slack/callback"
+  },
+  "Db": {
+    "url": "mongodb://localhost/tabletop"
   }
 }
