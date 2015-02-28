@@ -30,6 +30,8 @@ app.set('view engine', 'handlebars');
 app.use(passport.initialize());
 app.use(passport.session());
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 if (process.env.NODE_ENV === 'development') {
