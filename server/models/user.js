@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var findOrCreate = require('mongoose-findorcreate');
 
 var UserSchema = new Schema({
   firstName: String,
@@ -20,5 +21,7 @@ var UserSchema = new Schema({
     default: Date.now
   }
 });
+
+UserSchema.plugin(findOrCreate);
 
 modules.export = mongoose.model('User', UserSchema);

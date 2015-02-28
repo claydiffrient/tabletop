@@ -1,6 +1,10 @@
 {
   "Slack": {
     "clientId": "SLACK_CLIENT_ID",
-    "clientSecret": "SLACK_CLIENT_SECRET"
+    "clientSecret": "SLACK_CLIENT_SECRET",
+    "callbackURL": "SLACK_CALLBACK_URL"
+  },
+  "Session": {
+    "sessionSecret": "EXPRESS_SESSION_SECRET"
   }
 }

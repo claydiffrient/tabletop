@@ -8,10 +8,12 @@ var exphbs = require('express-handlebars');
 var session = require('express-session');
 var methodOverride = require('method-override');
 var compress = require('compression');
-var config = require('./config/config');
+var config = require('config');
 var passport = require('passport');
+var SlackStrategy = require('passport-slack').Strategy;
 
 var routes = require('./routes/index');
+var authorizationRoutes  = require('./routes/authorization');
 
 var app = express();
 
@@ -43,11 +45,23 @@ app.use(cookieParser());
 app.use(session({
     saveUninitialized: true,
     resave: true,
-    secret: config.sessionSecret
+    secret: config.get('Session.sessionSecret')
 }));
+
+passport.use(new SlackStrategy({
+    clientID: config.get('Slack.clientId'),
+    clientSecret: config.get('Slack.clientSecret'),
+    callbackURL: config.get('Slack.callbackURL')
+}, function (accessToken, refreshToken, profile, done) {
+    User.findOrCreate({SlackId:profile.id}, function (err, user) {
+        return done(err, user);
+    });
+}
+));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/auth', authorizationRoutes);
 app.use('/', routes);
 
 // catch 404 and forward to error handler
