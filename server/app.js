@@ -32,6 +32,7 @@ fs.readdirSync(__dirname + "/models").forEach(function(file) {
 // Include in the route files
 var routes = require('./routes/index');
 var authorizationRoutes  = require('./routes/authorization');
+var apiRoutes = require('./routes/api/index');
 
 var app = express();
 
@@ -81,7 +82,8 @@ passport.deserializeUser(function(id, done) {
 passport.use(new SlackStrategy({
     clientID: config.get('Slack.clientId'),
     clientSecret: config.get('Slack.clientSecret'),
-    callbackURL: config.get('Slack.callbackURL')
+    callbackURL: config.get('Slack.callbackURL'),
+    team: config.get('Slack.teamId')
 }, function (accessToken, refreshToken, profile, done) {
     User.findOne({slackId: profile.id}, function (err, user) {
         if (err) {return done(err);}
@@ -113,6 +115,7 @@ passport.use(new SlackStrategy({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', authorizationRoutes);
+app.use('/api', apiRoutes);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

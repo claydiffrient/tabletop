@@ -2,7 +2,8 @@
   "Slack": {
     "clientId": "SLACK_CLIENT_ID",
     "clientSecret": "SLACK_CLIENT_SECRET",
-    "callbackURL": "SLACK_CALLBACK_URL"
+    "callbackURL": "SLACK_CALLBACK_URL",
+    "teamId": "SLACK_TEAM_ID"
   },
   "Session": {
     "sessionSecret": "EXPRESS_SESSION_SECRET"
