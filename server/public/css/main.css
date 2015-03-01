@@ -1,3 +1,18 @@
+
+.LoginPage__Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.LoginButton {
+  font-weight: bold;
+}
+
+.LoginButton__Logo {
+  width: 60px;
+}
+
 .Game {
   border: 1px solid #e1e1e8;
   background-color: #f7f7f9;
