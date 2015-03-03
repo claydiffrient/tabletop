@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-// var gameRoutes = require('./games.js');
+var gameRoutes = require('./games.js');
 var userRoutes = require('./users.js');
-// router.use('/games', gameRoutes);
+
+router.use('/v1/games', gameRoutes);
 router.use('/v1/users', userRoutes);
 
 /* GET home page. */
