@@ -1,0 +1,15 @@
+language: node_js
+os:
+  - linux
+node_js:
+  - "0.12"
+  - "0.11"
+  - "0.10"
+script:
+  - "npm test"
+  - "npm run coverage"
+addons:
+  code_climate:
+    repo_token: 14e6dec822455f51da491b00b538b49afe6d439ff395f471ed122b1dcfe2e359
+after_script:
+  - cat ./coverage/lcov.info | codeclimate

@@ -1,6 +1,8 @@
 # tabletop
 A game chooser system
 
+[![Build Status](https://travis-ci.org/claydiffrient/tabletop.svg)](https://travis-ci.org/claydiffrient/tabletop)
+
 Thanks for stopping by :smile: !  This is a system where when connected with the proper api can help you
 select a game to play.  It's main purpose is to help Instructure's tabletop group decide what game will be
 played in our daily games at lunch.

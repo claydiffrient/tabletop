@@ -7,7 +7,8 @@
     "start": "bin/run",
     "compile": "bin/compile",
     "postinstall": "bin/compile",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "bin/test",
+    "coverage": "NODE_ENV=test istanbul cover _mocha test/server/routes/api/games.spec.js -R test/server/routes/api/"
   },
   "repository": {
     "type": "git",
@@ -56,8 +57,10 @@
     "when": "^3.7.2"
   },
   "devDependencies": {
+    "codeclimate-test-reporter": "0.0.4",
     "database-cleaner": "^0.9.1",
     "expect.js": "^0.3.1",
+    "istanbul": "^0.3.7",
     "karma": "^0.12.31",
     "karma-chrome-launcher": "^0.1.7",
     "karma-cli": "0.0.4",
