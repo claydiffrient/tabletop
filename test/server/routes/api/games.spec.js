@@ -1,33 +1,39 @@
 var expect = require('expect.js');
 var supertest = require('supertest');
 var config = require('config');
-var DatabaseCleaner = require('database-cleaner');
-var dbCleaner = new DatabaseCleaner('mongodb');
-var mongoose = require('mongoose');
 var app = require('../../../../server/app');
+var nock = require('nock');
+
+nock.enableNetConnect();
+
+var fakeSplendor = {
+  name: 'fakeSplendor',
+  thumbnail: '//fakeSplendorImage.jpg',
+  minPlayers: 2,
+  maxPlayers: 4,
+  playingTime: 30,
+  description: 'Fake splendor is so fake'
+};
 
 describe('Games API', function () {
+  before(function () {
+  });
 
-  if (config.util.getEnv('NODE_ENV') != 'test') {
-    throw new Error('You are not running in the test environment.');
-  }
-
-  afterEach(function (done) {
-    dbCleaner.clean(mongoose.connection.db, done);
+  after(function () {
   });
 
   it('creates a new game given a bggId', function (done) {
+    var bgg = nock('http://bgg-json.azurewebsites.net/')
+                .get('/thing/148228')
+                .reply(200, fakeSplendor, {"Content-Type": "application/json"});
     supertest(app)
       .post('/api/v1/games')
-      .send({
-        bggId: 148228
-      })
+      .send({ bggId: 148228})
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function (err, res) {
-        if (err) console.log(err.stack);
-        console.log();
-        expect(res.body.title).to.be('Splendor');
+        if (err) throw new Error(err);
+        expect(res.body.title).to.be('fakeSplendor');
         done();
       });
   });

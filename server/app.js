@@ -17,12 +17,13 @@ var mongoose = require('mongoose');
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+//Make testing better maybe?
+if (process.env.NODE_ENV == 'test') {
+    var mockgoose = require('mockgoose');
+    mockgoose(mongoose);
+}
 
 mongoose.connect(config.get('Db.url'));
-mongoose.connection.on('connected', function () {
-    console.log('Mongoose Connected');
-})
-
 
 // Read in all the models.
 fs.readdirSync(__dirname + "/models").forEach(function(file) {
