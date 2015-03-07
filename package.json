@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/claydiffrient/tabletop",
   "dependencies": {
+    "async": "^0.9.0",
     "axios": "^0.5.0",
     "body-parser": "~1.8.1",
     "bootstrap": "^3.3.2",
