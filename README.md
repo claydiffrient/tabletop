@@ -2,6 +2,8 @@
 A game chooser system
 
 [![Build Status](https://travis-ci.org/claydiffrient/tabletop.svg)](https://travis-ci.org/claydiffrient/tabletop)
+[![Test Coverage](https://codeclimate.com/github/claydiffrient/tabletop/badges/coverage.svg)](https://codeclimate.com/github/claydiffrient/tabletop)
+[![Code Climate](https://codeclimate.com/github/claydiffrient/tabletop/badges/gpa.svg)](https://codeclimate.com/github/claydiffrient/tabletop)
 
 Thanks for stopping by :smile: !  This is a system where when connected with the proper api can help you
 select a game to play.  It's main purpose is to help Instructure's tabletop group decide what game will be
