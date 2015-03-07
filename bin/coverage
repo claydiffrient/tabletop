@@ -1,0 +1,1 @@
+NODE_ENV=test istanbul cover _mocha -- -R spec test/**/*

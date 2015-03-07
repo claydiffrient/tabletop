@@ -8,7 +8,7 @@
     "compile": "bin/compile",
     "postinstall": "bin/compile",
     "test": "bin/test",
-    "coverage": "NODE_ENV=test istanbul cover _mocha test/server/routes/api/games.spec.js -R test/server/routes/api/"
+    "coverage": "bin/coverage"
   },
   "repository": {
     "type": "git",

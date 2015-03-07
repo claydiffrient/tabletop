@@ -1,6 +1,4 @@
 #!/bin/sh
 
-export NODE_ENV=test
-
-NODE_ENV=test mocha test/server/routes/api/games.spec.js
+NODE_ENV=test mocha test
 
