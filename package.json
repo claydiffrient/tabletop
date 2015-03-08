@@ -60,6 +60,7 @@
     "when": "^3.7.2"
   },
   "devDependencies": {
+    "cobbler": "0.0.6",
     "codeclimate-test-reporter": "0.0.4",
     "database-cleaner": "^0.9.1",
     "expect.js": "^0.3.1",
@@ -73,6 +74,7 @@
     "mocha": "^2.1.0",
     "mockgoose": "^1.10.7",
     "nock": "^1.1.0",
+    "passport-mock": "0.0.3",
     "sinon": "^1.13.0",
     "supertest": "^0.15.0",
     "supervisor": "^0.6.0",

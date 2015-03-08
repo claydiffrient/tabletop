@@ -86,6 +86,7 @@ passport.use(new SlackStrategy({
     callbackURL: config.get('Slack.callbackURL'),
     team: config.get('Slack.teamId')
 }, function (accessToken, refreshToken, profile, done) {
+    console.log(profile)
     User.findOne({slackId: profile.id}, function (err, user) {
         if (err) {return done(err);}
         if (user) {return done(err, user);}

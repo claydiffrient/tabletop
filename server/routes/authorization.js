@@ -14,7 +14,6 @@ router.get('/slack/callback', passport.authenticate('slack',
   }));
 
 router.get('/logout', function (req, res) {
-  console.log(req);
   var userId = req.user.id;
   debug('Logging out ' + userId);
   req.logout();
