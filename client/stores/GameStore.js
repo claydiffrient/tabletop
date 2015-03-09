@@ -1,7 +1,6 @@
 
 var axios = require('axios');
 var EventEmitter = require('events').EventEmitter;
-var config = require('./config');
 var emitter = new EventEmitter();
 var _ = require('lodash');
 
@@ -18,9 +17,6 @@ var fixDescriptionEntities = function (data) {
 };
 
 var GameStore = {
-
-  apiUrl: config.apiUrl,
-  token: config.accessToken,
 
   _state: {
     games: [],
@@ -43,10 +39,8 @@ var GameStore = {
     if (this._state.loaded && !force) {
       return;
     }
-    var url = this.apiUrl + 'games';
-    axios.get(url, {
-      headers: {'X-Access-Token': this.token}
-    })
+    var url = '/api/v1/games';
+    axios.get(url)
     .then((response) => {
       response.data = fixDescriptionEntities(response.data);
       this._state.games = response.data;
@@ -68,11 +62,9 @@ var GameStore = {
   },
 
   addNewGame (request) {
-    var url = this.apiUrl + 'games';
+    var url = '/api/v1/games';
 
-    axios.post(url, request, {
-      headers: {'X-Access-Token': this.token}
-    })
+    axios.post(url, request)
     .then((response) => {
       this._state.games.push(response.data);
       this._state.loaded = true;
@@ -84,11 +76,9 @@ var GameStore = {
   },
 
   updateGame (request) {
-    var url = this.apiUrl + 'games/' + request._id;
+    var url = '/api/v1/games/' + request._id;
 
-    axios.put(url, request, {
-      headers: {'X-Access-Token': this.token}
-    })
+    axios.put(url, request)
     .then((response) => {
       var gameIndex = _.findIndex(this._state.games, {'_id': request._id});
       this._state.games[gameIndex] = response.data;
@@ -100,15 +90,13 @@ var GameStore = {
   },
 
   updateGameOwner (request) {
-    var url = this.apiUrl + 'games/' + request.gameId + '/owners/' + request.ownerId;
+    var url = '/api/v1/games/' + request.gameId + '/owners/' + request.ownerId;
 
     // Don't need these moving forward.
     delete request.gameId;
     delete request.ownerId;
 
-    axios.put(url, request, {
-      headers: {'X-Access-Token': this.token}
-    })
+    axios.put(url, request)
     .then((response) => {
       var gameIndex = _.findIndex(this._state.games, {'_id': request._id});
       this._state.games[gameIndex] = response.data;

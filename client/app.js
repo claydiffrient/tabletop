@@ -16,7 +16,6 @@ var AddGame = require('./components/AddGame.jsx');
 var EditGame = require('./components/EditGame.jsx');
 var EditAvailability = require('./components/EditAvailability.jsx');
 
-
 var App = React.createClass({
   displayName: 'App',
 

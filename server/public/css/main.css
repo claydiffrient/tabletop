@@ -13,6 +13,10 @@
   width: 60px;
 }
 
+.LoginButton__Row {
+  margin-top: 10px;
+}
+
 .Game {
   border: 1px solid #e1e1e8;
   background-color: #f7f7f9;
@@ -59,4 +63,8 @@
 
 .OwnerRow-Save {
   margin-left: 25px;
+}
+
+.Link--disabled {
+  pointer-events: none;
 }

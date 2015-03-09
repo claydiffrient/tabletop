@@ -1,15 +1,10 @@
 
 var axios = require('axios');
 var EventEmitter = require('events').EventEmitter;
-var config = require('./config');
-console.log(config);
 
 var emitter = new EventEmitter();
 
 var VoteStore = {
-
-  apiUrl: config.apiUrl,
-  token: config.accessToken,
 
   _state: {
     votes: [],
@@ -29,14 +24,12 @@ var VoteStore = {
   },
 
   fetch (date) {
-    var url = this.apiUrl + 'votes';
+    var url = '/api/v1/votes';
     if (date) {
       console.log(date);
       url += '?date=' + date;
     }
-    axios.get(url, {
-      headers: {'X-Access-Token': this.token}
-    })
+    axios.get(url)
     .then((response) => {
       console.log(response.data);
       this._state.votes = response.data;
@@ -50,11 +43,9 @@ var VoteStore = {
   },
 
   submitVote (request, afterVoteHandler) {
-    var url = this.apiUrl + 'votes';
+    var url = '/api/v1/votes';
 
-    axios.post(url, request, {
-      headers: {'X-Access-Token': this.token}
-    })
+    axios.post(url, request)
     .then((response) => {
       this._state.votes.push(response.data);
       this._state.loaded = true;
