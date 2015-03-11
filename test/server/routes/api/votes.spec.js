@@ -6,6 +6,7 @@ var nock = require('nock');
 var mongoose = require('mongoose');
 var mockgoose = require('mockgoose');
 var async = require('async');
+var moment = require('moment');
 mockgoose(mongoose);
 
 var Game = require('../../../../server/models/game');
@@ -16,22 +17,100 @@ nock.enableNetConnect();
 
 
 var testGameObjId = mongoose.Types.ObjectId();
+var testGameObjIdTwo = mongoose.Types.ObjectId();
+var voteIdOne = mongoose.Types.ObjectId();
+var voteIdTwo = mongoose.Types.ObjectId();
+var voteIdThree = mongoose.Types.ObjectId();
+var voteIdFour = mongoose.Types.ObjectId();
+
 
 describe('Votes API', function () {
   beforeEach(function (done) {
     mockgoose.reset();
-    Game.create({
-      _id: testGameObjId,
-      title: "testGame",
-      bggId: 11111,
-      thumbnail: "//test.jpg",
-      numPlayers: "2-4",
-      playTime: 30,
-      description: "It's just a test",
-      __v: 0,
-      owners: [ ]
-    }, function (err, model) {
-      done(err, model);
+
+    // Create games
+    async.parallel([
+      function (complete) {
+        // Create the first game.
+        Game.create({
+          _id: testGameObjId,
+          title: "testGame",
+          bggId: 11111,
+          thumbnail: "//test.jpg",
+          numPlayers: "2-4",
+          playTime: 30,
+          description: "It's just a test",
+          __v: 0,
+          owners: [ ]
+        }, function (err, model) {
+          complete(err, model);
+        });
+      },
+      function (complete) {
+        // Create the second game
+        Game.create({
+          _id: testGameObjIdTwo,
+          title: "testGame2",
+          bggId: 11112,
+          thumbnail: "//test.jpg",
+          numPlayers: "2-4",
+          playTime: 30,
+          description: "It's just another test",
+          __v: 0,
+          owners: [ ]
+        }, function (err, model) {
+          complete(err, model);
+        });
+      }],
+      function (err, results) {
+        if (err) done(err);
+        // Create votes
+        async.parallel([
+          function (complete) {
+            // Add a vote from today into the database
+            Vote.create({
+              _id: voteIdOne,
+              date: new Date(),
+              game: testGameObjId
+            }, function (err, model) {
+              complete(err);
+            });
+          },
+          function (complete) {
+            // Add another vote from today into the database
+            Vote.create({
+              _id: voteIdTwo,
+              date: new Date(),
+              game: testGameObjId
+            }, function (err, model) {
+              complete(err);
+            });
+          },
+          function (complete) {
+            // Add a vote from yesterday into the database
+            var yesterday = moment().subtract(1, 'days');
+            Vote.create({
+              _id: voteIdThree,
+              date: yesterday,
+              game: testGameObjId
+            }, function (err, model) {
+              complete(err);
+            });
+          },
+          function (complete) {
+            // Add a vote for a different game to the database.
+            Vote.create({
+              _id: voteIdFour,
+              date: new Date(),
+              game: testGameObjIdTwo
+            }, function (err, model) {
+              complete(err);
+            });
+          }
+        ],
+        function (err, result) {
+          done(err, result);
+      });
     });
   });
 
@@ -54,8 +133,56 @@ describe('Votes API', function () {
       });
   });
 
-  it('should get votes for a given date');
-  it('should get all votes for a given game');
-  it('should get all votes');
+  it('should get votes for a given date', function (done) {
+      var yesterday = moment().subtract(1, 'days');
+      yesterday = yesterday.format('YYYY-MM-DD');
+      supertest(app)
+        .get('/api/v1/votes?date=' + yesterday)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) throw new Error(err);
+          expect(res.body.length).to.be(1);
+          done();
+        });
+  });
+
+  it('shoudl get all votes for today', function (done) {
+    supertest(app)
+      .get('/api/v1/votes?date=today')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw new Error(err);
+        expect(res.body.length).to.be(3);
+        done();
+      });
+  });
+
+  it('should get all votes for a given game', function (done) {
+    supertest(app)
+      .get('/api/v1/votes?game=' + testGameObjIdTwo)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw new Error(err);
+        expect(res.body.length).to.be(1);
+        expect(res.body[0]._id).to.be(voteIdFour.toString())
+        done();
+      });
+  });
+
+  it('should get all votes', function (done) {
+    supertest(app)
+      .get('/api/v1/votes')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw new Error(err);
+        expect(res.body.length).to.be(4);
+        done();
+      });
+  });
+
 
 });

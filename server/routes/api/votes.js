@@ -15,7 +15,6 @@ router.get('/', function(req, res) {
   var qGame = req.query.game;
   if (qDate) {
     if (qDate === 'today') {
-      console.log(today, tomorrow);
       voteQuery = voteQuery.where('date').gt(today).lt(tomorrow);
     } else {
       var day = moment(qDate).startOf('day');
@@ -37,7 +36,6 @@ router.get('/', function(req, res) {
             if (err) {
               return res.send(err);
             }
-            console.log(votes);
             res.json(votes);
   });
 });
