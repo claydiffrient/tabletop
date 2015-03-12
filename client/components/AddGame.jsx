@@ -13,21 +13,14 @@ var AddGame = React.createClass({
     event.preventDefault();
     var requestObj = {};
     requestObj.owners = [];
-    var ownerObj = {}
     for (key in this.refs) {
-      if ((key === 'name') || (key === 'slackId') || (key === 'available' )) {
-        var value = this.refs[key].getDOMNode().value;
-        if (key === 'available') {
-          value = this.refs[key].getDOMNode().checked;
-        }
-        ownerObj[key] = value;
-        continue;
-      }
       requestObj[key] = this.refs[key].getDOMNode().value;
     }
-    requestObj.owners.push(ownerObj);
-    GameStore.addNewGame(requestObj);
-    this.transitionTo('games');
+    requestObj.owners.push(ENV.user._id);
+    GameStore.addNewGame(requestObj, () => {
+      this.transitionTo('games');
+    });
+
   },
 
   render () {
@@ -100,23 +93,7 @@ var AddGame = React.createClass({
               <hr />
               <div className="row center-xs">
                 <div className="col-xs-2">
-                  <label htmlFor="name">Owner Name:</label>
-                </div>
-                <div className="col-xs-4">
-                  <input className="form-control" type="text" ref="name" id="name" name="name" />
-                </div>
-              </div>
-              <div className="row center-xs">
-                <div className="col-xs-2">
-                  <label htmlFor="slackId">Slack Id:</label>
-                </div>
-                <div className="col-xs-4">
-                  <input className="form-control" type="text" ref="slackId" id="slackId" name="slackId" />
-                </div>
-              </div>
-              <div className="row center-xs">
-                <div className="col-xs-2">
-                  <label htmlFor="available">Available:</label>
+                  <label htmlFor="available">At my desk: </label>
                 </div>
                 <div className="col-xs-4">
                   <input type="checkbox" className="form-control" ref="available" id="available" name="available" />

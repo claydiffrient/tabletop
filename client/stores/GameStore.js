@@ -61,7 +61,7 @@ var GameStore = {
     // }
   },
 
-  addNewGame (request) {
+  addNewGame (request, callback) {
     var url = '/api/v1/games';
 
     axios.post(url, request)
@@ -69,6 +69,7 @@ var GameStore = {
       this._state.games.push(response.data);
       this._state.loaded = true;
       emitter.emit('change', this._state);
+      callback();
     })
     .catch((response) => {
       console.log(response.errors);
