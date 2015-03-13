@@ -48,7 +48,7 @@ router.post('/', function(req, res) {
     if (err) {
       return res.send(err);
     }
-    Vote.populate(savedVote, {path:'game'},function (err, populated) {
+    Vote.populate(savedVote, 'game user',function (err, populated) {
       if (err) {
         return res.send(err);
       }

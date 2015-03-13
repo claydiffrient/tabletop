@@ -29,7 +29,8 @@ var Game = React.createClass({
     event.preventDefault();
     var requestObj = {
       date: new Date(),
-      game: this.props.id
+      game: this.props.id,
+      user: ENV.user.id
     };
     VoteStore.submitVote(requestObj, this.afterVote);
   },
