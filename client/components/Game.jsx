@@ -61,7 +61,7 @@ var Game = React.createClass({
         'Game__Owner': true,
         'Game__Owner--available': owner.available
       });
-      return (<li className={classes}>{owner.name} ({owner.slackId})</li>);
+      return (<li className={classes}>{owner.firstName + ' ' + owner.lastName} ({owner.slackName})</li>);
     });
   },
 

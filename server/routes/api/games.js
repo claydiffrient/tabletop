@@ -21,12 +21,14 @@ var createGame = function (gameRequest, res) {
  * List all games
  */
 router.get('/', function(req, res) {
-  Game.find(function (err, games) {
-    if (err) {
-      return res.send(err);
-    }
-    res.json(games);
-  });
+  Game.find()
+      .populate('owners')
+      .exec(function (err, games) {
+        if (err) {
+          return res.send(err);
+        }
+        res.json(games);
+      });
 });
 
 /* GET Get one game */
