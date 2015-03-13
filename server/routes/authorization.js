@@ -9,7 +9,7 @@ var debug = require('debug')('tabletop:Authentication');
 router.get('/slack', passport.authenticate('slack'));
 
 router.get('/slack/callback', passport.authenticate('slack',
-  { failureRedirect: '/login',
+  { failureRedirect: '/signin',
     successRedirect: '/'
   }));
 

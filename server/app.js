@@ -13,6 +13,7 @@ var config = require('config');
 var passport = require('passport');
 var SlackStrategy = require('passport-slack').Strategy;
 var mongoose = require('mongoose');
+var axios = require('axios');
 
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -91,16 +92,65 @@ passport.use(new SlackStrategy({
         if (err) {return done(err);}
         if (user) {return done(err, user);}
         if (!user) {
-            var user = new User({
+            var userObj = {
                 provider: profile.provider,
                 slackId: profile.id,
-                displayName: profile.displayName,
+                slackName: profile.displayName,
                 slackTeamId: profile._json.team_id
-            });
-            user.save(function (err) {
-                if (err) {return done(err);}
-                return done(err, user);
-            });
+            };
+            if (accessToken) {
+                console.log('***has access token***');
+              // We'll do a call to get more info if a token is provided.
+              axios.get('https://slack.com/api/users.info', {
+                params: {
+                  token: accessToken,
+                  user: profile.id
+                }
+              }).then(function (response) {
+                if (response.data.ok) {
+                    console.log('***slack response ok***');
+                  // If this worked out... let's use this information to augment
+                  // our user object.
+                  userObj.firstName = response.data.user.profile.first_name;
+                  userObj.lastName = response.data.user.profile.last_name;
+                  userObj.email = response.data.user.profile.email;
+                  var user = new User(userObj);
+                  user.save(function (err) {
+                        console.log('***saving user***');
+                      if (err) {return done(err);}
+                      return done(err, user);
+                  });
+                } else {
+                    console.log('***slack response problem***');
+                    console.log('*** START RESPONSE ***');
+                    console.log(response);
+                    console.log('*** END RESPONSE ***');
+                  // If there was a problem with the response... go on with
+                  // business as usual.
+                  var user = new User(userObj);
+                  user.save(function (err) {
+                      if (err) {return done(err);}
+                      return done(err, user);
+                  });
+                }
+              }).catch(function (response) {
+                console.log('***axios response problem***');
+                // If there was an error getting more info,
+                // we'll just ignore that and go with the original info.
+                var user = new User(userObj);
+                user.save(function (err) {
+                    if (err) {return done(err);}
+                    return done(err, user);
+                });
+              });
+            } else {
+                console.log('***has no access token***');
+                var user = new User(userObj);
+                user.save(function (err) {
+                    if (err) {return done(err);}
+                    return done(err, user);
+                });
+            }
         }
     });
     // User.findOrCreate({

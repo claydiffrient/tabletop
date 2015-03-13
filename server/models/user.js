@@ -65,7 +65,7 @@ UserSchema.statics.findOrCreate = function (findByObject, token, callback) {
           findByObject.firstName = response.user.profile.first_name;
           findByObject.lastName = response.user.profile.last_name;
           findByObject.email = response.user.profile.email;
-          createUser
+          createUser(findByObject, callback);
         } else {
           // If there was a problem with the response... go on with
           // business as usual.
