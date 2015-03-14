@@ -9,7 +9,27 @@ Thanks for stopping by :smile: !  This is a system where when connected with the
 select a game to play.  It's main purpose is to help Instructure's tabletop group decide what game will be
 played in our daily games at lunch.
 
-It's a lightweight node/express backend serving up a React frontend. The api can be found at http://github.com/claydiffrient/tabletop-api
+It uses Express to provide a server as well as a RESTful API through which all frontend actions take place.
+
+To get started you need to have MongoDB installed, then simply running   
+```
+npm install
+```    
+from the repository's main directory will install all the dependencies.
+
+There are a few scripts found within the `bin/` directory.  These are helpful for running things.  They are accessible easily
+through `npm run`.
+
+```
+npm start - starts the server
+npm test - runs all the tests
+npm run compile - will compile all the JSX for the client side.
+npm run coverage - runs the tests and outputs test coverage information
+```
+Something else that might come in handy is directly running `bin/clientdev` which does almost the same as `npm run compile` 
+however it will watch for changes and recompile on the fly.  It also does not do any optimization to the output.
+
+
 
 
 ### Contributing
