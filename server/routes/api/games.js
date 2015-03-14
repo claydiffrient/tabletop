@@ -22,7 +22,7 @@ var createGame = function (gameRequest, res) {
  */
 router.get('/', function(req, res) {
   Game.find()
-      .populate('owners')
+      .populate('owners.owner')
       .exec(function (err, games) {
         if (err) {
           return res.send(err);

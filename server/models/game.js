@@ -4,7 +4,10 @@ var uniqueValidator = require('mongoose-unique-validator');
 
 var GameSchema = new Schema({
   title: { type: String, unique: true, required:true },
-  owners: [{type: Schema.Types.ObjectId, ref: 'User'}],
+  owners: [{
+    owner: {type: Schema.Types.ObjectId, ref: 'User'},
+    available: Boolean
+  }],
   bggId: { type: Number, unique: true },
   thumbnail: String,
   numPlayers: String,
