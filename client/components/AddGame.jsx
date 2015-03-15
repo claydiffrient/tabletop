@@ -14,9 +14,15 @@ var AddGame = React.createClass({
     var requestObj = {};
     requestObj.owners = [];
     for (key in this.refs) {
+      if (key === 'available') {
+        continue;
+      }
       requestObj[key] = this.refs[key].getDOMNode().value;
     }
-    requestObj.owners.push(ENV.user._id);
+    requestObj.owners.push({
+      owner: ENV.user._id,
+      available: this.refs.available.getDOMNode().checked
+    });
     GameStore.addNewGame(requestObj, () => {
       this.transitionTo('games');
     });

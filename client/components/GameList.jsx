@@ -58,6 +58,7 @@ var GameList = React.createClass({
         return (<h4>No games found.</h4>);
       }
       return this.state.games.map( (game) => {
+        console.log(game.title + ' was called to be rendered.');
         return (<Game
            key={game._id}
            id={game._id}

@@ -53,19 +53,22 @@ var Game = React.createClass({
   },
 
   renderOwners (owners) {
+    console.log(this.props.title + '\'s RENDEROWNER method is running.');
     if (!owners.length) {
       return (<li>No one currently</li>);
     }
     return owners.map( (owner) => {
+      var ownerObj = owner.owner
       var classes = classSet({
         'Game__Owner': true,
         'Game__Owner--available': owner.available
       });
-      return (<li className={classes}>{owner.firstName + ' ' + owner.lastName} ({owner.slackName})</li>);
+      return (<li className={classes}>{ownerObj.firstName + ' ' + ownerObj.lastName} ({ownerObj.slackName})</li>);
     });
   },
 
   renderVoteButton () {
+    console.log(this.props.title + '\'s RENDERVOTE method is running.');
     var available = this.checkForAvailability();
     if (!this.state.hasVoted) {
       return (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick}>Vote</button>);
@@ -84,6 +87,7 @@ var Game = React.createClass({
 
   render () {
 
+    console.log(this.props.title + '\'s RENDER method is running.');
 
     var details = " # of Players: " + this.props.numPlayers + " | Playing Time: " + this.props.playTime;
 
