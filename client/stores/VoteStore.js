@@ -53,7 +53,7 @@ var VoteStore = {
       afterVoteHandler(request.game);
     })
     .catch((response) => {
-      console.log(response.errors);
+      console.log(response);
     });
 
   }

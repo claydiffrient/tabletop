@@ -1,6 +1,7 @@
 var React = require('react');
 var Link = require('react-router').Link;
 var GameStore = require('../stores/GameStore');
+var VoteStore = require('../stores/VoteStore');
 var Game = require('./Game.jsx');
 var Filter = require('./Filter.jsx');
 
@@ -8,12 +9,19 @@ var GameList = React.createClass({
   displayName: 'GameList',
 
   getInitialState () {
-    return GameStore.getState();
+    return {
+      games: GameStore.getState().games,
+      loaded: GameStore.getState().loaded,
+      userHasVoted: false,
+      userVotedFor: false
+    };
   },
 
   componentWillMount () {
-    GameStore.addChangeListener(this.handleChange)
+    GameStore.addChangeListener(this.handleChange);
     GameStore.fetch();
+    VoteStore.addChangeListener(this.handleVoteChange);
+    VoteStore.fetch();
   },
 
   componentDidMount () {
@@ -21,6 +29,19 @@ var GameList = React.createClass({
 
   handleChange (newState) {
     this.setState(newState);
+  },
+
+  handleVoteChange (newState) {
+    var votesByUser = newState.votes.filter( (vote) => {
+      return (vote.user._id === ENV.user._id);
+    });
+
+    if (votesByUser.length) {
+      this.setState({
+        userHasVoted: true,
+        userVotedFor: vote.game._id
+      });
+    }
   },
 
   handleFilterChange (letter) {
@@ -59,6 +80,12 @@ var GameList = React.createClass({
       }
       return this.state.games.map( (game) => {
         console.log(game.title + ' was called to be rendered.');
+        if (this.state.userHasVoted) {
+          var votedForThis = (game._id === this.state.userVotedFor);
+        } else {
+          var votedForThis = false;
+        }
+
         return (<Game
            key={game._id}
            id={game._id}
@@ -68,7 +95,8 @@ var GameList = React.createClass({
            playTime={game.playTime}
            thumbnailUrl={game.thumbnail}
            title={game.title}
-           owners={game.owners} />);
+           owners={game.owners}
+           votedFor={votedForThis} />);
       });
     } else {
       return null;
