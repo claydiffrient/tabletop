@@ -41,6 +41,7 @@
     "jsx-loader": "^0.12.2",
     "lodash": "^3.2.0",
     "method-override": "^2.3.1",
+    "minimal-flux": "^0.4.2",
     "moment": "^2.9.0",
     "mongoose": "^3.8.24",
     "mongoose-findorcreate": "^0.1.2",
