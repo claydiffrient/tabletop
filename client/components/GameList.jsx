@@ -21,7 +21,7 @@ var GameList = React.createClass({
     GameStore.addChangeListener(this.handleChange);
     GameStore.fetch();
     VoteStore.addChangeListener(this.handleVoteChange);
-    VoteStore.fetch();
+    VoteStore.fetch('today');
   },
 
   componentDidMount () {

@@ -5,7 +5,7 @@ console.log(path.resolve('./server/public/javascripts'));
 
 module.exports = {
   entry: {
-    main:'./client/app',
+    main:'./client/init',
     vendor: ['react', 'react-router', 'react-chartjs',
              'axios', 'lodash']
   },
@@ -17,7 +17,7 @@ module.exports = {
 
   module: {
     loaders: [
-      {test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader'}
+      { test: /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader' },
     ]
   },
 
