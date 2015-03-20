@@ -1,2 +1,2 @@
 #!/bin/sh
-webpack --progress --colors --config webpack.config.js -p
+webpack --progress --colors --config webpack.production.js -p

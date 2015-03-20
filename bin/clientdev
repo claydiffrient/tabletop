@@ -1,2 +1,2 @@
 #!/bin/sh
-webpack --progress --colors --watch
+webpack --progress --colors --watch --config webpack.development.js
