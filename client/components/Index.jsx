@@ -1,6 +1,5 @@
 import React from 'react';
-// TODO: Fix when react-router supports 0.13
-import { Link } from 'react-router/build/npm';
+import { Link } from 'react-router';
 import classNames from 'classnames';
 import _ from 'lodash';
 
@@ -81,7 +80,7 @@ export default class Index extends React.Component {
         </div>
         <div className="row center-xs">
           <div className="col-xs-4">
-            <Link className={voteBtnClasses} to="index">Vote</Link>
+            <Link className={voteBtnClasses} to="games">Go to the Game List</Link>
           </div>
         </div>
         {this.renderAuthButton()}

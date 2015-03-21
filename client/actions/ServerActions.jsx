@@ -2,20 +2,20 @@ import { Actions } from 'minimal-flux';
 
 export default class ServerActions extends Actions {
 
-  recieveAllGames(games) {
-    this.dispatch('recieveAllGames', games);
+  receiveAllGames(games) {
+    this.dispatch('receiveAllGames', games);
   }
 
-  recieveAllVotes(votes) {
-    this.dispatch('recieveAllVotes', votes);
+  receiveAllVotes(votes) {
+    this.dispatch('receiveAllVotes', votes);
   }
 
-  recieveCreatedVote(vote) {
-    this.dispatch('recieveCreatedVote', vote);
+  receiveCreatedVote(vote) {
+    this.dispatch('receiveCreatedVote', vote);
   }
 
-  recieveTodaysVotes(votes) {
-    this.dispatch('recieveTodaysVotes', votes);
+  receiveTodaysVotes(votes) {
+    this.dispatch('receiveTodaysVotes', votes);
   }
 
 }

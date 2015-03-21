@@ -1,15 +1,15 @@
 import React from 'react';
-// TODO: Fix when react-router fully supports 0.13
-import Router from 'react-router/build/npm';
+import Router from 'react-router';
 const { Route, DefaultRoute, NotFoundRoute } = Router;
 
 import App from './components/App';
 import Index from './components/Index';
+import GameList from './components/GameList';
 
 export default (
   <Route name="app" path="/" handler={App}>
     <DefaultRoute name="index" handler={Index} />
-
+    <Route name="games" path="games" handler={GameList} />
   </Route>
 );
 

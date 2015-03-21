@@ -1,9 +1,14 @@
 import React from 'react';
-// TODO: Fix when react-router fully supports 0.13
-import Router from 'react-router/build/npm';
+import flux from '../flux';
+import Router from 'react-router';
 const { RouteHandler } = Router;
 
-export default class App extends React.Component {
+class App extends React.Component {
+
+  getChildContext() {
+    return { flux };
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -17,4 +22,12 @@ export default class App extends React.Component {
     );
   }
 }
+
+App.childContextTypes = {
+  flux: React.PropTypes.object.isRequired
+};
+
+
+export default App;
+
 
