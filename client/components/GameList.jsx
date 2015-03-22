@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-// import Game from './Game';
+import Game from './Game';
 import Filter from './Filter';
 
 class GameList extends React.Component {
@@ -40,6 +40,27 @@ class GameList extends React.Component {
     this.setState(this.getStateFromStores());
   }
 
+  renderGames() {
+    if (!this.state.games.length) {
+      return (<h4>No games found.</h4>);
+    }
+    return this.state.games.map( (game) => {
+      return (
+        <Game
+          key={game._id}
+          id={game._id}
+          bggId={game.bggId}
+          description={game.description}
+          numPlayers={game.numPlayers}
+          playTime={game.playTime}
+          thumbnailUrl={game.thumbnail}
+          title={game.title}
+          owners={game.owners}
+          votedFor={votedForThis} />
+      );
+    });
+  }
+
   render () {
     return (
       <div>
@@ -51,7 +72,7 @@ class GameList extends React.Component {
             </Link>
           </div>
         </div>
-
+        {this.renderGames()}
       </div>
     );
   }
@@ -150,35 +171,7 @@ var GameList = React.createClass({
     });
   },
 
-  renderGames () {
-    if (this.state.loaded) {
-      if (!this.state.games.length) {
-        return (<h4>No games found.</h4>);
-      }
-      return this.state.games.map( (game) => {
-        console.log(game.title + ' was called to be rendered.');
-        if (this.state.userHasVoted) {
-          var votedForThis = (game._id === this.state.userVotedFor);
-        } else {
-          var votedForThis = false;
-        }
-
-        return (<Game
-           key={game._id}
-           id={game._id}
-           bggId={game.bggId}
-           description={game.description}
-           numPlayers={game.numPlayers}
-           playTime={game.playTime}
-           thumbnailUrl={game.thumbnail}
-           title={game.title}
-           owners={game.owners}
-           votedFor={votedForThis} />);
-      });
-    } else {
-      return null;
-    }
-  },
+  ,
 
   render () {
     return (

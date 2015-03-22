@@ -4,8 +4,15 @@ var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 class Filter extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+  }
 
-  renderFilters () {
+  handleClick(event) {
+    this.props.onChange(event.target.id)
+  }
+
+  renderFilters() {
     var filters = ['All'];
     filters = filters.concat(letters);
     filters.push('Available');
@@ -25,7 +32,7 @@ class Filter extends React.Component {
   }
 
 
-  render () {
+  render() {
     return (
       <div>
         <div className="col-xs-12">
@@ -41,11 +48,3 @@ Filter.contextTypes = {
 };
 
 export default Filter;
-
-  /*
-  handleClick (event) {
-    event.preventDefault();
-    this.props.onChange(event.target.id);
-  },
-
-  */
