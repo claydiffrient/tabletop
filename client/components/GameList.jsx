@@ -55,8 +55,7 @@ class GameList extends React.Component {
           playTime={game.playTime}
           thumbnailUrl={game.thumbnail}
           title={game.title}
-          owners={game.owners}
-          votedFor={votedForThis} />
+          owners={game.owners} />
       );
     });
   }

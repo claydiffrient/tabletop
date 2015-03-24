@@ -12,7 +12,7 @@ export default class GameStore extends Store {
   }
 
   addGames(games) {
-    let { savedGames } = this.getState();
+    let savedGames = this.getState().games;
     games = savedGames.concat(games);
     this.setState({ games });
   }
