@@ -19,13 +19,13 @@ export default class VoteStore extends Store {
   }
 
   addVotes(votes) {
-    let { savedVotes } = this.getState();
+    let savedVotes = this.getState().votes;
     votes = savedVotes.concat(votes);
     this.setState({ votes });
   }
 
   addTodaysVotes(votes) {
-    let { savedVotes } = this.getState();
+    let savedVotes = this.getState().votes;
     votes = savedVotes.concat(votes);
     votes = _.uniq(votes, function (n) {
       return n._id;
