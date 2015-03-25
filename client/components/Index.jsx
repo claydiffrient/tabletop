@@ -2,22 +2,41 @@ import React from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import _ from 'lodash';
+import VoteTable from './VoteTable';
 
-// var VoteStore = require('../stores/VoteStore');
-// var VoteTable = require('./VoteTable.jsx');
+class Index extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.onChange = this.onChange.bind(this);
+    this.state = this.getStateFromStores();
+  }
 
-export default class Index extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // votes: VoteStore.getState(),
-      user: ENV.user
+  getStateFromStores() {
+    let stores = this.context.flux.stores;
+    return {
+      games: stores.games.getAllGames(),
+      votes: stores.votes.getTodaysVotes()
     };
   }
 
-  componentWillMount() {
-    // VoteStore.addChangeListener(this.handleChange);
-    // VoteStore.fetch('today');
+  setStateFromStores() {
+    this.setState(this.getStateFromStores);
+  }
+
+  componentDidMount() {
+    let stores = this.context.flux.stores;
+    stores.games.addListener('change', this.onChange);
+    stores.votes.addListener('change', this.onChange);
+  }
+
+  componentWillUnmount() {
+    let stores = this.context.flux.stores;
+    stores.games.removeListener('change', this.onChange);
+    stores.votes.removeListener('change', this.onChange);
+  }
+
+  onChange() {
+    this.setState(this.getStateFromStores());
   }
 
   talleyVotes(votes) {
@@ -26,18 +45,9 @@ export default class Index extends React.Component {
     });
   }
 
-  handleChange(newState) {
-    console.log('handleChange Called');
-    this.setState(newState);
-  }
-
-  handleClick() {
-    this.props.handleVoteClick();
-  }
-
   renderAuthButton() {
     var props = {};
-    if (this.state.user === '') {
+    if (this.props.user === '') {
       props.href = '/auth/slack';
       props.innerText = "Sign In With Slack";
     } else {
@@ -59,7 +69,7 @@ export default class Index extends React.Component {
   }
 
   render() {
-    // var votes = this.talleyVotes(this.state.votes.votes);
+    var votes = this.talleyVotes(this.state.votes.votes);
 
     var voteBtnClasses = classNames('btn', 'btn-primary', {
       'Link--disabled': (this.state.user === ''),
@@ -75,7 +85,7 @@ export default class Index extends React.Component {
         </div>
         <div className="row center-xs">
           <div className="col-xs-5">
-
+            <VoteTable votes={votes} />
           </div>
         </div>
         <div className="row center-xs">
@@ -90,7 +100,8 @@ export default class Index extends React.Component {
 
 }
 
-Index.propTypes = {
-    games: React.PropTypes.arrayOf(React.PropTypes.string),
-    votes: React.PropTypes.arrayOf(React.PropTypes.number)
+Index.contextTypes = {
+  flux: React.PropTypes.object
 };
+
+export default Index;

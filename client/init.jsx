@@ -13,5 +13,5 @@ GameAPIUtils.getAllGames();
 VoteAPIUtils.getTodaysVotes();
 
 Router.run(routes, location, function (Handler) {
-  return React.render(<Handler />, document.body);
+  return React.render(<Handler user={ENV.user} />, document.body);
 });
