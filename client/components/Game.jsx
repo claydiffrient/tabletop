@@ -14,6 +14,10 @@ class Game extends React.Component {
     return (availables.length >= 1);
   }
 
+  handleVoteClick() {
+    this.context.flux.actions.votes.createVote(new Date(), this.props._id, ENV.user._id);
+  }
+
   renderOwners (owners) {
     if (!owners.length) {
       return (<li>No one currently</li>);
@@ -30,7 +34,7 @@ class Game extends React.Component {
 
   renderVoteButton() {
     var available = this.checkForAvailability();
-    return (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick}>Vote</button>);
+    return (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick.bind(this)}>Vote</button>);
   }
 
   render() {
