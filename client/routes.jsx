@@ -10,9 +10,8 @@ import AddGame from './components/AddGame';
 export default (
   <Route name="app" path="/" handler={App}>
     <DefaultRoute name="index" handler={Index} />
-    <Route name="games" path="games" handler={GameList}>
-      <Route name="addGame" path="add" handler={AddGame} />
-    </Route>
+    <Route name="games" path="games" handler={GameList} />
+    <Route name="addGame" path="games/add" handler={AddGame} />
   </Route>
 );
 
