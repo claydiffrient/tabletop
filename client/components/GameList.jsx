@@ -66,7 +66,7 @@ class GameList extends React.Component {
         <div className="GameList__Actions row center-xs">
           <Filter onChange={this.handleFilterChange} />
           <div className="GameList__Actions-AddGame-Container col-xs-2">
-            <Link to="index" className="GameList__Actions-AddGame btn btn-primary">
+            <Link to="addGame" className="GameList__Actions-AddGame btn btn-primary">
               <i className="glyphicon glyphicon-plus" /> Add Game
             </Link>
           </div>
