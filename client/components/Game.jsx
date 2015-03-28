@@ -15,7 +15,7 @@ class Game extends React.Component {
   }
 
   handleVoteClick() {
-    this.context.flux.actions.votes.createVote(new Date(), this.props._id, ENV.user._id);
+    this.context.flux.actions.votes.createVote(new Date(), this.props.id, ENV.user._id);
   }
 
   renderOwners (owners) {

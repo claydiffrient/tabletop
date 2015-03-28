@@ -20,7 +20,7 @@ class Index extends React.Component {
   }
 
   setStateFromStores() {
-    this.setState(this.getStateFromStores);
+    this.setState(this.getStateFromStores());
   }
 
   componentDidMount() {
@@ -69,7 +69,7 @@ class Index extends React.Component {
   }
 
   render() {
-    var votes = this.talleyVotes(this.state.votes.votes);
+    var votes = this.talleyVotes(this.state.votes);
 
     var voteBtnClasses = classNames('btn', 'btn-primary', {
       'Link--disabled': (this.state.user === ''),

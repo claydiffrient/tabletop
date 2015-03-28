@@ -18,4 +18,13 @@ export default class ServerActions extends Actions {
     this.dispatch('receiveTodaysVotes', votes);
   }
 
+  voteCreatedSuccess(vote) {
+    this.dispatch('voteCreatedSuccess', vote);
+  }
+
+  voteCreatedFailure() {
+    this.dispatch('voteCreatedFailure');
+  }
+
+
 }

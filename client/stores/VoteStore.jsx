@@ -8,6 +8,9 @@ export default class VoteStore extends Store {
     this.setState({votes: []});
     this.handleAction('server.receiveAllVotes', this.handleReceiveAll);
     this.handleAction('server.receiveTodaysVotes', this.handleReceiveToday);
+    this.handleAction('server.voteCreatedSuccess', this.handleCreateVoteSuccess);
+    this.handleAction('server.voteCreatedFailure', this.handleCreateVoteFailure);
+
   }
 
   handleReceiveAll(votes) {
@@ -17,6 +20,20 @@ export default class VoteStore extends Store {
   handleReceiveToday(votes) {
     this.addTodaysVotes(votes);
   }
+
+  handleCreateVote(vote) {
+    VoteAPIUtils.sendVoteToServer(vote);
+  }
+
+  handleCreateVoteSuccess(vote) {
+    this.addVotes([vote]);
+  }
+
+  handleCreateVoteFailure() {
+    //TODO: Better indication of failure.
+    console.warn('Vote Creation Failed');
+  }
+
 
   addVotes(votes) {
     let savedVotes = this.getState().votes;
@@ -42,7 +59,8 @@ export default class VoteStore extends Store {
     let tomorrow = moment(today).add(1, 'days').startOf('day');
 
     return this.state.votes.filter( (vote) => {
-      return ((vote.date > today) && (vote.date < tomorrow));
+      var date = moment(vote.date);
+      return ((date > today) && (date < tomorrow));
     });
   }
 
