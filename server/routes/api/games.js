@@ -2,6 +2,8 @@ var Game = require('mongoose').model('Game');
 var bggLookup = require('./utils/bggLookup');
 var express = require('express');
 var router = express.Router();
+var Entities = require('html-entities').Html5Entities;
+var entities = new Entities();
 
 var createGame = function (gameRequest, res) {
   var game = new Game(gameRequest);
@@ -52,7 +54,7 @@ router.post('/', function(req, res) {
       req.body.thumbnail = response.data.thumbnail;
       req.body.numPlayers = response.data.minPlayers + "-" + response.data.maxPlayers;
       req.body.playTime = response.data.playingTime;
-      req.body.description = response.data.description;
+      req.body.description = entities.decode(response.data.description);
       createGame(req.body, res);
     });
   } else {
