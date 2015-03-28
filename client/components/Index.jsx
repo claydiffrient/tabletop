@@ -47,7 +47,7 @@ class Index extends React.Component {
 
   renderAuthButton() {
     var props = {};
-    if (this.props.user === '') {
+    if (!ENV.user) {
       props.href = '/auth/slack';
       props.innerText = "Sign In With Slack";
     } else {
