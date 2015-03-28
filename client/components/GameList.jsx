@@ -10,6 +10,7 @@ class GameList extends React.Component {
     super(props, context);
     this.onChange = this.onChange.bind(this);
     this.state = this.getStateFromStores();
+    this.handleFilterChange = this.handleFilterChange.bind(this);
   }
 
   getStateFromStores() {
@@ -38,6 +39,36 @@ class GameList extends React.Component {
 
   onChange() {
     this.setState(this.getStateFromStores());
+  }
+
+  handleFilterChange(letter) {
+    var GameStore = this.context.flux.stores.games;
+    var lowercaseLetter = letter.toLowerCase();
+    var uppercaseLetter = letter.toUpperCase();
+    var newGames;
+    if (lowercaseLetter === 'available') {
+      newGames = GameStore.getAllGames().filter((game) => {
+        var isAvailable = false;
+        game.owners.forEach((owner) => {
+          if (owner.available) {
+            isAvailable = true;
+          }
+        });
+        return isAvailable;
+      });
+    }
+    else if (lowercaseLetter === 'all') {
+      newGames = GameStore.getAllGames();
+    }
+    else {
+      newGames = GameStore.getAllGames().filter ( (game) => {
+        return ((game.title.indexOf(lowercaseLetter) === 0) ||
+                (game.title.indexOf(uppercaseLetter) === 0));
+      });
+    }
+    this.setState({
+      games: newGames
+    });
   }
 
   renderGames() {
