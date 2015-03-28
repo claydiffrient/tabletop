@@ -14,6 +14,10 @@ export default class ServerActions extends Actions {
     this.dispatch('receiveCreatedVote', vote);
   }
 
+  receiveCreatedGame(game) {
+    this.dispatch('receiveCreatedGame', game);
+  }
+
   receiveTodaysVotes(votes) {
     this.dispatch('receiveTodaysVotes', votes);
   }

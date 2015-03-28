@@ -10,7 +10,20 @@ class AddGame extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    //TODO: Implement this.
+
+    var requestObj = {};
+    requestObj.owners = [];
+    for (let key in this.refs) {
+      if (key === 'available') {
+        continue;
+      }
+      requestObj[key] = this.refs[key].getDOMNode().value;
+    }
+    requestObj.owners.push({
+      owner: ENV.user._id,
+      available: this.refs.available.getDOMNode().checked
+    });
+    this.context.flux.actions.games.createGame(requestObj);
   }
 
   render() {
