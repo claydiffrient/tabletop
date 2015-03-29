@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Link } from 'react-router';
 
 class Game extends React.Component {
 
@@ -57,7 +58,7 @@ class Game extends React.Component {
         <div className="Game__VoteColumn col-xs-2">
           {this.renderVoteButton()}
           <button className="Game__Buttons-Edit btn btn-link" type="button" onClick={this.handleEditClick}>Edit Game</button>
-          <button className="Game__Buttons-Available btn btn-link" type="button" onClick={this.handleAvailabilityClick}>Modify Availability</button>
+          <Link className="Game__Buttons-Available btn btn-link" to="editAvailability" params={this.props}>Modify Availability</Link>
         </div>
       </div>
     );

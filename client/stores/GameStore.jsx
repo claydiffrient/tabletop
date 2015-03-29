@@ -1,4 +1,5 @@
 import { Store } from 'minimal-flux';
+import _ from 'lodash';
 
 export default class GameStore extends Store {
 
@@ -24,6 +25,19 @@ export default class GameStore extends Store {
 
   getAllGames() {
     return this.state.games;
+  }
+
+  getGameById(id) {
+    if (this.state.games.length) {
+      return _.find(this.state.games, (game) => {
+        return game._id === id;
+      });
+    } else {
+      // Sometimes a first render happens, so we'll just give
+      // and empty object which causes less problems than undefined.
+      return {};
+    }
+
   }
 
 }
