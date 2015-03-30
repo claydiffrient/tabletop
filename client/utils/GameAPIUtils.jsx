@@ -31,6 +31,29 @@ var GameAPIUtils = {
         //TODO: Better error handling.
         console.error(response);
       });
+  },
+
+  removeOwnerFromGame (gameOwnerObj) {
+    // Circular dependency
+    let serverActions = require('../flux.jsx').actions.server;
+    // Remove the owner from the array of owners.
+    let newOwners = gameOwnerObj.game.owners;
+    _.remove(newOwners, (owner) => {
+      owner._id === gameOwnerObj.ownerId
+    });
+    let updateObj = {
+      owners: newOwners
+    }
+    axios
+      .put(GAME_API_ENDPOINT + gameOwnerObj.game._id, updateObj)
+      .then( (response) => {
+        var updatedGame = response.data;
+        serverActions.recieveUpdatedGame(updatedGame);
+      })
+      .catch( (response) => {
+        console.error(response);
+      });
+
   }
 
 };

@@ -7,6 +7,7 @@ export default class GameStore extends Store {
     this.setState({games: []});
     this.handleAction('server.receiveAllGames', this.handleReceiveAll);
     this.handleAction('server.receiveCreatedGame', this.handleReceiveCreatedGame);
+    this.handleAction('server.recieveUpdatedGame', this.handleRecieveUpdatedGame);
   }
 
   handleReceiveAll(games) {
@@ -15,6 +16,20 @@ export default class GameStore extends Store {
 
   handleReceiveCreatedGame(game) {
     this.addGames([game]);
+  }
+
+  handleRecieveUpdatedGame(updatedGame) {
+    let curGames = this.state.games;
+    let index = _.find(curGames, (game) => {
+      return game._id === updatedGame._id;
+    });
+    if (index) {
+      curGames[index] = updatedGame;
+      this.setState({games: curGames});
+    } else {
+      //TODO: Better error handling.
+      console.warn('Updated game not properly handled.');
+    }
   }
 
   addGames(games) {

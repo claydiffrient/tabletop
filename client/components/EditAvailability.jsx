@@ -8,6 +8,9 @@ class EditAvailability extends React.Component {
     super(props, context);
     this.onChange = this.onChange.bind(this);
     this.state = this.getStateFromStores();
+
+    // Bindings
+    this.handleNoLongerOwnClick = this.handleNoLongerOwnClick.bind(this);
   }
 
   getStateFromStores() {
@@ -36,6 +39,11 @@ class EditAvailability extends React.Component {
     this.setState(this.getStateFromStores());
   }
 
+  handleNoLongerOwnClick(event) {
+    event.preventDefault();
+    this.context.flux.actions.games.noLongerOwn(this.state.game, ENV.user._id);
+  }
+
   renderButtons() {
     let owners = this.state.game.owners;
     let ownerObj = _.find(owners, (ownerObj) => {
@@ -49,28 +57,28 @@ class EditAvailability extends React.Component {
     if (ownerObj && available) {
       toRender.push(<div className="row center-xs">
           <div className="col-xs-6">
-            <button type="button" className="btn">This game is no longer in the office.</button>
+            <button type="button" className="btn btn-primary">This game is no longer in the office.</button>
           </div>
         </div>);
     }
     if (ownerObj) {
       toRender.push(<div className="row center-xs">
           <div className="col-xs-6">
-            <button type="button" className="btn">I no longer own this game.</button>
+            <button type="button" onClick={this.handleNoLongerOwnClick} className="btn btn-primary">I no longer own this game.</button>
           </div>
         </div>);
     }
     if (ownerObj && !available) {
       toRender.push(<div className="row center-xs">
           <div className="col-xs-6">
-            <button type="button" className="btn">I brought this game into the office.</button>
+            <button type="button" className="btn btn-primary">I brought this game into the office.</button>
           </div>
         </div>);
     }
     if (!ownerObj) {
       toRender.push(<div className="row center-xs">
           <div className="col-xs-6">
-            <button type="button" className="btn">I own this game now.</button>
+            <button type="button" className="btn btn-primary">I own this game now.</button>
           </div>
         </div>);
     }
@@ -90,11 +98,8 @@ class EditAvailability extends React.Component {
             <h3>{this.state.game.title}</h3>
           </div>
         </div>
-        {this.renderButtons()}
-        <div className="row center-xs">
-          <div className="col-xs-6">
-
-          </div>
+        <div className="EditAvailability__Buttons">
+          {this.renderButtons()}
         </div>
       </div>
     );

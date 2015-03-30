@@ -57,8 +57,8 @@
   padding: 5px;
 }
 
-.EditAvailability__DeleteIcon {
-  margin-right: 4px;
+.EditAvailability__Buttons .row {
+  margin-top: 20px;
 }
 
 .OwnerRow-Save {
