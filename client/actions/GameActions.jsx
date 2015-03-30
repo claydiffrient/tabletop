@@ -13,4 +13,9 @@ export default class GameActions extends Actions {
     GameAPIUtils.removeOwnerFromGame({game, ownerId});
   }
 
+  iOwnIt(game, ownerId) {
+    this.dispatch('iOwnIt', {game, ownerId});
+    GameAPIUtils.addOwnerToGame({game, ownerId});
+  }
+
 }

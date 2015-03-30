@@ -11,6 +11,7 @@ class EditAvailability extends React.Component {
 
     // Bindings
     this.handleNoLongerOwnClick = this.handleNoLongerOwnClick.bind(this);
+    this.handleIOwnItClick = this.handleIOwnItClick.bind(this);
   }
 
   getStateFromStores() {
@@ -42,6 +43,11 @@ class EditAvailability extends React.Component {
   handleNoLongerOwnClick(event) {
     event.preventDefault();
     this.context.flux.actions.games.noLongerOwn(this.state.game, ENV.user._id);
+  }
+
+  handleIOwnItClick(event) {
+    event.preventDefault();
+    this.context.flux.actions.games.iOwnIt(this.state.game, ENV.user._id);
   }
 
   renderButtons() {
@@ -78,7 +84,7 @@ class EditAvailability extends React.Component {
     if (!ownerObj) {
       toRender.push(<div className="row center-xs">
           <div className="col-xs-6">
-            <button type="button" className="btn btn-primary">I own this game now.</button>
+            <button type="button" onClick={this.handleIOwnItClick} className="btn btn-primary">I own this game now.</button>
           </div>
         </div>);
     }
