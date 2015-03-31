@@ -37,17 +37,26 @@ var GameAPIUtils = {
     // Circular dependency
     let serverActions = require('../flux.jsx').actions.server;
     // Remove the owner from the array of owners.
-    let newOwners = gameOwnerObj.game.owners;
-    _.remove(newOwners, (owner) => {
-      owner._id === gameOwnerObj.ownerId
+    var newOwners = gameOwnerObj.game.owners;
+    var removed = _.remove(newOwners, (owner) => {
+      debugger;
+      owner.owner._id === gameOwnerObj.ownerId
     });
+    console.log('removed', removed);
+    console.log(newOwners);
     let updateObj = {
-      owners: newOwners
+      owners: newOwners.map( (own) => {
+        return {
+          owner: own.owner._id,
+          available: own.available
+        }
+      })
     }
     axios
       .put(GAME_API_ENDPOINT + gameOwnerObj.game._id, updateObj)
       .then( (response) => {
         var updatedGame = response.data;
+        console.log('data', updatedGame);
         serverActions.recieveUpdatedGame(updatedGame);
       })
       .catch( (response) => {
