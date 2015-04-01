@@ -39,8 +39,7 @@ var GameAPIUtils = {
     // Remove the owner from the array of owners.
     var newOwners = gameOwnerObj.game.owners;
     var removed = _.remove(newOwners, (owner) => {
-      debugger;
-      owner.owner._id === gameOwnerObj.ownerId
+      return owner.owner._id === gameOwnerObj.ownerId
     });
     console.log('removed', removed);
     console.log(newOwners);
