@@ -9,6 +9,7 @@ var async = require('async');
 mockgoose(mongoose);
 
 var Game = require('../../../../server/models/game');
+var User = require('../../../../server/models/user');
 
 nock.enableNetConnect();
 
@@ -23,6 +24,7 @@ var fakeSplendor = {
 
 var testGameObjId = mongoose.Types.ObjectId();
 var testGame2ObjId = mongoose.Types.ObjectId();
+var testUserId = mongoose.Types.ObjectId();
 
 describe('Games API', function () {
   beforeEach(function (done) {
@@ -55,6 +57,16 @@ describe('Games API', function () {
           description: "It's just another test",
           __v: 0,
           owners: [ ]
+        }, function (err, model) {
+          complete(err, model);
+        });
+      },
+      function (complete) {
+        User.create({
+          _id: testUserId,
+          firstName: 'Test',
+          lastName: 'Tester',
+          email: 'testing@test.com'
         }, function (err, model) {
           complete(err, model);
         });
@@ -107,6 +119,23 @@ describe('Games API', function () {
         expect(res.body.length).to.be(2);
         done();
       });
-  })
+  });
+
+  it('should add an owner for a game', function (done) {
+    var url = '/api/v1/games/' + testGameObjId + '/owners/' + testGameObjId;
+    supertest(app)
+      .post(url)
+      .send({})
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw new Error(err);
+        var owners = res.body.owners;
+        expect(owners.length).to.be(1);
+        expect(owners[0].owner._id).to.be(testUserId);
+        expect(owners[0].available).to.not.be.ok();
+        done();
+      });
+  });
 
 });
