@@ -36,26 +36,14 @@ var GameAPIUtils = {
   removeOwnerFromGame (gameOwnerObj) {
     // Circular dependency
     let serverActions = require('../flux.jsx').actions.server;
-    // Remove the owner from the array of owners.
-    var newOwners = gameOwnerObj.game.owners;
-    var removed = _.remove(newOwners, (owner) => {
-      return owner.owner._id === gameOwnerObj.ownerId
-    });
-    console.log('removed', removed);
-    console.log(newOwners);
-    let updateObj = {
-      owners: newOwners.map( (own) => {
-        return {
-          owner: own.owner._id,
-          available: own.available
-        }
-      })
-    }
+
+    // Delete Url
+    let delUrl = GAME_API_ENDPOINT + gameOwnerObj.game._id + '/owners/' +  gameOwnerObj.ownerId;
+
     axios
-      .put(GAME_API_ENDPOINT + gameOwnerObj.game._id, updateObj)
+      .delete(delUrl)
       .then( (response) => {
         var updatedGame = response.data;
-        console.log('data', updatedGame);
         serverActions.recieveUpdatedGame(updatedGame);
       })
       .catch( (response) => {
@@ -67,15 +55,11 @@ var GameAPIUtils = {
   addOwnerToGame (gameOwnerObj) {
     // Circular dependency
     let serverActions = require('../flux.jsx').actions.server;
-    let updateObj = {
-      owners: [{
-        owner: gameOwnerObj.ownerId,
-        // We'll set this to false by default because owned != available.
-        available: false
-      }]
-    }
+
+    // Add Owner URL
+    let addUrl = GAME_API_ENDPOINT + gameOwnerObj.game._id + '/owners/' +  gameOwnerObj.ownerId;
     axios
-      .put(GAME_API_ENDPOINT + gameOwnerObj.game._id, updateObj)
+      .post(addUrl)
       .then( (response) => {
         var updatedGame = response.data;
         serverActions.recieveUpdatedGame(updatedGame);
