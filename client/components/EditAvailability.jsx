@@ -12,6 +12,8 @@ class EditAvailability extends React.Component {
     // Bindings
     this.handleNoLongerOwnClick = this.handleNoLongerOwnClick.bind(this);
     this.handleIOwnItClick = this.handleIOwnItClick.bind(this);
+    this.handleNowInOffice = this.handleNowInOffice.bind(this);
+    this.handleNotInOffice = this.handleNotInOffice.bind(this);
   }
 
   getStateFromStores() {
@@ -50,6 +52,16 @@ class EditAvailability extends React.Component {
     this.context.flux.actions.games.iOwnIt(this.state.game, ENV.user._id);
   }
 
+  handleNowInOffice(event) {
+    event.preventDefault();
+    this.context.flux.actions.games.nowAvailable(this.state.game, ENV.user._id);
+  }
+
+  handleNotInOffice(event) {
+    event.preventDefault();
+    this.context.flux.actions.games.notAvailableNow(this.state.game, ENV.user._id);
+  }
+
   renderButtons() {
     let owners = this.state.game.owners;
     let ownerObj = _.find(owners, (ownerObj) => {
@@ -63,7 +75,7 @@ class EditAvailability extends React.Component {
     if (ownerObj && available) {
       toRender.push(<div className="row center-xs">
           <div className="col-xs-6">
-            <button type="button" className="btn btn-primary">This game is no longer in the office.</button>
+            <button type="button" onClick={this.handleNotInOffice} className="btn btn-primary">This game is no longer in the office.</button>
           </div>
         </div>);
     }
@@ -77,7 +89,7 @@ class EditAvailability extends React.Component {
     if (ownerObj && !available) {
       toRender.push(<div className="row center-xs">
           <div className="col-xs-6">
-            <button type="button" className="btn btn-primary">I brought this game into the office.</button>
+            <button type="button" onClick={this.handleNowInOffice} className="btn btn-primary">I brought this game into the office.</button>
           </div>
         </div>);
     }

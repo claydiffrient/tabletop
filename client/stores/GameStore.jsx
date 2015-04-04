@@ -20,10 +20,10 @@ export default class GameStore extends Store {
 
   handleRecieveUpdatedGame(updatedGame) {
     let curGames = this.state.games;
-    let index = _.find(curGames, (game) => {
+    let index = _.findIndex(curGames, (game) => {
       return game._id === updatedGame._id;
     });
-    if (index) {
+    if (index >= 0) {
       curGames[index] = updatedGame;
       this.setState({games: curGames});
     } else {

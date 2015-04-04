@@ -18,4 +18,14 @@ export default class GameActions extends Actions {
     GameAPIUtils.addOwnerToGame({game, ownerId});
   }
 
+  nowAvailable(game, ownerId) {
+    this.dispatch('nowAvailable', {game, ownerId});
+    GameAPIUtils.setAvailability({game, ownerId}, true);
+  }
+
+  notAvailableNow(game, ownerId) {
+    this.dispatch('notAvailableNow', {game, ownerId});
+    GameAPIUtils.setAvailability({game, ownerId}, false);
+  }
+
 }
