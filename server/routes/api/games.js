@@ -121,9 +121,12 @@ router.delete('/:id/owners/:ownerId', function (req, res) {
     if (err) {
       return res.send(err);
     }
-    _.remove(game.owners, function (ownerObj) {
+    var toRemove = _.find(game.owners, function (ownerObj) {
       return ownerObj.owner == req.params.ownerId;
     });
+
+    game.owners.pull(toRemove._id);
+
     game.save(function (saveErr) {
       if (saveErr) {
         return res.send(saveErr);
