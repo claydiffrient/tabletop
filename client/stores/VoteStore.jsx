@@ -5,6 +5,7 @@ import moment from 'moment';
 export default class VoteStore extends Store {
 
   constructor(actions) {
+    super(actions);
     this.setState({votes: []});
     this.handleAction('server.receiveAllVotes', this.handleReceiveAll);
     this.handleAction('server.receiveTodaysVotes', this.handleReceiveToday);

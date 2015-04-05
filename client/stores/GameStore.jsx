@@ -4,6 +4,7 @@ import _ from 'lodash';
 export default class GameStore extends Store {
 
   constructor(actions) {
+    super(actions);
     this.setState({games: []});
     this.handleAction('server.receiveAllGames', this.handleReceiveAll);
     this.handleAction('server.receiveCreatedGame', this.handleReceiveCreatedGame);
