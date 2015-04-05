@@ -10,7 +10,7 @@ webpackConfig.plugins = [
 ];
 
 webpackConfig.module.preLoaders = [
-  { test: /\.jsx$/, exclude: /node_modules/, loader: 'jsxhint' },
+  // { test: /\.jsx$/, exclude: /node_modules/, loader: 'jsxhint' },
 ];
 
 module.exports = webpackConfig;
