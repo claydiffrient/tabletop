@@ -148,13 +148,13 @@ router.put('/:id/owners/:ownerId', function (req, res) {
   // Don't get crazy trying to overwrite ids
   delete updateObj._id;
 
-  Game.findById(req.params.id, function (game, err) {
+  Game.findById(req.params.id, function (err, game) {
     if (err) {
       return res.send(err);
     }
     var owners = game.get('owners');
     var ownerIndex = _.findIndex(owners, function (owner) {
-      return owner.owner === req.params.ownerId;
+      return owner.owner.toString() === req.params.ownerId;
     });
     owners[ownerIndex].available = updateObj.available;
     game.set('owners', owners);
@@ -162,7 +162,12 @@ router.put('/:id/owners/:ownerId', function (req, res) {
       if (err) {
         return res.send(err);
       }
-      return res.json(game);
+      game.populate('owners.owner', function (popErr, pop) {
+        if (popErr) {
+          return res.send(popErr);
+        }
+        res.json(pop);
+      });
     });
   });
 
