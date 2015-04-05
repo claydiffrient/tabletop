@@ -8,6 +8,11 @@ export default class GameActions extends Actions {
     GameAPIUtils.createGame(gameObj);
   }
 
+  updateGame(gameObj) {
+    this.dispatch('updateGame', gameObj);
+    GameAPIUtils.updateGame(gameObj);
+  }
+
   noLongerOwn(game, ownerId) {
     this.dispatch('noLongerOwn', {game, ownerId});
     GameAPIUtils.removeOwnerFromGame({game, ownerId});

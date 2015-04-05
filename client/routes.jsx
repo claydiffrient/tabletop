@@ -7,6 +7,7 @@ import Index from './components/Index';
 import GameList from './components/GameList';
 import AddGame from './components/AddGame';
 import EditAvailability from './components/EditAvailability';
+import EditGame from './components/EditGame';
 
 export default (
   <Route name="app" path="/" handler={App}>
@@ -14,13 +15,14 @@ export default (
     <Route name="games" path="games" handler={GameList} />
     <Route name="addGame" path="games/add" handler={AddGame} />
     <Route name="editAvailability" path="games/availability/:id" handler={EditAvailability} />
+    <Route name="editGame" path="games/edit/:id" handler={EditGame} />
   </Route>
 );
 
 /***
    Bring these in slowly as the components are made:
 
-    <Route name="editGame" path="games/edit/:id" handler={EditGame} />
-    <Route name="editAvailability" path="games/availability/:id" handler={EditAvailability} />
+
+
     <NotFoundRoute name="notfound" handler={ NotFound }/>
 ***/

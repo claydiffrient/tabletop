@@ -74,22 +74,6 @@ var GameAPIUtils = {
     // Circular dependency
     let serverActions = require('../flux.jsx').actions.server;
 
-    // Find the proper owner and update it.
-    // var updatedOwners = gameOwnerObj.game.owners;
-    // var owner = _.find(updatedOwners, (owner) => {
-    //   return owner.owner._id === gameOwnerObj.ownerId
-    // });
-    // owner.available = setTo;
-    // let updateObj = {
-    //   owners: updatedOwners.map( (own) => {
-    //     return {
-    //       owner: own.owner._id,
-    //       available: own.available
-    //     };
-    //   })
-    // };
-    //
-
     var updateObj = {
       available: setTo
     };
@@ -105,14 +89,24 @@ var GameAPIUtils = {
       .catch( (response) => {
         console.error(response);
       });
+  },
+
+  updateGame (gameObj) {
+    // Circular dependency
+    let serverActions = require('../flux.jsx').actions.server;
+
+    axios
+      .put(GAME_API_ENDPOINT + gameObj._id, gameObj)
+      .then( (response) => {
+        let updatedGame = response.data;
+        serverActions.recieveUpdatedGame(updatedGame);
+      })
+      .catch( (response) => {
+        console.error(response);
+      });
+
   }
-
-
-
-
 
 };
 
 export default GameAPIUtils;
-
-//132531

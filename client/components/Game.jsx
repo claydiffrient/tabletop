@@ -57,7 +57,7 @@ class Game extends React.Component {
         </div>
         <div className="Game__VoteColumn col-xs-2">
           {this.renderVoteButton()}
-          <button className="Game__Buttons-Edit btn btn-link" type="button" onClick={this.handleEditClick}>Edit Game</button>
+          <Link className="Game__Buttons-Edit btn btn-link" to="editGame" params={this.props}>Edit Game</Link>
           <Link className="Game__Buttons-Available btn btn-link" to="editAvailability" params={this.props}>Modify Availability</Link>
         </div>
       </div>
