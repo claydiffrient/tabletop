@@ -33,9 +33,18 @@ class Game extends React.Component {
     });
   }
 
-  renderVoteButton() {
+  renderGameButtons() {
+    if (!ENV.user) {
+      return null;
+    }
     var available = this.checkForAvailability();
-    return (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick.bind(this)}>Vote</button>);
+    return (
+      <div>
+        <button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick.bind(this)}>Vote</button>
+        <Link className="Game__Buttons-Edit btn btn-link" to="editGame" params={this.props}>Edit Game</Link>
+        <Link className="Game__Buttons-Available btn btn-link" to="editAvailability" params={this.props}>Modify Availability</Link>
+      </div>
+    );
   }
 
   render() {
@@ -56,9 +65,8 @@ class Game extends React.Component {
           </ul>
         </div>
         <div className="Game__VoteColumn col-xs-2">
-          {this.renderVoteButton()}
-          <Link className="Game__Buttons-Edit btn btn-link" to="editGame" params={this.props}>Edit Game</Link>
-          <Link className="Game__Buttons-Available btn btn-link" to="editAvailability" params={this.props}>Modify Availability</Link>
+          {this.renderGameButtons()}
+
         </div>
       </div>
     );

@@ -39,6 +39,10 @@
   font-weight: bold;
 }
 
+.Game__VoteColumn div {
+  text-align: center;
+}
+
 .GameList__Actions {
   margin-bottom: 10px;
 }
