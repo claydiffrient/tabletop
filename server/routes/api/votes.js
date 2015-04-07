@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
   var qGame = req.query.game;
   if (qDate) {
     if (qDate === 'today') {
-      voteQuery = voteQuery.where('date').gt(today).lt(tomorrow);
+      voteQuery = voteQuery.where('date').gt(today.toDate()).lt(tomorrow.toDate());
     } else {
       var day = moment(qDate).startOf('day');
       var nextDay = moment(day).add(1, 'days');

@@ -61,7 +61,7 @@ export default class VoteStore extends Store {
 
     return this.state.votes.filter( (vote) => {
       var date = moment(vote.date);
-      return ((date > today) && (date < tomorrow));
+      return ((date.isAfter(today)) && (date.isBefore(tomorrow)));
     });
   }
 
