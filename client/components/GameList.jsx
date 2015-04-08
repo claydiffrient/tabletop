@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import _ from 'lodash';
 
 import Game from './Game';
 import Filter from './Filter';
@@ -9,7 +10,7 @@ class GameList extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.onChange = this.onChange.bind(this);
-    this.state = this.getStateFromStores();
+    this.state = _.assign(this.getStateFromStores(), {userVote: false});
     this.handleFilterChange = this.handleFilterChange.bind(this);
   }
 
@@ -22,7 +23,7 @@ class GameList extends React.Component {
   }
 
   setStateFromStores() {
-    this.setState(this.getStateFromStores);
+    this.setState(this.getStateFromStores());
   }
 
   componentDidMount() {
@@ -38,7 +39,16 @@ class GameList extends React.Component {
   }
 
   onChange() {
-    this.setState(this.getStateFromStores());
+    // Handle the changes from the store.
+    let storeChanges = this.getStateFromStores();
+    // Setup the userVote state.
+    let userVote = _.find(storeChanges.votes, (vote) => {
+      if (ENV.user) {
+        return vote.user === ENV.user._id;
+      }
+
+    });
+    this.setState(_.assign(storeChanges, {userVote}));
   }
 
   handleFilterChange(letter) {
@@ -76,6 +86,11 @@ class GameList extends React.Component {
       return (<h4>No games found.</h4>);
     }
     return this.state.games.map( (game) => {
+      let votedFor = false;
+      if (this.state.userVote && this.state.userVote.game._id === game._id) {
+        votedFor = true;
+      }
+
       return (
         <Game
           key={game._id}
@@ -86,7 +101,8 @@ class GameList extends React.Component {
           playTime={game.playTime}
           thumbnailUrl={game.thumbnail}
           title={game.title}
-          owners={game.owners} />
+          owners={game.owners}
+          votedFor={votedFor} />
       );
     });
   }

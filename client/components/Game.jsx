@@ -37,10 +37,16 @@ class Game extends React.Component {
     if (!ENV.user) {
       return null;
     }
-    var available = this.checkForAvailability();
+    let available = this.checkForAvailability();
+    let voteBtn = null;
+    if (this.props.votedFor) {
+      voteBtn = (<button className="Game__Buttons-Vote btn btn-success" type="button" disabled="true">✓ Voted</button>);
+    } else {
+      voteBtn = (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick.bind(this)}>Vote</button>);
+    }
     return (
       <div>
-        <button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick.bind(this)}>Vote</button>
+        {voteBtn}
         <Link className="Game__Buttons-Edit btn btn-link" to="editGame" params={this.props}>Edit Game</Link>
         <Link className="Game__Buttons-Available btn btn-link" to="editAvailability" params={this.props}>Modify Availability</Link>
       </div>
