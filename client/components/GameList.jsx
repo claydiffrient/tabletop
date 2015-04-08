@@ -9,8 +9,17 @@ class GameList extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    // Setup the userVote state.
+    let storeChanges = this.getStateFromStores();
+    let userVote = _.find(storeChanges.votes, (vote) => {
+      if (ENV.user) {
+        return vote.user === ENV.user._id;
+      }
+    });
+    this.state = _.assign(storeChanges, { userVote });
+
+    // Bindings
     this.onChange = this.onChange.bind(this);
-    this.state = _.assign(this.getStateFromStores(), {userVote: false});
     this.handleFilterChange = this.handleFilterChange.bind(this);
   }
 
@@ -130,110 +139,3 @@ GameList.contextTypes = {
 };
 
 export default GameList;
-
-/**********
-ACTUAL RENDER METHOD SHOULD BE SOMETHING LIKE THIS:
-return (
-  <div>
-    <div className="GameList__Actions row center-xs">
-      <Filter onChange={this.handleFilterChange} />
-      <div className="GameList__Actions-AddGame-Container col-xs-2">
-        <Link to="addGame" className="GameList__Actions-AddGame btn btn-primary">
-          <i className="glyphicon glyphicon-plus" /> Add Game
-        </Link>
-      </div>
-    </div>
-    {this.renderGames()}
-  </div>
-);
-
-
-
-var GameList = React.createClass({
-  displayName: 'GameList',
-
-  getInitialState () {
-    return {
-      games: GameStore.getState().games,
-      loaded: GameStore.getState().loaded,
-      userHasVoted: false,
-      userVotedFor: false
-    };
-  },
-
-  componentWillMount () {
-    GameStore.addChangeListener(this.handleChange);
-    GameStore.fetch();
-    VoteStore.addChangeListener(this.handleVoteChange);
-    VoteStore.fetch('today');
-  },
-
-  componentDidMount () {
-  },
-
-  handleChange (newState) {
-    this.setState(newState);
-  },
-
-  handleVoteChange (newState) {
-    var votesByUser = newState.votes.filter( (vote) => {
-      return (vote.user._id === ENV.user._id);
-    });
-
-    if (votesByUser.length) {
-      this.setState({
-        userHasVoted: true,
-        userVotedFor: vote.game._id
-      });
-    }
-  },
-
-  handleFilterChange (letter) {
-    var lowercaseLetter = letter.toLowerCase();
-    var uppercaseLetter = letter.toUpperCase();
-    var newGames;
-    if (lowercaseLetter === 'available') {
-      newGames = GameStore.getState().games.filter((game) => {
-        var isAvailable = false;
-        game.owners.forEach((owner) => {
-          if (owner.available) {
-            isAvailable = true;
-          }
-        });
-        return isAvailable;
-      });
-    }
-    else if (lowercaseLetter === 'all') {
-      newGames = GameStore.getState().games;
-    }
-    else {
-      newGames = GameStore.getState().games.filter ( (game) => {
-        return ((game.title.indexOf(lowercaseLetter) === 0) ||
-                (game.title.indexOf(uppercaseLetter) === 0));
-      });
-    }
-    this.setState({
-      games: newGames
-    });
-  },
-
-  ,
-
-  render () {
-    return (
-      <div>
-        <div className="GameList__Actions row center-xs">
-          <Filter onChange={this.handleFilterChange} />
-          <div className="GameList__Actions-AddGame-Container col-xs-2">
-            <Link to="addGame" className="GameList__Actions-AddGame btn btn-primary">
-              <i className="glyphicon glyphicon-plus" /> Add Game
-            </Link>
-          </div>
-        </div>
-        {this.renderGames()}
-      </div>
-    );
-  }
-});
-
-module.exports = GameList; */
