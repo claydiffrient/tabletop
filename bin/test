@@ -2,4 +2,3 @@
 
 NODE_ENV=test mocha test
 
-semistandard client/* server/* test/*
