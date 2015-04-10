@@ -65,6 +65,7 @@
   },
   "devDependencies": {
     "babel-core": "^5.0.8",
+    "babel-eslint": "^2.0.2",
     "babel-loader": "^5.0.0",
     "casperjs": "^1.1.0-beta3",
     "cobbler": "0.0.6",

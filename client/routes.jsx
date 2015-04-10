@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
-const { Route, DefaultRoute, NotFoundRoute } = Router;
+const { Route } = Router;
 
 import App from './components/App';
 import Index from './components/Index';
@@ -18,11 +18,3 @@ export default (
     <Route name="editGame" path="games/edit/:id" handler={EditGame} />
   </Route>
 );
-
-/***
-   Bring these in slowly as the components are made:
-
-
-
-    <NotFoundRoute name="notfound" handler={ NotFound }/>
-***/
