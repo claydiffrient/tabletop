@@ -1,30 +1,35 @@
+/*global ENV*/
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
 class Game extends React.Component {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context);
   }
 
-  checkForAvailability() {
-    var availables = this.props.owners.filter( (owner) => {
+  checkForAvailability () {
+    var availables = this.props.owners.filter((owner) => {
       return owner.available;
     });
     return (availables.length >= 1);
   }
 
-  handleVoteClick() {
+  handleVoteClick () {
     this.context.flux.actions.votes.createVote(new Date(), this.props.id, ENV.user._id);
+  }
+
+  handleUnVoteClick () {
+    this.context.flux.actions.votes.deleteVote(this.props.votedFor._id);
   }
 
   renderOwners (owners) {
     if (!owners.length) {
       return (<li>No one currently</li>);
     }
-    return owners.map( (owner) => {
-      var ownerObj = owner.owner
+    return owners.map((owner) => {
+      var ownerObj = owner.owner;
       var classes = classNames({
         'Game__Owner': true,
         'Game__Owner--available': owner.available
@@ -33,14 +38,20 @@ class Game extends React.Component {
     });
   }
 
-  renderGameButtons() {
+  renderGameButtons () {
     if (!ENV.user) {
       return null;
     }
     let available = this.checkForAvailability();
     let voteBtn = null;
     if (this.props.votedFor) {
-      voteBtn = (<button className="Game__Buttons-Vote btn btn-success" type="button" disabled="true">✓ Voted</button>);
+      voteBtn = (<button
+                  className="Game__Buttons-Vote--voted btn btn-success"
+                  type="button"
+                  onClick={this.handleUnVoteClick.bind(this)}
+                 >
+                  ✓ Voted
+                 </button>);
     } else {
       voteBtn = (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick.bind(this)}>Vote</button>);
     }
@@ -53,9 +64,8 @@ class Game extends React.Component {
     );
   }
 
-  render() {
-
-    var details = " # of Players: " + this.props.numPlayers + " | Playing Time: " + this.props.playTime;
+  render () {
+    var details = '# of Players: ' + this.props.numPlayers + ' | Playing Time: ' + this.props.playTime;
 
     return (
       <div className="Game row middle-xs">
@@ -77,7 +87,6 @@ class Game extends React.Component {
       </div>
     );
   }
-
 
 }
 

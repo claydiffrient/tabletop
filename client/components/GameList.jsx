@@ -1,3 +1,4 @@
+/*globals ENV*/
 import React from 'react';
 import { Link } from 'react-router';
 import _ from 'lodash';
@@ -7,7 +8,7 @@ import Filter from './Filter';
 
 class GameList extends React.Component {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context);
     // Setup the userVote state.
     let storeChanges = this.getStateFromStores();
@@ -23,7 +24,7 @@ class GameList extends React.Component {
     this.handleFilterChange = this.handleFilterChange.bind(this);
   }
 
-  getStateFromStores() {
+  getStateFromStores () {
     let stores = this.context.flux.stores;
     return {
       games: stores.games.getAllGames(),
@@ -31,23 +32,23 @@ class GameList extends React.Component {
     };
   }
 
-  setStateFromStores() {
+  setStateFromStores () {
     this.setState(this.getStateFromStores());
   }
 
-  componentDidMount() {
+  componentDidMount () {
     let stores = this.context.flux.stores;
     stores.games.addListener('change', this.onChange);
     stores.votes.addListener('change', this.onChange);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     let stores = this.context.flux.stores;
     stores.games.removeListener('change', this.onChange);
     stores.votes.removeListener('change', this.onChange);
   }
 
-  onChange() {
+  onChange () {
     // Handle the changes from the store.
     let storeChanges = this.getStateFromStores();
     // Setup the userVote state.
@@ -55,12 +56,11 @@ class GameList extends React.Component {
       if (ENV.user) {
         return vote.user === ENV.user._id;
       }
-
     });
     this.setState(_.assign(storeChanges, {userVote}));
   }
 
-  handleFilterChange(letter) {
+  handleFilterChange (letter) {
     var GameStore = this.context.flux.stores.games;
     var lowercaseLetter = letter.toLowerCase();
     var uppercaseLetter = letter.toUpperCase();
@@ -75,12 +75,10 @@ class GameList extends React.Component {
         });
         return isAvailable;
       });
-    }
-    else if (lowercaseLetter === 'all') {
+    } else if (lowercaseLetter === 'all') {
       newGames = GameStore.getAllGames();
-    }
-    else {
-      newGames = GameStore.getAllGames().filter ( (game) => {
+    } else {
+      newGames = GameStore.getAllGames().filter((game) => {
         return ((game.title.indexOf(lowercaseLetter) === 0) ||
                 (game.title.indexOf(uppercaseLetter) === 0));
       });
@@ -90,14 +88,14 @@ class GameList extends React.Component {
     });
   }
 
-  renderGames() {
+  renderGames () {
     if (!this.state.games.length) {
       return (<h4>No games found.</h4>);
     }
-    return this.state.games.map( (game) => {
+    return this.state.games.map((game) => {
       let votedFor = false;
       if (this.state.userVote && this.state.userVote.game._id === game._id) {
-        votedFor = true;
+        votedFor = this.state.userVote;
       }
 
       return (

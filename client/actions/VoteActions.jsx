@@ -3,9 +3,14 @@ import VoteAPIUtils from '../utils/VoteAPIUtils';
 
 export default class VoteActions extends Actions {
 
-  createVote(date, gameId, userId) {
+  createVote (date, gameId, userId) {
     this.dispatch('createVote', date, gameId, userId);
     VoteAPIUtils.sendVoteToServer({date, gameId, userId});
+  }
+
+  deleteVote (voteId) {
+    this.dispatch('deleteVote', voteId);
+    VoteAPIUtils.deleteVote(voteId);
   }
 
 }

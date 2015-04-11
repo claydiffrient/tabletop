@@ -43,6 +43,11 @@
   text-align: center;
 }
 
+.Game__Buttons-Vote--voted:hover {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
 .GameList__Actions {
   margin-bottom: 10px;
 }

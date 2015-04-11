@@ -9,11 +9,11 @@ var VoteAPIUtils = {
     let serverActions = require('../flux.jsx').actions.server;
     axios
       .get(VOTE_API_ENDPOINT)
-      .then( (response) => {
+      .then((response) => {
         var votes = response.data;
         serverActions.receiveAllVotes(votes);
       })
-      .catch( (response) => {
+      .catch((response) => {
         console.error(response);
       });
   },
@@ -25,11 +25,11 @@ var VoteAPIUtils = {
       .get(VOTE_API_ENDPOINT, {
         params: { date: 'today'}
       })
-      .then( (response) => {
+      .then((response) => {
         var votes = response.data;
         serverActions.receiveTodaysVotes(votes);
       })
-      .catch( (response) => {
+      .catch((response) => {
         console.error(response);
       });
   },
@@ -43,12 +43,26 @@ var VoteAPIUtils = {
         user: vote.userId,
         game: vote.gameId
       })
-      .then( (response) => {
+      .then((response) => {
         var vote = response.data;
         serverActions.voteCreatedSuccess(vote);
       })
-      .catch( (response) => {
+      .catch((response) => {
         serverActions.voteCreatedFailure();
+      });
+  },
+
+  deleteVote (voteId) {
+    // Circular dependency
+    let serverActions = require('../flux.jsx').actions.server;
+    axios
+      .delete(VOTE_API_ENDPOINT + voteId)
+      .then((response) => {
+        console.log(voteId)
+        serverActions.voteDeletedSuccess(voteId);
+      })
+      .catch((response) => {
+        serverActions.voteDeletedFailure();
       });
   }
 

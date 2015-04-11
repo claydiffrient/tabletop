@@ -2,37 +2,44 @@ import { Actions } from 'minimal-flux';
 
 export default class ServerActions extends Actions {
 
-  receiveAllGames(games) {
+  receiveAllGames (games) {
     this.dispatch('receiveAllGames', games);
   }
 
-  receiveAllVotes(votes) {
+  receiveAllVotes (votes) {
     this.dispatch('receiveAllVotes', votes);
   }
 
-  receiveCreatedVote(vote) {
+  receiveCreatedVote (vote) {
     this.dispatch('receiveCreatedVote', vote);
   }
 
-  receiveCreatedGame(game) {
+  receiveCreatedGame (game) {
     this.dispatch('receiveCreatedGame', game);
   }
 
-  recieveUpdatedGame(game) {
+  recieveUpdatedGame (game) {
     this.dispatch('recieveUpdatedGame', game);
   }
 
-  receiveTodaysVotes(votes) {
+  receiveTodaysVotes (votes) {
     this.dispatch('receiveTodaysVotes', votes);
   }
 
-  voteCreatedSuccess(vote) {
+  voteCreatedSuccess (vote) {
     this.dispatch('voteCreatedSuccess', vote);
   }
 
-  voteCreatedFailure() {
+  voteCreatedFailure () {
     this.dispatch('voteCreatedFailure');
   }
 
+  voteDeletedSuccess (voteId) {
+    this.dispatch('voteDeletedSuccess', voteId);
+  }
+
+  voteDeletedFailure () {
+    this.dispatch('voteDeletedFailure');
+  }
 
 }
