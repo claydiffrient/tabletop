@@ -54,7 +54,7 @@ class GameList extends React.Component {
     // Setup the userVote state.
     let userVote = _.find(storeChanges.votes, (vote) => {
       if (ENV.user) {
-        return vote.user === ENV.user._id;
+        return (vote.user === ENV.user._id) || (vote.user._id === ENV.user._id);
       }
     });
     this.setState(_.assign(storeChanges, {userVote}));
