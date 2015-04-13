@@ -53,7 +53,7 @@ class Game extends React.Component {
                   ✓ Voted
                  </button>);
     } else {
-      voteBtn = (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available} onClick={this.handleVoteClick.bind(this)}>Vote</button>);
+      voteBtn = (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available || this.props.userHasVoted} onClick={this.handleVoteClick.bind(this)}>Vote</button>);
     }
     return (
       <div>

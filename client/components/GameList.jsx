@@ -94,6 +94,7 @@ class GameList extends React.Component {
     }
     return this.state.games.map((game) => {
       let votedFor = false;
+      let userHasVoted = false || !!this.state.userVote;
       if (this.state.userVote && this.state.userVote.game._id === game._id) {
         votedFor = this.state.userVote;
       }
@@ -109,7 +110,8 @@ class GameList extends React.Component {
           thumbnailUrl={game.thumbnail}
           title={game.title}
           owners={game.owners}
-          votedFor={votedFor} />
+          votedFor={votedFor}
+          userHasVoted={userHasVoted} />
       );
     });
   }
