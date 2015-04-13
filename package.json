@@ -1,6 +1,6 @@
 {
   "name": "tabletop",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A game picker app",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,10 @@
     "test": "bin/test",
     "coverage": "bin/coverage"
   },
+  "engines": {
+      "node": "0.12.x",
+      "npm": "2.1.x"
+    },
   "repository": {
     "type": "git",
     "url": "https://github.com/claydiffrient/tabletop.git"
