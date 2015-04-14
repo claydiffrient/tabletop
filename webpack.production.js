@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-var path = require('path')
+var path = require('path');
 
 module.exports = {
   target: 'web',
@@ -21,7 +21,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify('production')
-    }),
+    })
   ],
   resolve: {
     modulesDirectories: ['node_modules'],
@@ -29,17 +29,17 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime' },
       { test: /\.scss$/, loader: 'style!css!scss' },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.png(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.jpg(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.gif(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.html(\?v=\d+\.\d+\.\d+)?$/, exclude: /node_modules/, loader: "file?name=[path][name].[ext]&context=src" }
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.png(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.jpg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.gif(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+      { test: /\.html(\?v=\d+\.\d+\.\d+)?$/, exclude: /node_modules/, loader: 'file?name=[path][name].[ext]&context=src' }
     ]
   }
 };
