@@ -1,4 +1,4 @@
-#!/bin/env node
+#!/app/bin/node
 
 (function () {
   var axios = require('axios');
