@@ -88,6 +88,20 @@ class GameList extends React.Component {
     });
   }
 
+  renderAddGameArea () {
+    if (!ENV.user) {
+      return null;
+    } else {
+      return (
+        <div className="GameList__Actions-AddGame-Container col-xs-2">
+          <Link to="addGame" className="GameList__Actions-AddGame btn btn-primary">
+            <i className="glyphicon glyphicon-plus" /> Add Game
+          </Link>
+        </div>
+      );
+    }
+  }
+
   renderGames () {
     if (!this.state.games.length) {
       return (<h4>No games found.</h4>);
@@ -121,11 +135,7 @@ class GameList extends React.Component {
       <div>
         <div className="GameList__Actions row center-xs">
           <Filter onChange={this.handleFilterChange} />
-          <div className="GameList__Actions-AddGame-Container col-xs-2">
-            <Link to="addGame" className="GameList__Actions-AddGame btn btn-primary">
-              <i className="glyphicon glyphicon-plus" /> Add Game
-            </Link>
-          </div>
+          {this.renderAddGameArea()}
         </div>
         {this.renderGames()}
       </div>
