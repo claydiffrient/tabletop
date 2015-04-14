@@ -124,7 +124,9 @@ router.delete('/:id/owners/:ownerId', function (req, res) {
       return res.send(err);
     }
     var toRemove = _.find(game.owners, function (ownerObj) {
-      return ownerObj.owner === req.params.ownerId;
+      /*eslint-disable */
+      return ownerObj.owner == req.params.ownerId;
+      /*eslint-enable */
     });
 
     if (toRemove) {
