@@ -25,7 +25,7 @@ router.get('/', function (req, res) {
       .populate({
         path: 'owners.owner',
         options: {
-          sort: {title: 1}
+          sort: {normalizedTitle: 1}
         }
       })
       .exec(function (err, games) {
@@ -127,19 +127,23 @@ router.delete('/:id/owners/:ownerId', function (req, res) {
       return ownerObj.owner === req.params.ownerId;
     });
 
-    game.owners.pull(toRemove._id);
+    if (toRemove) {
+      game.owners.pull(toRemove._id);
 
-    game.save(function (saveErr) {
-      if (saveErr) {
-        return res.send(saveErr);
-      }
-      game.populate('owners.owner', function (popErr, pop) {
-        if (popErr) {
-          return res.send(popErr);
+      game.save(function (saveErr) {
+        if (saveErr) {
+          return res.send(saveErr);
         }
-        res.json(pop);
+        game.populate('owners.owner', function (popErr, pop) {
+          if (popErr) {
+            return res.send(popErr);
+          }
+          res.json(pop);
+        });
       });
-    });
+    } else {
+      res.status(500).json({error: 'Could not find game to remove.'});
+    }
   });
 });
 

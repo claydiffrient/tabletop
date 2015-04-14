@@ -1,6 +1,6 @@
 {
   "name": "tabletop",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A game picker app",
   "main": "index.js",
   "scripts": {
