@@ -27,6 +27,8 @@
   "dependencies": {
     "async": "^0.9.0",
     "axios": "^0.5.4",
+    "babel-core": "^5.0.12",
+    "babel-loader": "^5.0.0",
     "body-parser": "~1.12.2",
     "bootstrap": "^3.3.4",
     "bundle-loader": "^0.5.4",
@@ -61,6 +63,7 @@
     "react-router": "^0.13.2",
     "react-router-bootstrap": "^0.12.1",
     "react-tools": "^0.13.1",
+    "sass-loader": "^0.6.0",
     "serve-favicon": "~2.2.0",
     "uglify-js": "^2.4.19",
     "uuid": "^2.0.1",
@@ -68,8 +71,6 @@
     "when": "^3.7.2"
   },
   "devDependencies": {
-    "babel-core": "^5.0.12",
-    "babel-loader": "^5.0.0",
     "casperjs": "^1.1.0-beta3",
     "cobbler": "0.0.6",
     "codeclimate-test-reporter": "0.0.4",
@@ -88,7 +89,6 @@
     "nock": "^1.6.0",
     "passport-mock": "0.0.3",
     "phantomjs": "^1.9.16",
-    "sass-loader": "^0.6.0",
     "sinon": "^1.14.1",
     "supertest": "^0.15.0",
     "supervisor": "^0.6.0",
