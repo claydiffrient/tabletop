@@ -14,18 +14,20 @@ var createGame = function (gameRequest, res) {
       return res.send(err);
     }
     res.json(game);
-  })
+  });
 };
-
-
-
 
 /**
  * List all games
  */
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
   Game.find()
-      .populate('owners.owner')
+      .populate({
+        path: 'owners.owner',
+        options: {
+          sort: {title: 1}
+        }
+      })
       .exec(function (err, games) {
         if (err) {
           return res.send(err);
@@ -41,11 +43,11 @@ router.get('/:id', function (req, res) {
       return res.send(err);
     }
     res.json(game);
-  })
+  });
 });
 
 /* POST Create a new game */
-router.post('/', function(req, res) {
+router.post('/', function (req, res) {
   if (req.body.bggId) {
     bggLookup(req.body.bggId, function (err, response) {
       if (err) {
@@ -53,7 +55,7 @@ router.post('/', function(req, res) {
       }
       req.body.title = response.data.name;
       req.body.thumbnail = response.data.thumbnail;
-      req.body.numPlayers = response.data.minPlayers + "-" + response.data.maxPlayers;
+      req.body.numPlayers = response.data.minPlayers + '-' + response.data.maxPlayers;
       req.body.playTime = response.data.playingTime;
       req.body.description = entities.decode(response.data.description);
       createGame(req.body, res);
@@ -91,15 +93,15 @@ router.put('/:id', function (req, res) {
   });
 });
 
-//Add an owner to a game
+// Add an owner to a game
 router.post('/:id/owners/:ownerId', function (req, res) {
   Game.findById(req.params.id, function (err, game) {
     if (err) {
       return res.send(err);
     }
     game.owners.push({
-      owner:req.params.ownerId,
-      available: false //Owning does not imply available
+      owner: req.params.ownerId,
+      available: false // Owning does not imply available
     });
     game.save(function (saveErr) {
       if (saveErr) {
@@ -115,14 +117,14 @@ router.post('/:id/owners/:ownerId', function (req, res) {
   });
 });
 
-//Remove an owner from a game
+// Remove an owner from a game
 router.delete('/:id/owners/:ownerId', function (req, res) {
   Game.findById(req.params.id, function (err, game) {
     if (err) {
       return res.send(err);
     }
     var toRemove = _.find(game.owners, function (ownerObj) {
-      return ownerObj.owner == req.params.ownerId;
+      return ownerObj.owner === req.params.ownerId;
     });
 
     game.owners.pull(toRemove._id);
@@ -141,8 +143,7 @@ router.delete('/:id/owners/:ownerId', function (req, res) {
   });
 });
 
-
-//Update ownership details for a game
+// Update ownership details for a game
 router.put('/:id/owners/:ownerId', function (req, res) {
   var updateObj = req.body;
   // Don't get crazy trying to overwrite ids
@@ -170,8 +171,6 @@ router.put('/:id/owners/:ownerId', function (req, res) {
       });
     });
   });
-
-
 });
 
 module.exports = router;
