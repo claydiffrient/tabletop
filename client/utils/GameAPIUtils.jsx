@@ -9,27 +9,28 @@ var GameAPIUtils = {
     let serverActions = require('../flux.jsx').actions.server;
     axios
       .get(GAME_API_ENDPOINT)
-      .then( (response) => {
+      .then((response) => {
         var games = response.data;
         serverActions.receiveAllGames(games);
       })
-      .catch( (response) => {
+      .catch((response) => {
         console.error(response);
       });
   },
 
-  createGame (gameRequest) {
+  createGame (gameRequest, formDOMNode) {
     // Circular dependency
     let serverActions = require('../flux.jsx').actions.server;
     axios
       .post(GAME_API_ENDPOINT, gameRequest)
-      .then( (response) => {
+      .then((response) => {
         var game = response.data;
-        serverActions.receiveCreatedGame(game);
+        serverActions.receiveCreatedGame(game, formDOMNode);
       })
-      .catch( (response) => {
-        //TODO: Better error handling.
+      .catch((response) => {
+        // TODO: Better error handling.
         console.error(response);
+        serverActions.handleFailedCreateGame(response);
       });
   },
 
@@ -38,18 +39,17 @@ var GameAPIUtils = {
     let serverActions = require('../flux.jsx').actions.server;
 
     // Delete Url
-    let delUrl = GAME_API_ENDPOINT + gameOwnerObj.game._id + '/owners/' +  gameOwnerObj.ownerId;
+    let delUrl = GAME_API_ENDPOINT + gameOwnerObj.game._id + '/owners/' + gameOwnerObj.ownerId;
 
     axios
       .delete(delUrl)
-      .then( (response) => {
+      .then((response) => {
         var updatedGame = response.data;
         serverActions.recieveUpdatedGame(updatedGame);
       })
-      .catch( (response) => {
+      .catch((response) => {
         console.error(response);
       });
-
   },
 
   addOwnerToGame (gameOwnerObj) {
@@ -57,18 +57,17 @@ var GameAPIUtils = {
     let serverActions = require('../flux.jsx').actions.server;
 
     // Add Owner URL
-    let addUrl = GAME_API_ENDPOINT + gameOwnerObj.game._id + '/owners/' +  gameOwnerObj.ownerId;
+    let addUrl = GAME_API_ENDPOINT + gameOwnerObj.game._id + '/owners/' + gameOwnerObj.ownerId;
     axios
       .post(addUrl)
-      .then( (response) => {
+      .then((response) => {
         var updatedGame = response.data;
         serverActions.recieveUpdatedGame(updatedGame);
       })
-      .catch( (response) => {
+      .catch((response) => {
         console.error(response);
       });
   },
-
 
   setAvailability (gameOwnerObj, setTo) {
     // Circular dependency
@@ -82,11 +81,11 @@ var GameAPIUtils = {
 
     axios
       .put(apiUrl, updateObj)
-      .then( (response) => {
+      .then((response) => {
         var updatedGame = response.data;
         serverActions.recieveUpdatedGame(updatedGame);
       })
-      .catch( (response) => {
+      .catch((response) => {
         console.error(response);
       });
   },
@@ -97,14 +96,13 @@ var GameAPIUtils = {
 
     axios
       .put(GAME_API_ENDPOINT + gameObj._id, gameObj)
-      .then( (response) => {
+      .then((response) => {
         let updatedGame = response.data;
         serverActions.recieveUpdatedGame(updatedGame);
       })
-      .catch( (response) => {
+      .catch((response) => {
         console.error(response);
       });
-
   }
 
 };

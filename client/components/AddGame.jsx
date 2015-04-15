@@ -1,14 +1,17 @@
+/*global ENV */
 import React from 'react';
 import Router from 'react-router';
+import { EventEmitter } from 'eventemitter3';
 
 class AddGame extends React.Component {
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
+
+  handleSubmit (event) {
     event.preventDefault();
 
     var requestObj = {};
@@ -23,10 +26,10 @@ class AddGame extends React.Component {
       owner: ENV.user._id,
       available: this.refs.available.getDOMNode().checked
     });
-    this.context.flux.actions.games.createGame(requestObj);
+    this.context.flux.actions.games.createGame(requestObj, this.refs.addGameForm.getDOMNode());
   }
 
-  render() {
+  render () {
     return (
       <div>
         <div className="row center-xs">
@@ -43,7 +46,7 @@ class AddGame extends React.Component {
         </div>
         <div className="AddGame__Form-Container row center-xs">
           <div className="col-xs-10">
-            <form className="AddGame__Form" onSubmit={this.handleSubmit}>
+            <form ref="addGameForm" className="AddGame__Form" onSubmit={this.handleSubmit}>
               <div className="row center-xs">
                 <div className="col-xs-2">
                   <label htmlFor="bggId">BGG Id:</label>

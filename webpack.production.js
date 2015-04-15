@@ -21,6 +21,11 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify('production')
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
     })
   ],
   resolve: {
@@ -31,6 +36,7 @@ module.exports = {
     loaders: [
       { test: /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime' },
       { test: /\.scss$/, loader: 'style!css!scss' },
+      { test: /\.css$/, loader: 'style!css' },
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },

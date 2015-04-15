@@ -5,6 +5,8 @@ import { Navbar, Nav, NavItem, DropdownButton, MenuItem } from 'react-bootstrap'
 import { NavItemLink } from 'react-router-bootstrap';
 const { RouteHandler, Link } = Router;
 
+require('toastr/toastr.css');
+
 class App extends React.Component {
 
   constructor(props, context) {

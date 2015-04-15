@@ -6,6 +6,11 @@ webpackConfig.debug = true;
 webpackConfig.plugins = [
   new webpack.DefinePlugin({
     NODE_ENV: JSON.stringify('development')
+  }),
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    'window.jQuery': 'jquery'
   })
 ];
 

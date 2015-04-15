@@ -1,4 +1,5 @@
 import { Actions } from 'minimal-flux';
+import toastr from 'toastr';
 
 export default class ServerActions extends Actions {
 
@@ -14,12 +15,20 @@ export default class ServerActions extends Actions {
     this.dispatch('receiveCreatedVote', vote);
   }
 
-  receiveCreatedGame (game) {
+  receiveCreatedGame (game, formDOMNode) {
     this.dispatch('receiveCreatedGame', game);
+    toastr.success('Game created successfully');
+    formDOMNode.reset();
+  }
+
+  handleFailedCreateGame (response) {
+    this.dispatch('handleFailedCreateGame', response);
+    toastr.error('Game not created');
   }
 
   recieveUpdatedGame (game) {
     this.dispatch('recieveUpdatedGame', game);
+    toastr.success('Game updated');
   }
 
   receiveTodaysVotes (votes) {
