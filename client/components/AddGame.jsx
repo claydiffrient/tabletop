@@ -1,7 +1,6 @@
 /*global ENV */
 import React from 'react';
 import Router from 'react-router';
-import { EventEmitter } from 'eventemitter3';
 
 class AddGame extends React.Component {
 
@@ -9,7 +8,6 @@ class AddGame extends React.Component {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
 
   handleSubmit (event) {
     event.preventDefault();
