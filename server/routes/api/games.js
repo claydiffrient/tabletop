@@ -23,11 +23,9 @@ var createGame = function (gameRequest, res) {
 router.get('/', function (req, res) {
   Game.find()
       .populate({
-        path: 'owners.owner',
-        options: {
-          sort: {normalizedTitle: 1}
-        }
+        path: 'owners.owner'
       })
+      .sort('title')
       .exec(function (err, games) {
         if (err) {
           return res.send(err);

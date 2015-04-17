@@ -1,6 +1,6 @@
+/*globals describe beforeEach afterEach it xit */
 var expect = require('expect.js');
 var supertest = require('supertest');
-var config = require('config');
 var app = require('../../../../server/app');
 var nock = require('nock');
 var mongoose = require('mongoose');
@@ -34,12 +34,12 @@ describe('Games API', function () {
       function (complete) {
         Game.create({
           _id: testGameObjId,
-          title: "testGame",
+          title: 'testGame',
           bggId: 11111,
-          thumbnail: "//test.jpg",
-          numPlayers: "2-4",
+          thumbnail: '//test.jpg',
+          numPlayers: '2-4',
           playTime: 30,
-          description: "It's just a test",
+          description: 'It\'s just a test',
           __v: 0,
           owners: [ ]
         }, function (err, model) {
@@ -49,10 +49,10 @@ describe('Games API', function () {
       function (complete) {
         Game.create({
           _id: testGame2ObjId,
-          title: "testGame2",
+          title: 'aTestGame2',
           bggId: 11112,
-          thumbnail: "//test2.jpg",
-          numPlayers: "2-6",
+          thumbnail: '//test2.jpg',
+          numPlayers: '2-6',
           playTime: 30,
           description: "It's just another test",
           __v: 0,
@@ -73,7 +73,6 @@ describe('Games API', function () {
       }],
       done
     );
-
   });
 
   afterEach(function () {
@@ -81,9 +80,9 @@ describe('Games API', function () {
   });
 
   it('should create a new game given a bggId', function (done) {
-    var bgg = nock('http://bgg-json.azurewebsites.net/')
-                .get('/thing/148228')
-                .reply(200, fakeSplendor, {"Content-Type": "application/json"});
+    nock('http://bgg-json.azurewebsites.net/')
+      .get('/thing/148228')
+      .reply(200, fakeSplendor, {'Content-Type': 'application/json'});
     supertest(app)
       .post('/api/v1/games')
       .send({ bggId: 148228})
@@ -121,6 +120,20 @@ describe('Games API', function () {
       });
   });
 
+  it('should return a list of games sorted alphabetically by title', function (done) {
+    supertest(app)
+      .get('/api/v1/games/')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw new Error(err);
+        expect(res.body).to.be.an(Array);
+        expect(res.body[0].title).to.be('aTestGame2');
+        expect(res.body[1].title).to.be('testGame');
+        done();
+      });
+  });
+
   // This should work, but for whatever reason, nothing is coming back in res.body
   // except an empty object... :(
   xit('should add an owner for a game', function (done) {
@@ -140,5 +153,4 @@ describe('Games API', function () {
         done();
       });
   });
-
 });
