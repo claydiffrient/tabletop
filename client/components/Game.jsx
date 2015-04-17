@@ -29,6 +29,11 @@ class Game extends React.Component {
       return (<li>No one currently</li>);
     }
     return owners.map((owner) => {
+      // For some reason, owner.owner ends up null, make sure that doesn't
+      // break the system.
+      if (!owner.owner) {
+        return null;
+      }
       var ownerObj = owner.owner;
       var classes = classNames({
         'Game__Owner': true,
