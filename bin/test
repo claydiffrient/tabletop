@@ -3,4 +3,4 @@
 echo "Running server tests"
 NODE_ENV=test mocha test
 echo "Running React component tests"
-NODE_ENV=test ./node_modules/.bin/karma start --browsers=firefox
+NODE_ENV=test ./node_modules/.bin/karma start
