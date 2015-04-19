@@ -16,4 +16,4 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 after_script:
-  - ./node_modules/.bin/lcov-result-merger ./coverage/lcov.info ./coverage/client/report-lcov/lcov.info | codeclimate
+  - ./node_modules/.bin/lcov-result-merger './coverage/*.info'| codeclimate
