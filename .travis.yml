@@ -12,5 +12,8 @@ script:
 addons:
   code_climate:
     repo_token: 14e6dec822455f51da491b00b538b49afe6d439ff395f471ed122b1dcfe2e359
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 after_script:
   - cat ./coverage/lcov.info | codeclimate

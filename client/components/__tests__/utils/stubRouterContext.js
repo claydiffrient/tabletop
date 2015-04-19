@@ -1,43 +1,46 @@
 var React = require('react');
-var _ = require('lodash');
+var flux = require('../../../flux');
 
 var stubRouterContext = function (Component, props, stubs) {
-  function RouterStub () { }
+  class RouterStub extends React.Component {
+    constructor (props, context) {
+      super(props, context);
+    }
 
-  _.assign(RouterStub, {
-    makePath: function () {},
-    makeHref: function () {},
-    transitionTo: function () {},
-    replaceWith: function () {},
-    goBack: function () {},
-    getCurrentPath: function () {},
-    getCurrentRoutes: function () {},
-    getCurrentPathname: function () {},
-    getCurrentParams: function () {},
-    getCurrentQuery: function () {},
-    isActive: function () {},
-    getRouteAtDepth: function () {},
-    setRouteComponentAtDepth: function () {}
-  }, stubs);
+    static makePath () {}
+    static makeHref () {}
+    static transitionTo () {}
+    static replaceWith () {}
+    static goBack () {}
+    static getCurrentPath () {}
+    static getCurrentRoutes () {}
+    static getCurrentPathname () {}
+    static getCurrentParams () {}
+    static getCurrentQuery () {}
+    static isActive () {}
+    static getRouteAtDepth () {}
+    static setRouteComponentAtDepth () {}
 
-  return React.createClass({
-    displayName: 'RouterStub',
-    childContextTypes: {
-      router: React.PropTypes.func,
-      routeDepth: React.PropTypes.number
-    },
-
-    getChildContext: function () {
+    getChildContext () {
       return {
         router: RouterStub,
-        routeDepth: 0
+        routeDepth: 0,
+        flux: flux
       };
-    },
-
-    render: function () {
-      return (Component({props: props}));
     }
-  });
+
+    render () {
+      return (<Component {...props} />);
+    }
+  }
+
+  RouterStub.childContextTypes = {
+    router: React.PropTypes.func,
+    routeDepth: React.PropTypes.number,
+    flux: React.PropTypes.object.isRequired
+  };
+
+  return RouterStub;
 };
 
-module.exports = stubRouterContext;
+export default stubRouterContext;

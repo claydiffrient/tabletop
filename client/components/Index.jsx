@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import VoteTable from './VoteTable';
 
+var ENV = window.ENV || {};
+
 class Index extends React.Component {
   constructor(props, context) {
     super(props, context);
