@@ -3,6 +3,7 @@ module.exports = function (config) {
     browsers: [ process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome' ],
     singleRun: true,
     frameworks: [ 'mocha' ],
+    browserNoActivityTimeout: 60000,// default 10000
     files: [
       'tests.webpack.js'
     ],
