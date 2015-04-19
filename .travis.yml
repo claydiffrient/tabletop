@@ -17,3 +17,4 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 after_script:
   - cat ./coverage/lcov.info | codeclimate
+  - cat ./coverage/client/report-lcov | codeclimate

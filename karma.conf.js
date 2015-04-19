@@ -9,10 +9,17 @@ module.exports = function (config) {
     preprocessors: {
       'tests.webpack.js': [ 'webpack', 'sourcemap' ]
     },
-    reporters: [ 'spec' ],
+    reporters: [ 'spec', 'coverage' ],
     webpack: require('./webpack.development'),
     webpackMiddleware: {
       noInfo: process.env.CONTINUOUS_INTEGRATION
+    },
+
+    coverageReporter: {
+      dir: 'coverage/client',
+      reporters: [
+        { type: 'lcov', subdir: 'report-lcov' }
+      ]
     }
   });
 };
