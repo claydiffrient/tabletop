@@ -1,17 +1,46 @@
 /*global ENV */
 import React from 'react';
 import Router from 'react-router';
+import _ from 'lodash';
 
 class AddGame extends React.Component {
 
   constructor (props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      hasAttemptedSubmission: false,
+      validForm: false,
+      validItems: {}
+    };
+  }
+
+  isFormValid () {
+    if (this.state.hasAttemptedSubmission) {
+      let newState = {};
+      if (this.state.validItems.bggId) {
+        newState.validForm = true;
+        this.setState(newState);
+        return true;
+      } else {
+        let invalids = _.filter(this.state.validItems, (item) => {
+          return !item;
+        });
+        if (invalids.length > 0) {
+          newState.validForm = false;
+          this.setState(newState);
+          return false;
+        }
+      }
+    }
   }
 
   handleSubmit (event) {
     event.preventDefault();
-
+    let newState = {
+      hasAttemptedSubmission: true,
+      validItems: {}
+    };
     var requestObj = {};
     requestObj.owners = [];
     for (let key in this.refs) {
@@ -19,12 +48,19 @@ class AddGame extends React.Component {
         continue;
       }
       requestObj[key] = this.refs[key].getDOMNode().value;
+      newState.validItems[key] = (requestObj[key] && requestObj[key].length > 0);
     }
     requestObj.owners.push({
       owner: ENV.user._id,
       available: this.refs.available.getDOMNode().checked
     });
-    this.context.flux.actions.games.createGame(requestObj, this.refs.addGameForm.getDOMNode());
+    this.setState(newState, () => {
+      if (this.isFormValid()) {
+        this.context.flux.actions.games.createGame(requestObj, this.refs.addGameForm.getDOMNode());
+      } else {
+        console.log('INVALID!!!');
+      }
+    });
   }
 
   render () {
@@ -106,7 +142,7 @@ class AddGame extends React.Component {
               <hr />
               <div className="row center-xs">
                 <div className="col-xs-2">
-                  <button type="submit" className="btn btn-primary">Submit</button>
+                  <button type="submit" className="AddGame__SubmitButton btn btn-primary">Submit</button>
                 </div>
                 <div className="col-xs-2">
                   <button type="reset" className="btn">Reset</button>

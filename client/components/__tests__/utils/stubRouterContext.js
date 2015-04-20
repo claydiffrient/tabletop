@@ -30,7 +30,7 @@ var stubRouterContext = function (Component, props, stubs) {
     }
 
     render () {
-      return (<Component {...props} />);
+      return (<Component ref="componentUnderTest" {...props} />);
     }
   }
 
