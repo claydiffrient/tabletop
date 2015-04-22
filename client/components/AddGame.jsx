@@ -2,6 +2,7 @@
 import React from 'react';
 import Router from 'react-router';
 import _ from 'lodash';
+import toastr from 'toastr';
 
 class AddGame extends React.Component {
 
@@ -58,7 +59,9 @@ class AddGame extends React.Component {
       if (this.isFormValid()) {
         this.context.flux.actions.games.createGame(requestObj, this.refs.addGameForm.getDOMNode());
       } else {
-        console.log('INVALID!!!');
+        if (!this.state.validItems.bggId) {
+          toastr.error('If you don\'t provide a BGG ID, you must fill out all other fields.');
+        }
       }
     });
   }
