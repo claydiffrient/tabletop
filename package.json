@@ -59,6 +59,8 @@
     "mongoose-findorcreate": "^0.1.2",
     "mongoose-unique-validator": "^0.4.1",
     "morgan": "~1.5.2",
+    "newforms": "^0.12.1",
+    "newforms-bootstrap": "^2.0.0",
     "passport": "^0.2.1",
     "passport-slack": "0.0.1",
     "react": "^0.13.1",
