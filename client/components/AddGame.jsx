@@ -7,13 +7,13 @@ import forms from 'newforms';
 import newformsBS from 'newforms-bootstrap';
 
 let AddGameForm = forms.Form.extend({
-  bggId: forms.IntegerField({required: false}),
+  bggId: forms.IntegerField(),
   title: forms.CharField(),
   thumbnail: forms.URLField(),
   numPlayers: forms.CharField(),
   timeToPlay: forms.IntegerField(),
   description: forms.CharField({widget: forms.Textarea}),
-  available: forms.BooleanField({widget: forms.CheckboxInput}),
+  available: forms.BooleanField({required: false, widget: forms.CheckboxInput}),
   clean () {
     let bggId = this.cleanedData.bggId;
     if (bggId) {
@@ -24,7 +24,16 @@ let AddGameForm = forms.Form.extend({
         'timeToPlay',
         'description'
       ]);
+    } else {
+      if ((this.cleanedData.title) &&
+         (this.cleanedData.thumbnail) &&
+         (this.cleanedData.numPlayers) &&
+         (this.cleanedData.timeToPlay) &&
+         (this.cleanedData.description)) {
+        this.errors().remove('bggId');
+      }
     }
+
   }
 });
 
@@ -62,22 +71,27 @@ class AddGame extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault();
+    let form = this.refs.addGameForm.getForm();
+    let isValid = form.validate();
+    if (!isValid) { return;}
+    let cleanedData = (form.cleanedData) ? form.cleanedData : null;
+
     let newState = {
       hasAttemptedSubmission: true,
       validItems: {}
     };
     var requestObj = {};
     requestObj.owners = [];
-    for (let key in this.refs) {
+    for (let key in cleanedData) {
       if (key === 'available') {
         continue;
       }
-      requestObj[key] = this.refs[key].getDOMNode().value;
+      requestObj[key] = cleanedData[key];
       newState.validItems[key] = (requestObj[key] && requestObj[key].length > 0);
     }
     requestObj.owners.push({
       owner: ENV.user._id,
-      available: this.refs.available.getDOMNode().checked
+      available: cleanedData.available
     });
     this.setState(newState, () => {
       if (this.isFormValid()) {
