@@ -18,14 +18,14 @@ var GameAPIUtils = {
       });
   },
 
-  createGame (gameRequest, formDOMNode) {
+  createGame (gameRequest, form) {
     // Circular dependency
     let serverActions = require('../flux.jsx').actions.server;
     axios
       .post(GAME_API_ENDPOINT, gameRequest)
       .then((response) => {
         var game = response.data;
-        serverActions.receiveCreatedGame(game, formDOMNode);
+        serverActions.receiveCreatedGame(game, form);
       })
       .catch((response) => {
         // TODO: Better error handling.

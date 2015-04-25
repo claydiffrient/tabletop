@@ -3,9 +3,9 @@ import GameAPIUtils from '../utils/GameAPIUtils';
 
 export default class GameActions extends Actions {
 
-  createGame(gameObj, formDOMNode) {
+  createGame(gameObj, form) {
     this.dispatch('createGame', gameObj);
-    GameAPIUtils.createGame(gameObj, formDOMNode);
+    GameAPIUtils.createGame(gameObj, form);
   }
 
   updateGame(gameObj) {

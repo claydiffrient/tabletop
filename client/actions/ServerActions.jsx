@@ -15,10 +15,10 @@ export default class ServerActions extends Actions {
     this.dispatch('receiveCreatedVote', vote);
   }
 
-  receiveCreatedGame (game, formDOMNode) {
+  receiveCreatedGame (game, form) {
     this.dispatch('receiveCreatedGame', game);
     toastr.success('Game created successfully');
-    formDOMNode.reset();
+    form.reset();
   }
 
   handleFailedCreateGame (response) {

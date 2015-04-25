@@ -33,7 +33,6 @@ let AddGameForm = forms.Form.extend({
         this.errors().remove('bggId');
       }
     }
-
   }
 });
 
@@ -76,10 +75,6 @@ class AddGame extends React.Component {
     if (!isValid) { return;}
     let cleanedData = (form.cleanedData) ? form.cleanedData : null;
 
-    let newState = {
-      hasAttemptedSubmission: true,
-      validItems: {}
-    };
     var requestObj = {};
     requestObj.owners = [];
     for (let key in cleanedData) {
@@ -87,21 +82,12 @@ class AddGame extends React.Component {
         continue;
       }
       requestObj[key] = cleanedData[key];
-      newState.validItems[key] = (requestObj[key] && requestObj[key].length > 0);
     }
     requestObj.owners.push({
       owner: ENV.user._id,
       available: cleanedData.available
     });
-    this.setState(newState, () => {
-      if (this.isFormValid()) {
-        this.context.flux.actions.games.createGame(requestObj, this.refs.addGameForm.getDOMNode());
-      } else {
-        if (!this.state.validItems.bggId) {
-          toastr.error('If you don\'t provide a BGG ID, you must fill out all other fields.');
-        }
-      }
-    });
+    this.context.flux.actions.games.createGame(requestObj, this.refs.addGameForm.getForm());
   }
 
   renderValidation (field) {
