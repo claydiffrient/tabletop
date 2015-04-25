@@ -7,12 +7,25 @@ import forms from 'newforms';
 import newformsBS from 'newforms-bootstrap';
 
 let AddGameForm = forms.Form.extend({
-  bggId: forms.IntegerField(),
+  bggId: forms.IntegerField({required: false}),
   title: forms.CharField(),
   thumbnail: forms.URLField(),
   numPlayers: forms.CharField(),
   timeToPlay: forms.IntegerField(),
-  description: forms.CharField({widget: forms.Textarea})
+  description: forms.CharField({widget: forms.Textarea}),
+  available: forms.BooleanField({widget: forms.CheckboxInput}),
+  clean () {
+    let bggId = this.cleanedData.bggId;
+    if (bggId) {
+      this.errors().removeAll([
+        'title',
+        'thumbnail',
+        'numPlayers',
+        'timeToPlay',
+        'description'
+      ]);
+    }
+  }
 });
 
 class AddGame extends React.Component {
@@ -92,8 +105,15 @@ class AddGame extends React.Component {
   render () {
     return (
       <form className="AddGame__Form" onSubmit={this.handleSubmit}>
-      <forms.RenderForm form={AddGameForm} ref="addGameForm">
-      </forms.RenderForm>
+      <forms.RenderForm form={AddGameForm} ref="addGameForm"></forms.RenderForm>
+        <div className="row center-xs">
+          <div className="col-xs-2">
+            <button type="submit" className="AddGame__SubmitButton btn btn-primary">Submit</button>
+          </div>
+          <div className="col-xs-2">
+            <button type="reset" className="btn">Reset</button>
+          </div>
+        </div>
       </form>
     );
   }
