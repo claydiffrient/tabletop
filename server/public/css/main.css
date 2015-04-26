@@ -81,3 +81,7 @@
 .GlobalNav__LoginButton-Logo {
   width: 20px;
 }
+
+.AddGame__FormFieldContainer {
+  width: 100%;
+}

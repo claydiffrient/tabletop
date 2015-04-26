@@ -5,13 +5,23 @@ import _ from 'lodash';
 import toastr from 'toastr';
 import forms from 'newforms';
 import newformsBS from 'newforms-bootstrap';
+const { Container, Row, Field } = newformsBS;
 
 let AddGameForm = forms.Form.extend({
-  bggId: forms.IntegerField(),
+  bggId: forms.IntegerField({
+    label: 'BoardGameGeek ID',
+    helpText: 'If provided this will pull data from BoardGameGeek.com',
+    cssClass: 'row center-xs'
+  }),
   title: forms.CharField(),
   thumbnail: forms.URLField(),
-  numPlayers: forms.CharField(),
-  timeToPlay: forms.IntegerField(),
+  numPlayers: forms.CharField({
+    label: 'Number of Players',
+    widgetAttrs: {placeholder: 'Min-Max'}
+  }),
+  timeToPlay: forms.IntegerField({
+    label: 'Time to Play'
+  }),
   description: forms.CharField({widget: forms.Textarea}),
   available: forms.BooleanField({required: false, widget: forms.CheckboxInput}),
   clean () {
@@ -104,17 +114,60 @@ class AddGame extends React.Component {
 
   render () {
     return (
-      <form className="AddGame__Form" onSubmit={this.handleSubmit}>
-      <forms.RenderForm form={AddGameForm} ref="addGameForm"></forms.RenderForm>
+      <div>
         <div className="row center-xs">
-          <div className="col-xs-2">
-            <button type="submit" className="AddGame__SubmitButton btn btn-primary">Submit</button>
-          </div>
-          <div className="col-xs-2">
-            <button type="reset" className="btn">Reset</button>
+          <div className="col-xs-6">
+            <h2>Add A Game</h2>
           </div>
         </div>
-      </form>
+        <div className="AddGame__Instructions row">
+          <div className="col-xs-12 alert alert-info">
+            You can fill out everything, but if you include a BoardGameGeek Id
+            then all other fields will be overriden by the data from
+            BoardGameGeek.com
+          </div>
+        </div>
+        <div className="AddGame__Form-Container row center-xs">
+          <div className="col-xs-10">
+            <form className="AddGame__Form" onSubmit={this.handleSubmit}>
+              <forms.RenderForm form={AddGameForm} ref="addGameForm">
+                <Container className="AddGame__FormFieldContainer">
+                  <Row className="center-xs" autoColumns="xs">
+                    <Field name="bggId" />
+                  </Row>
+                  <Row className="center-xs" autoColumns="xs">
+                    <Field name="title" />
+                  </Row>
+                  <Row className="center-xs" autoColumns="xs">
+                    <Field name="thumbnail" />
+                  </Row>
+                  <Row className="center-xs" autoColumns="xs">
+                    <Field name="numPlayers" />
+                  </Row>
+                  <Row className="center-xs" autoColumns="xs">
+                    <Field name="timeToPlay" />
+                  </Row>
+                  <Row className="center-xs" autoColumns="xs">
+                    <Field name="description" />
+                  </Row>
+                  <Row className="center-xs" autoColumns="xs">
+                    <Field name="available" />
+                  </Row>
+                </Container>
+              </forms.RenderForm>
+
+              <div className="row center-xs">
+                <div className="col-xs-2">
+                  <button type="submit" className="AddGame__SubmitButton btn btn-primary">Submit</button>
+                </div>
+                <div className="col-xs-2">
+                  <button type="reset" className="btn">Reset</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     );
   }
 }
