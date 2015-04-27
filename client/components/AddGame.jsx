@@ -52,37 +52,20 @@ class AddGame extends React.Component {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      hasAttemptedSubmission: false,
-      validForm: false,
-      validItems: {}
+      formValid: false
     };
-  }
-
-  isFormValid () {
-    if (this.state.hasAttemptedSubmission) {
-      let newState = {};
-      if (this.state.validItems.bggId) {
-        newState.validForm = true;
-        this.setState(newState);
-        return true;
-      } else {
-        let invalids = _.filter(this.state.validItems, (item) => {
-          return !item;
-        });
-        if (invalids.length > 0) {
-          newState.validForm = false;
-          this.setState(newState);
-          return false;
-        }
-      }
-    }
   }
 
   handleSubmit (event) {
     event.preventDefault();
     let form = this.refs.addGameForm.getForm();
     let isValid = form.validate();
-    if (!isValid) { return;}
+    if (!isValid) {
+      this.setState({formValid: false});
+      return;
+    } else {
+      this.setState({formValid: true});
+    }
     let cleanedData = (form.cleanedData) ? form.cleanedData : null;
 
     var requestObj = {};
@@ -100,15 +83,13 @@ class AddGame extends React.Component {
     this.context.flux.actions.games.createGame(requestObj, this.refs.addGameForm.getForm());
   }
 
-  renderValidation (field) {
-    if (this.state.hasAttemptedSubmission) {
-      if (this.state.validItems[field]) {
-        return (<span className="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>);
-      } else {
-        return (<span className="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>);
-      }
+  handleFormChange () {
+    let form = this.refs.addGameForm.getForm();
+    let length = _.keys(form.errors().errors).length;
+    if (length) {
+      this.setState({formValid: false});
     } else {
-      return null;
+      this.setState({formValid: true});
     }
   }
 
@@ -130,7 +111,7 @@ class AddGame extends React.Component {
         <div className="AddGame__Form-Container row center-xs">
           <div className="col-xs-10">
             <form className="AddGame__Form" onSubmit={this.handleSubmit}>
-              <forms.RenderForm form={AddGameForm} ref="addGameForm">
+              <forms.RenderForm form={AddGameForm} ref="addGameForm" onChange={this.handleFormChange.bind(this)}>
                 <Container className="AddGame__FormFieldContainer">
                   <Row className="center-xs" autoColumns="xs">
                     <Field name="bggId" />
@@ -158,7 +139,7 @@ class AddGame extends React.Component {
 
               <div className="row center-xs">
                 <div className="col-xs-2">
-                  <button type="submit" className="AddGame__SubmitButton btn btn-primary">Submit</button>
+                  <button type="submit" ref="submitBtn" disabled={!this.state.formValid} className="AddGame__SubmitButton btn btn-primary">Submit</button>
                 </div>
                 <div className="col-xs-2">
                   <button type="reset" className="btn">Reset</button>
