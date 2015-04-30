@@ -79,6 +79,11 @@ class GameList extends React.Component {
       newGames = GameStore.getAllGames();
     } else {
       newGames = GameStore.getAllGames().filter((game) => {
+        let titleWords = game.title.split(' ');
+        if (titleWords[0].toLowerCase() === 'the') {
+          return ((titleWords[1].indexOf(lowercaseLetter) === 0) ||
+                 (titleWords[1].indexOf(uppercaseLetter) === 0));
+        }
         return ((game.title.indexOf(lowercaseLetter) === 0) ||
                 (game.title.indexOf(uppercaseLetter) === 0));
       });
