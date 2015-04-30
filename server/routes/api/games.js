@@ -11,7 +11,7 @@ var createGame = function (gameRequest, res) {
 
   game.save(function (err, game) {
     if (err) {
-      return res.send(err);
+      return res.status(500).send(err);
     }
     res.json(game);
   });
@@ -49,7 +49,7 @@ router.post('/', function (req, res) {
   if (req.body.bggId) {
     bggLookup(req.body.bggId, function (err, response) {
       if (err) {
-        return res.send(err);
+        return res.status(500).send(err);
       }
       req.body.title = response.data.name;
       req.body.thumbnail = response.data.thumbnail;
@@ -77,12 +77,12 @@ router.put('/:id', function (req, res) {
     $set: updateObj
   }, function (err, updatedGame) {
     if (err) {
-      return res.send(err);
+      return res.status(500).send(err);
     }
     console.log(updatedGame);
     updatedGame.populate('owners.owner', function (err, populated) {
       if (err) {
-        return res.send(err);
+        return res.status(500).send(err);
       }
       console.log(populated);
       res.send(populated);
@@ -95,7 +95,7 @@ router.put('/:id', function (req, res) {
 router.post('/:id/owners/:ownerId', function (req, res) {
   Game.findById(req.params.id, function (err, game) {
     if (err) {
-      return res.send(err);
+      return res.status(500).send(err);
     }
     game.owners.push({
       owner: req.params.ownerId,
@@ -119,7 +119,7 @@ router.post('/:id/owners/:ownerId', function (req, res) {
 router.delete('/:id/owners/:ownerId', function (req, res) {
   Game.findById(req.params.id, function (err, game) {
     if (err) {
-      return res.send(err);
+      return res.status(500).send(err);
     }
     var toRemove = _.find(game.owners, function (ownerObj) {
       /*eslint-disable */
@@ -132,11 +132,11 @@ router.delete('/:id/owners/:ownerId', function (req, res) {
 
       game.save(function (saveErr) {
         if (saveErr) {
-          return res.send(saveErr);
+          return res.status(500).send(saveErr);
         }
         game.populate('owners.owner', function (popErr, pop) {
           if (popErr) {
-            return res.send(popErr);
+            return res.status(500).send(popErr);
           }
           res.json(pop);
         });
@@ -155,7 +155,7 @@ router.put('/:id/owners/:ownerId', function (req, res) {
 
   Game.findById(req.params.id, function (err, game) {
     if (err) {
-      return res.send(err);
+      return res.status(500).send(err);
     }
     var owners = game.get('owners');
     var ownerIndex = _.findIndex(owners, function (owner) {
@@ -165,11 +165,11 @@ router.put('/:id/owners/:ownerId', function (req, res) {
     game.set('owners', owners);
     game.save(function (err) {
       if (err) {
-        return res.send(err);
+        return res.status(500).send(err);
       }
       game.populate('owners.owner', function (popErr, pop) {
         if (popErr) {
-          return res.send(popErr);
+          return res.status(500).send(popErr);
         }
         res.json(pop);
       });
