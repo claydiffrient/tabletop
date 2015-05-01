@@ -54,6 +54,7 @@ class App extends React.Component {
           <Nav>
             <NavItemLink to="index">Vote List</NavItemLink>
             <NavItemLink to="games">Game List</NavItemLink>
+            <NavItem href="https://github.com/claydiffrient/tabletop">GitHub</NavItem>
           </Nav>
           <Nav navbar right>
             {this.renderAccountArea()}
