@@ -78,7 +78,7 @@ class Game extends React.Component {
           <img className="Game__Image img-responsive" src={this.props.thumbnailUrl} />
         </div>
         <div className="Game__DescriptionColumn col-xs-8">
-          <h3 className="Game__Title">{this.props.title}<small>{details}</small></h3>
+          <h3 className="Game__Title">{this.props.title}<small className="Game__Title-Details">{details}</small></h3>
           <p className="Game__Description">{this.props.description}</p>
           <h4>Owners:</h4>
           <ul className="Game__Owners">

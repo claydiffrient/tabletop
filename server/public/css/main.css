@@ -26,6 +26,10 @@
   margin-bottom: 5px;
 }
 
+.Game__Title-Details {
+  margin-left: 10px;
+}
+
 .Game__Image {
   align-self: center;
   max-width: 75%;
