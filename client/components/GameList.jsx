@@ -17,7 +17,8 @@ class GameList extends React.Component {
         return vote.user === ENV.user._id;
       }
     });
-    this.state = _.assign(storeChanges, { userVote });
+    let currentFilter = 'All';
+    this.state = _.assign(storeChanges, { userVote, currentFilter});
 
     // Bindings
     this.onChange = this.onChange.bind(this);
@@ -61,6 +62,9 @@ class GameList extends React.Component {
   }
 
   handleFilterChange (letter) {
+    if (this.state.currentFilter === letter) {
+      letter = 'all';
+    }
     var GameStore = this.context.flux.stores.games;
     var lowercaseLetter = letter.toLowerCase();
     var uppercaseLetter = letter.toUpperCase();
@@ -89,7 +93,8 @@ class GameList extends React.Component {
       });
     }
     this.setState({
-      games: newGames
+      games: newGames,
+      currentFilter: letter
     });
   }
 
