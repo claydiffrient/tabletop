@@ -85,3 +85,11 @@
 .AddGame__FormFieldContainer {
   width: 100%;
 }
+
+.AddGame__Form-Container--loading {
+  align-items: center;
+}
+
+.AddGame__LoadingSpinner {
+  width: 15px;
+}

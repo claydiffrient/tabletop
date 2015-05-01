@@ -5,10 +5,21 @@ export default class GameStore extends Store {
 
   constructor (actions) {
     super(actions);
-    this.setState({games: []});
+    this.setState({games: [], isLoading: false});
     this.handleAction('server.receiveAllGames', this.handleReceiveAll);
     this.handleAction('server.receiveCreatedGame', this.handleReceiveCreatedGame);
     this.handleAction('server.recieveUpdatedGame', this.handleRecieveUpdatedGame);
+    this.handleAction('games.createGame', this.handleIsLoading);
+    this.handleAction('server.handleFailedCreateGame', this.handleDoneLoading);
+
+  }
+
+  handleIsLoading () {
+    this.setState({isLoading: true});
+  }
+
+  handleDoneLoading () {
+    this.setState({isLoading: false});
   }
 
   handleReceiveAll (games) {
@@ -17,6 +28,7 @@ export default class GameStore extends Store {
 
   handleReceiveCreatedGame (game) {
     this.addGames([game]);
+    this.setState({isLoading: false});
   }
 
   handleRecieveUpdatedGame (updatedGame) {
@@ -53,5 +65,9 @@ export default class GameStore extends Store {
       // and empty object which causes less problems than undefined.
       return {};
     }
+  }
+
+  isLoading () {
+    return this.state.isLoading;
   }
 }

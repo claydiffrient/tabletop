@@ -95,6 +95,20 @@ describe('Games API', function () {
       });
   });
 
+  it('should throw a 500 error if it gets a 500 error from the BGG JSON api', function (done) {
+    nock('http://bgg-json.azurewebsites.net/')
+      .get('/thing/148228')
+      .reply(500);
+    supertest(app)
+      .post('/api/v1/games')
+      .send({ bggId: 148228})
+      .expect('Content-Type', /json/)
+      .expect(500)
+      .end(function (err, res) {
+        done(err);
+      });
+  });
+
   it('should get a single game', function (done) {
     supertest(app)
       .get('/api/v1/games/' + testGameObjId)
