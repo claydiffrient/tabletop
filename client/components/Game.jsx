@@ -72,8 +72,15 @@ class Game extends React.Component {
   render () {
     var details = '# of Players: ' + this.props.numPlayers + ' | Playing Time: ' + this.props.playTime;
 
+    let gameClasses = classNames({
+      'Game': true,
+      'row': true,
+      'middle-xs': true,
+      'Game--available': this.checkForAvailability()
+    });
+
     return (
-      <div className="Game row middle-xs">
+      <div className={gameClasses}>
         <div className="Game__ImageColumn col-xs-2">
           <img className="Game__Image img-responsive" src={this.props.thumbnailUrl} />
         </div>

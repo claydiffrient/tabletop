@@ -26,6 +26,10 @@
   margin-bottom: 5px;
 }
 
+.Game--available {
+  background-color: #edffe5;
+}
+
 .Game__Title-Details {
   margin-left: 10px;
 }
