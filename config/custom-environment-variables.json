@@ -5,6 +5,10 @@
     "callbackURL": "SLACK_CALLBACK_URL",
     "teamId": "SLACK_TEAM_ID"
   },
+  "Rollbar": {
+    "clientToken": "ROLLBAR_CLIENT_TOKEN",
+    "serverToken": "ROLLBAR_SERVER_TOKEN"
+  },
   "Session": {
     "sessionSecret": "EXPRESS_SESSION_SECRET"
   },
