@@ -67,7 +67,6 @@ class GameList extends React.Component {
     }
     var GameStore = this.context.flux.stores.games;
     var lowercaseLetter = letter.toLowerCase();
-    var uppercaseLetter = letter.toUpperCase();
     var newGames;
     if (lowercaseLetter === 'available') {
       newGames = GameStore.getAllGames().filter((game) => {
@@ -83,13 +82,12 @@ class GameList extends React.Component {
       newGames = GameStore.getAllGames();
     } else {
       newGames = GameStore.getAllGames().filter((game) => {
-        let titleWords = game.title.split(' ');
-        if (titleWords[0].toLowerCase() === 'the') {
-          return ((titleWords[1].indexOf(lowercaseLetter) === 0) ||
-                 (titleWords[1].indexOf(uppercaseLetter) === 0));
+        let lowercaseTitle = game.title.toLowerCase();
+        let titleWords = lowercaseTitle.split(' ');
+        if (titleWords[0] === 'the') {
+          return (titleWords[1].indexOf(lowercaseLetter) === 0);
         }
-        return ((game.title.indexOf(lowercaseLetter) === 0) ||
-                (game.title.indexOf(uppercaseLetter) === 0));
+        return (lowercaseTitle.indexOf(lowercaseLetter) === 0);
       });
     }
     this.setState({

@@ -10,6 +10,8 @@
     var _rollbarConfig = {
         accessToken: '{{rollbarToken}}',
         captureUncaught: true,
+        verbose: true,
+        enabled: ('{{env}}' !== 'development'),
         payload: {
             environment: '{{env}}'
         }
