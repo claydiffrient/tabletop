@@ -86,7 +86,7 @@
   pointer-events: none;
 }
 
-.GlobalNav__LoginButton-Logo {
+.GlobalNav__LoginButton-Logo, .GlobalNav__GithubLink-Logo {
   width: 20px;
 }
 

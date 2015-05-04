@@ -55,7 +55,9 @@ class App extends React.Component {
           <Nav>
             <NavItemLink to="index">Vote List</NavItemLink>
             <NavItemLink to="games">Game List</NavItemLink>
-            <NavItem href="https://github.com/claydiffrient/tabletop">GitHub</NavItem>
+            <NavItem target="_blank" href="https://github.com/claydiffrient/tabletop">
+              <img className="GlobalNav__GithubLink-Logo" src="/images/GitHub-Mark-64px.png" /> GitHub
+            </NavItem>
           </Nav>
           <Nav navbar right>
             {this.renderAccountArea()}
