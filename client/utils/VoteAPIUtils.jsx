@@ -1,3 +1,4 @@
+/*globals Rollbar */
 import axios from 'axios';
 
 const VOTE_API_ENDPOINT = '/api/v1/votes/';
@@ -14,7 +15,7 @@ var VoteAPIUtils = {
         serverActions.receiveAllVotes(votes);
       })
       .catch((response) => {
-        console.error(response);
+        Rollbar.error(response);
       });
   },
 
@@ -30,7 +31,7 @@ var VoteAPIUtils = {
         serverActions.receiveTodaysVotes(votes);
       })
       .catch((response) => {
-        console.error(response);
+        Rollbar.error(response);
       });
   },
 
@@ -48,6 +49,7 @@ var VoteAPIUtils = {
         serverActions.voteCreatedSuccess(vote);
       })
       .catch((response) => {
+        Rollbar.error(response);
         serverActions.voteCreatedFailure();
       });
   },
@@ -58,10 +60,10 @@ var VoteAPIUtils = {
     axios
       .delete(VOTE_API_ENDPOINT + voteId)
       .then((response) => {
-        console.log(voteId)
         serverActions.voteDeletedSuccess(voteId);
       })
       .catch((response) => {
+        Rollbar.error(response);
         serverActions.voteDeletedFailure();
       });
   }

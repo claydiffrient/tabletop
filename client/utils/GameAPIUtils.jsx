@@ -1,3 +1,4 @@
+/*globals Rollbar */
 import axios from 'axios';
 
 const GAME_API_ENDPOINT = '/api/v1/games/';
@@ -14,7 +15,7 @@ var GameAPIUtils = {
         serverActions.receiveAllGames(games);
       })
       .catch((response) => {
-        console.error(response);
+        Rollbar.error(response);
       });
   },
 
@@ -29,7 +30,7 @@ var GameAPIUtils = {
       })
       .catch((response) => {
         // TODO: Better error handling.
-        console.error(response);
+        Rollbar.error(response);
         serverActions.handleFailedCreateGame(response);
       });
   },
@@ -48,7 +49,7 @@ var GameAPIUtils = {
         serverActions.recieveUpdatedGame(updatedGame);
       })
       .catch((response) => {
-        console.error(response);
+        Rollbar.error(response);
       });
   },
 
@@ -65,7 +66,7 @@ var GameAPIUtils = {
         serverActions.recieveUpdatedGame(updatedGame);
       })
       .catch((response) => {
-        console.error(response);
+        Rollbar.error(response);
       });
   },
 
@@ -86,7 +87,7 @@ var GameAPIUtils = {
         serverActions.recieveUpdatedGame(updatedGame);
       })
       .catch((response) => {
-        console.error(response);
+        Rollbar.error(response);
       });
   },
 
@@ -101,7 +102,7 @@ var GameAPIUtils = {
         serverActions.recieveUpdatedGame(updatedGame);
       })
       .catch((response) => {
-        console.error(response);
+        Rollbar.error(response);
       });
   }
 
