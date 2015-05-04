@@ -2,9 +2,16 @@
 import React from 'react';
 import { Link } from 'react-router';
 import _ from 'lodash';
+import Fuse from 'fuse.js';
 
 import Game from './Game';
 import Filter from './Filter';
+
+const FUSE_OPTIONS = {
+  caseSensitive: false,
+  keys: ['title'],
+  threshold: 0.4
+};
 
 class GameList extends React.Component {
 
@@ -19,10 +26,11 @@ class GameList extends React.Component {
     });
     let currentFilter = 'All';
     this.state = _.assign(storeChanges, { userVote, currentFilter});
-
+    this.fuse = new Fuse(this.state.games, FUSE_OPTIONS);
     // Bindings
     this.onChange = this.onChange.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   getStateFromStores () {
@@ -59,6 +67,12 @@ class GameList extends React.Component {
       }
     });
     this.setState(_.assign(storeChanges, {userVote}));
+    this.fuse = new Fuse(this.state.games, FUSE_OPTIONS);
+  }
+
+  handleSearch (input) {
+    let results = this.fuse.search(input);
+    this.setState({ games: results });
   }
 
   handleFilterChange (letter) {
@@ -142,7 +156,7 @@ class GameList extends React.Component {
     return (
       <div>
         <div className="GameList__Actions row center-xs">
-          <Filter onChange={this.handleFilterChange} />
+          <Filter onChange={this.handleFilterChange} onSearchChange={this.handleSearch} />
           {this.renderAddGameArea()}
         </div>
         {this.renderGames()}

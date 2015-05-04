@@ -15,7 +15,7 @@ class Filter extends React.Component {
   }
 
   handleSearchInput (event) {
-    this.props.onChange(event.target.value);
+    this.props.onSearchChange(event.target.value);
   }
 
   renderFilters () {
