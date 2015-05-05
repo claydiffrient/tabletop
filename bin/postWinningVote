@@ -1,8 +1,72 @@
-#!/app/.heroku/node/bin/node
+
+var axios = require('axios');
+var config = require('config');
+var Rollbar = require('rollbar');
+var _ = require('lodash');
+
+var apiUrl = config.get('App.apiUrl');
+var ROLLBAR_SERVER_TOKEN = config.get('Rollbar.serverToken');
+
+Rollbar.init(ROLLBAR_SERVER_TOKEN, {
+  environment: process.env.NODE_ENV,
+  endpoint: "https://api.rollbar.com/api/1/",
+  enabled: process.env.NODE_ENV === 'production'
+});
+
+function sortVotes (toSort) {
+  var sorted = [];
+  for (var key in toSort) {
+    if (toSort.hasOwnProperty(key)) {
+      sorted.push({'key': key, 'value': toSort[key]});
+    }
+  }
+
+  sorted.sort(function (a, b) {
+    return b.value - a.value;
+  });
+
+  return sorted;
+}
+
+function sendNoVotesMessage () {
+  console.log('There are no votes.');
+}
+
+function sendTopVoteMessage(voteCount, title) {
+  console.log('Today\'s chosen game is _' + title + ' with ' +
+               voteCount + ' votes.');
+}
+
 
 (function () {
-  var axios = require('axios');
-  var config = require('config');
-  console.log('test');
+  axios
+    .get(apiUrl + '/v1/votes/', {
+      params: { date: 'today'}
+    })
+    .then(function (response) {
+      var votes = response.data;
+      if (!votes.length) {
+        return sendNoVotesMessage();
+      }
+      var counted = _.countBy(votes, function (vote) {
+        return vote.game.title;
+      });
+
+      var maxVal = 0;
+      var maxTitle = '';
+      for (key in counted) {
+        if (counted[key] > maxVal) {
+          maxVal = counted[key];
+          maxTitle = key;
+        }
+      }
+
+      return sendTopVoteMessage(maxVal, maxTitle);
+
+    })
+    .catch(function (response) {
+      Rollbar.handleError(response);
+    });
+
 })();
 

@@ -14,5 +14,8 @@
   },
   "Db": {
     "url": "MONGOLAB_URI"
+  },
+  "App": {
+    "apiUrl": "APP_API_URL"
   }
 }
