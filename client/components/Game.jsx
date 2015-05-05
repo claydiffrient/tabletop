@@ -2,6 +2,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
+import _ from 'lodash';
 
 class Game extends React.Component {
 
@@ -28,7 +29,22 @@ class Game extends React.Component {
     if (!owners.length) {
       return (<li>No one currently</li>);
     }
-    return owners.map((owner) => {
+
+    var grouped = _.groupBy(owners, (owner) => {
+      return owner.available;
+    });
+
+    let sortedOwners = [];
+    if (grouped['true']) {
+      sortedOwners = sortedOwners.concat(grouped['true']);
+    }
+    if (grouped['false']) {
+      sortedOwners = sortedOwners.concat(grouped['false']);
+    }
+
+    console.log(sortedOwners);
+
+    return sortedOwners.map((owner) => {
       // For some reason, owner.owner ends up null, make sure that doesn't
       // break the system.
       if (!owner.owner) {
