@@ -3,7 +3,9 @@
     "clientId": "SLACK_CLIENT_ID",
     "clientSecret": "SLACK_CLIENT_SECRET",
     "callbackURL": "SLACK_CALLBACK_URL",
-    "teamId": "SLACK_TEAM_ID"
+    "teamId": "SLACK_TEAM_ID",
+    "apiToken": "SLACK_API_TOKEN",
+    "channelName": "SLACK_CHANNEL_NAME"
   },
   "Rollbar": {
     "clientToken": "ROLLBAR_CLIENT_TOKEN",

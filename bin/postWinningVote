@@ -1,4 +1,3 @@
-
 var axios = require('axios');
 var config = require('config');
 var Rollbar = require('rollbar');
@@ -6,37 +5,44 @@ var _ = require('lodash');
 
 var apiUrl = config.get('App.apiUrl');
 var ROLLBAR_SERVER_TOKEN = config.get('Rollbar.serverToken');
+var SLACK_API_TOKEN = config.get('Slack.apiToken');
+var SLACK_CHANNEL_NAME = config.get('Slack.channelName');
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 Rollbar.init(ROLLBAR_SERVER_TOKEN, {
   environment: process.env.NODE_ENV,
-  endpoint: "https://api.rollbar.com/api/1/",
+  endpoint: 'https://api.rollbar.com/api/1/',
   enabled: process.env.NODE_ENV === 'production'
 });
 
-function sortVotes (toSort) {
-  var sorted = [];
-  for (var key in toSort) {
-    if (toSort.hasOwnProperty(key)) {
-      sorted.push({'key': key, 'value': toSort[key]});
-    }
-  }
-
-  sorted.sort(function (a, b) {
-    return b.value - a.value;
-  });
-
-  return sorted;
+function sendMessageToSlack (message) {
+  axios
+    .post('https://slack.com/api/chat.postMessage', {}, {
+      params: {
+        token: SLACK_API_TOKEN,
+        channel: SLACK_CHANNEL_NAME,
+        text: message,
+        username: 'Tabletop Selector',
+        icon_emoji: ':game_die:'
+      }
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (response) {
+      Rollbar.handleError(response);
+    });
 }
 
 function sendNoVotesMessage () {
-  console.log('There are no votes.');
+  sendMessageToSlack('No votes provided today, you are on your own.');
 }
 
-function sendTopVoteMessage(voteCount, title) {
-  console.log('Today\'s chosen game is _' + title + ' with ' +
+function sendTopVoteMessage (voteCount, title) {
+  sendMessageToSlack('Today\'s chosen game is _' + title + '_ with ' +
                voteCount + ' votes.');
 }
-
 
 (function () {
   axios
@@ -54,7 +60,7 @@ function sendTopVoteMessage(voteCount, title) {
 
       var maxVal = 0;
       var maxTitle = '';
-      for (key in counted) {
+      for (var key in counted) {
         if (counted[key] > maxVal) {
           maxVal = counted[key];
           maxTitle = key;
@@ -62,11 +68,9 @@ function sendTopVoteMessage(voteCount, title) {
       }
 
       return sendTopVoteMessage(maxVal, maxTitle);
-
     })
     .catch(function (response) {
       Rollbar.handleError(response);
     });
-
 })();
 
