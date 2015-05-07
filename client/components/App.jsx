@@ -3,7 +3,7 @@ import React from 'react';
 import flux from '../flux';
 import Router from 'react-router';
 import { Navbar, Nav, NavItem, DropdownButton, MenuItem } from 'react-bootstrap';
-import { NavItemLink } from 'react-router-bootstrap';
+import { NavItemLink, MenuItemLink } from 'react-router-bootstrap';
 const { RouteHandler, Link } = Router;
 
 require('toastr/toastr.css');
@@ -33,6 +33,7 @@ class App extends React.Component {
   renderLoggedInAsButton () {
     return (
       <DropdownButton title={'You are logged in as ' + this.state.user.slackName}>
+        <MenuItemLink to="profile" params={{id: this.state.user._id}}>Profile</MenuItemLink>
         <MenuItem href="/auth/logout">Logout</MenuItem>
       </DropdownButton>
     );
