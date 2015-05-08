@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var findOrCreate = require('mongoose-findorcreate');
 var axios = require('axios');
 
 var UserSchema = new Schema({
@@ -8,7 +7,7 @@ var UserSchema = new Schema({
   lastName: String,
   email: {
     type: String,
-    match: [/.+\@.+\..+/, "Please fill a valid e-mail address"]
+    match: [/.+\@.+\..+/, 'Please fill a valid e-mail address']
   },
   avatarUrl: String, // For future use?
   provider: String,
@@ -22,11 +21,11 @@ var UserSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
-  }
+  },
+  ignoredGames: [{type: Schema.Types.ObjectId, ref: 'Game'}]
 });
 
 var createUser = function (userObj, callback) {
-
   var user = new User(userObj);
 
   var user = new User({
@@ -77,8 +76,7 @@ UserSchema.statics.findOrCreate = function (findByObject, token, callback) {
         createUser(findByObject, callback);
       });
     }
-
   });
-}
+};
 
 module.exports = mongoose.model('User', UserSchema);
