@@ -26,13 +26,19 @@ var UserSchema = new Schema({
 });
 
 var createUser = function (userObj, callback) {
-  var user = new User(userObj);
+  /* I think this only really works because it is being called from the
+     static method... User isn't defined at this point normally though.
+     Need to figure out a better way of doing this.
+  */
+  /*eslint-disable no-undef*/
+  // var user = new User(userObj); What was this line even doing here????
 
   var user = new User({
       slackId: userObj.id,
-      slackName: userObj.displayName,
+      slackName: userObj.displayName
     });
 
+  /*eslint-enable */
   user.save(function (err) {
     if (err) {
       return callback(err);

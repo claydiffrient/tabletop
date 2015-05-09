@@ -51,4 +51,8 @@ export default class ServerActions extends Actions {
     this.dispatch('voteDeletedFailure');
   }
 
+  receiveIgnoredGames (ignoredGames) {
+    this.dispatch('receiveIgnoredGames', ignoredGames);
+  }
+
 }

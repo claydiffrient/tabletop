@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import Fuse from 'fuse.js';
+import UserAPIUtils from '../utils/UserAPIUtils';
 
 import Game from './Game';
 import Filter from './Filter';
@@ -37,7 +38,10 @@ class GameList extends React.Component {
     let stores = this.context.flux.stores;
     return {
       games: stores.games.getAllGames(),
-      votes: stores.votes.getTodaysVotes()
+      votes: stores.votes.getTodaysVotes(),
+      user: {
+        ignoredGames: stores.users.getIgnoredGames()
+      }
     };
   }
 
@@ -45,16 +49,24 @@ class GameList extends React.Component {
     this.setState(this.getStateFromStores());
   }
 
+  componentWillMount () {
+    if (ENV.user) {
+      UserAPIUtils.getAllIgnoredGames({userId: ENV.user._id});
+    }
+  }
+
   componentDidMount () {
     let stores = this.context.flux.stores;
     stores.games.addListener('change', this.onChange);
     stores.votes.addListener('change', this.onChange);
+    stores.users.addListener('change', this.onChange);
   }
 
   componentWillUnmount () {
     let stores = this.context.flux.stores;
     stores.games.removeListener('change', this.onChange);
     stores.votes.removeListener('change', this.onChange);
+    stores.users.removeListener('change', this.onChange);
   }
 
   onChange () {
@@ -135,6 +147,11 @@ class GameList extends React.Component {
       return (<h4>No games found.</h4>);
     }
     return this.state.games.map((game) => {
+      // Skip ignored games
+      // console.log(["IGNORED", this.state, this.state.user.ignoredGames]);
+      if (_.includes(this.state.user.ignoredGames, game._id)) {
+        return null;
+      }
       let votedFor = false;
       let userHasVoted = false || !!this.state.userVote;
       if (this.state.userVote && this.state.userVote.game._id === game._id) {

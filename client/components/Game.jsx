@@ -25,6 +25,10 @@ class Game extends React.Component {
     this.context.flux.actions.votes.deleteVote(this.props.votedFor._id);
   }
 
+  handleIgnoreClick () {
+    this.context.flux.actions.users.ignoreGame(this.props.id, ENV.user._id);
+  }
+
   renderOwners (owners) {
     if (!owners.length) {
       return (<li>No one currently</li>);
@@ -81,6 +85,7 @@ class Game extends React.Component {
         {voteBtn}
         <Link className="Game__Buttons-Edit btn btn-link" to="editGame" params={this.props}>Edit Game</Link>
         <Link className="Game__Buttons-Available btn btn-link" to="editAvailability" params={this.props}>Modify Availability</Link>
+        <button className="Game__Buttons-Hide btn btn-link" type="button" onClick={this.handleIgnoreClick.bind(this)}>Ignore</button>
       </div>
     );
   }
