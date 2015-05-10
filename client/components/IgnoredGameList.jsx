@@ -50,12 +50,15 @@ class IgnoredGameList extends React.Component {
   }
 
   renderGames () {
+    if (!this.state.user.ignoredGames.length) {
+      return (<div>You have no ignored games.</div>);
+    }
     return this.state.user.ignoredGames.map((game) => {
       let foundGame = _.find(this.state.games, (fGame) => {
         return fGame._id === game;
       });
       return (
-        <li className="IgnoredGameList__Game">
+        <li className="IgnoredGameList__Game list-group-item">
           {foundGame.title}
           <button className="IgnoredGameList__Game-Unignore btn btn-xs btn-primary"
                   type="button"
@@ -71,11 +74,13 @@ class IgnoredGameList extends React.Component {
 
   render () {
     return (
-      <div className="IgnoredGameList">
-        IgnoredGameList
-        <ul className="IgnoredGameList__List" >
-          {this.renderGames()}
-        </ul>
+      <div className="IgnoredGameList panel panel-default">
+        <div className="IgnoredGameList__Title panel-heading">Ignored Games</div>
+        <div className="panel-body">
+          <ul className="IgnoredGameList__List list-group" >
+            {this.renderGames()}
+          </ul>
+        </div>
       </div>
     );
   }

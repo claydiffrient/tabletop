@@ -102,10 +102,14 @@
   width: 15px;
 }
 
+.IgnoredGameList {
+  width: 30%;
+}
+
 .IgnoredGameList__Game {
-  margin-bottom: 10px;
+
 }
 
 .IgnoredGameList__Game-Unignore {
-  margin-left: 10px;
+  float: right;
 }
