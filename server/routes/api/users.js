@@ -1,6 +1,8 @@
-var User = require('mongoose').model('User');
+var mongoose = require('mongoose').set('debug', true);
+var User = mongoose.model('User');
 var express = require('express');
 var router = express.Router();
+var _ = require('lodash');
 
 /* GET List all users */
 router.get('/', function (req, res) {
@@ -15,6 +17,7 @@ router.get('/', function (req, res) {
 /* GET List all ignored games for a user */
 router.get('/:id/ignoredgames', function (req, res) {
   User.findById(req.params.id, function (err, user) {
+    console.log(user);
     if (err) {
       return res.send(err);
     }
@@ -37,6 +40,31 @@ router.put('/:id/ignoredgames', function (req, res) {
         return res.send(err);
       }
       return res.json({ok: true, ignore: toIgnore});
+    });
+  });
+});
+
+/* DELETE Unignore a game for a user */
+router.delete('/:id/ignoredgames/:gameId', function (req, res) {
+  User.findById(req.params.id, function (err, user) {
+    if (err) {
+      return res.send(err);
+    }
+    var toRemove = _.find(user.ignoredGames, function (game) {
+      return (req.params.gameId === game.toString());
+    });
+
+    user.ignoredGames.pull(toRemove);
+
+    console.log(user.ignoredGames);
+
+    user.save(function (err, saved) {
+      console.log(saved);
+      if (err) {
+        console.log('Error');
+        return res.error(err);
+      }
+      return res.status(200).end();
     });
   });
 });

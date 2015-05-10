@@ -114,5 +114,46 @@ describe('Users API', function () {
         });
       });
     });
+
+    xit('removes a game from the ignored list', function (done) {
+      // Bit of setup for this one.
+      User.findById(testUserId, function (err, user) {
+        if (err) {
+          throw new Error(err);
+        }
+        user.ignoredGames.push(testGameObjId);
+        user.ignoredGames.push(testGame2ObjId);
+
+        user.save(function (err) {
+          if (err) {
+            throw new Error(err);
+          }
+          // Actual test starts here :)
+          // Delete first.
+          var url = '/api/v1/users/' + testUserId + '/ignoredgames/' + testGameObjId;
+          supertest(app)
+            .delete(url)
+            .expect(200)
+            .end(function (err, res) {
+              if (err) throw new Error(err);
+              expect(res.body).to.be.ok();
+            });
+          // Now check to see if it was deleted.
+          var getUrl = '/api/v1/users/' + testUserId + '/ignoredgames';
+          supertest(app)
+            .get(getUrl)
+            .expect(200)
+            .end(function (err, res) {
+              if (err) throw new Error(err);
+              console.log(res.body);
+              expect(res.body).to.be.ok();
+              expect(res.body).to.be.an(Array);
+              expect(res.body.length).to.be(1);
+              expect(res.body).to.eql([testGame2ObjId.toString()]);
+              done();
+            });
+        });
+      });
+    });
   });
 });
