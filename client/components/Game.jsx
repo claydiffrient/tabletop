@@ -46,8 +46,6 @@ class Game extends React.Component {
       sortedOwners = sortedOwners.concat(grouped['false']);
     }
 
-    console.log(sortedOwners);
-
     return sortedOwners.map((owner) => {
       // For some reason, owner.owner ends up null, make sure that doesn't
       // break the system.
