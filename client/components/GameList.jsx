@@ -148,7 +148,6 @@ class GameList extends React.Component {
     }
     return this.state.games.map((game) => {
       // Skip ignored games
-      // console.log(["IGNORED", this.state, this.state.user.ignoredGames]);
       if (_.includes(this.state.user.ignoredGames, game._id)) {
         return null;
       }

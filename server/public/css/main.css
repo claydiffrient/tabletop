@@ -101,3 +101,11 @@
 .AddGame__LoadingSpinner {
   width: 15px;
 }
+
+.IgnoredGameList__Game {
+  margin-bottom: 10px;
+}
+
+.IgnoredGameList__Game-Unignore {
+  margin-left: 10px;
+}

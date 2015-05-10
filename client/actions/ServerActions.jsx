@@ -55,4 +55,12 @@ export default class ServerActions extends Actions {
     this.dispatch('receiveIgnoredGames', ignoredGames);
   }
 
+  receiveIgnoredGame (ignoredGame) {
+    this.dispatch('receiveIgnoredGame', ignoredGame);
+  }
+
+  unIgnoreGame (ignoredObject) {
+    this.dispatch('unIgnoreGame', ignoredObject.gameId, ignoredObject.userId);
+  }
+
 }
