@@ -4,10 +4,13 @@ import classNames from 'classnames';
 import { Link } from 'react-router';
 import _ from 'lodash';
 
+const NON_EXPANDED_CHARS_TO_SHOW = 200;
+
 class Game extends React.Component {
 
   constructor (props, context) {
     super(props, context);
+    this.state = { expandedText: false };
   }
 
   checkForAvailability () {
@@ -27,6 +30,18 @@ class Game extends React.Component {
 
   handleIgnoreClick () {
     this.context.flux.actions.users.ignoreGame(this.props.id, ENV.user._id);
+  }
+
+  handleReadMoreClick () {
+    this.setState({
+      expandedText: true
+    });
+  }
+
+  handleReadLessClick () {
+    this.setState({
+      expandedText: false
+    });
   }
 
   renderOwners (owners) {
@@ -98,6 +113,30 @@ class Game extends React.Component {
       'Game--available': this.checkForAvailability()
     });
 
+    let description = '';
+    let readMoreLessLink = null;
+    if (this.state.expandedText) {
+      description = this.props.description;
+      // Read Less Actually
+      readMoreLessLink = (
+        <button
+          type="button"
+          className="Game__ReadToggle btn btn-link"
+          onClick={this.handleReadLessClick.bind(this)}
+        >Read Less</button>
+      );
+    } else {
+      description = this.props.description.slice(0, NON_EXPANDED_CHARS_TO_SHOW) + '...';
+      // Read More Link
+      readMoreLessLink = (
+        <button
+          type="button"
+          className="Game__ReadToggle btn btn-link"
+          onClick={this.handleReadMoreClick.bind(this)}
+        >Read More</button>
+      );
+    }
+
     return (
       <div className={gameClasses}>
         <div className="Game__ImageColumn col-xs-2">
@@ -105,7 +144,8 @@ class Game extends React.Component {
         </div>
         <div className="Game__DescriptionColumn col-xs-8">
           <h3 className="Game__Title">{this.props.title}<small className="Game__Title-Details">{details}</small></h3>
-          <p className="Game__Description">{this.props.description}</p>
+          <p className="Game__Description">{description}</p>
+          {readMoreLessLink}
           <h4>Owners:</h4>
           <ul className="Game__Owners">
             {this.renderOwners(this.props.owners)}
