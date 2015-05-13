@@ -37,3 +37,5 @@ however it will watch for changes and recompile on the fly.  It also does not do
 
 You can contribute by filing issues because obviously there are many.  I'm also super open to pull requests if you think you can solve
 a problem, I'll try and respond to those quickly.  Just make sure you include the appropriate details in commit messages.
+
+If you are adding something that can be configured, we use `node-config` for configuation.  If the configuration setting is not sensitive, such as a simple boolean value, please add it directly to `config/default.json`.  If the data is sensitive, please add it to your own `config/local.json` so that it doesn't end up in the repository.  Ideally, you can provide a example bit of data in the `config/default.json` so that further work on that particular feature can be jump started with an example.  Regardless, all config variables should also be defined in the `config/custom-environment-variables.json` file so that they can be overriden with environment variables in production environments.
