@@ -7,6 +7,7 @@ var apiUrl = config.get('App.apiUrl');
 var ROLLBAR_SERVER_TOKEN = config.get('Rollbar.serverToken');
 var SLACK_API_TOKEN = config.get('Slack.apiToken');
 var SLACK_CHANNEL_NAME = config.get('Slack.channelName');
+var VOTE_URL = config.get('App.mainUrl');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -36,12 +37,12 @@ function sendMessageToSlack (message) {
 }
 
 function sendNoVotesMessage () {
-  sendMessageToSlack('No votes provided today, you are on your own.');
+  sendMessageToSlack('No votes provided today, you are on your own. Try voting next time at ' + VOTE_URL);
 }
 
 function sendTopVoteMessage (voteCount, title) {
   sendMessageToSlack('Today\'s chosen game is _' + title + '_ with ' +
-               voteCount + ' votes.');
+               voteCount + ' votes.  Vote next time at ' + VOTE_URL);
 }
 
 (function () {
