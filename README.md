@@ -30,7 +30,9 @@ npm run coverage - runs the tests and outputs test coverage information
 Something else that might come in handy is directly running `bin/clientdev` which does almost the same as `npm run compile`
 however it will watch for changes and recompile on the fly.  It also does not do any optimization to the output.
 
+### Slack Reporting
 
+Inside the `bin/` directory one of the scripts is `postWinningVote` this is ideal to put on a scheduler so that you can announce in a slack channel what the winning vote on a given day is.  I use Heroku Scheduler to perform this each day just before our groups lunch game time.  All settings are configured via environment variables or through settings in the `node-config` files described below.
 
 
 ### Contributing
