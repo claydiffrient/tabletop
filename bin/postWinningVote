@@ -2,12 +2,14 @@ var axios = require('axios');
 var config = require('config');
 var Rollbar = require('rollbar');
 var _ = require('lodash');
+var moment = require('moment');
 
 var apiUrl = config.get('App.apiUrl');
 var ROLLBAR_SERVER_TOKEN = config.get('Rollbar.serverToken');
 var SLACK_API_TOKEN = config.get('Slack.apiToken');
 var SLACK_CHANNEL_NAME = config.get('Slack.channelName');
 var VOTE_URL = config.get('App.mainUrl');
+var IGNORE_WEEKENDS = config.get('Scheduler.ignoreWeekends');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -32,7 +34,7 @@ function sendMessageToSlack (message) {
       console.log(response);
     })
     .catch(function (response) {
-      Rollbar.handleError(response);
+      // Rollbar.handleError(response);
     });
 }
 
@@ -46,6 +48,15 @@ function sendTopVoteMessage (voteCount, title) {
 }
 
 (function () {
+  if (IGNORE_WEEKENDS) {
+    var currentDay = moment().utc().day();
+    // 0 = Sunday, 6 = Saturday
+    if ((currentDay === 0) || (currentDay === 6)) {
+      console.log('Weekend early exit hit.');
+      return 0;
+    }
+  }
+
   axios
     .get(apiUrl + '/v1/votes/', {
       params: { date: 'today'}
@@ -71,7 +82,7 @@ function sendTopVoteMessage (voteCount, title) {
       return sendTopVoteMessage(maxVal, maxTitle);
     })
     .catch(function (response) {
-      Rollbar.handleError(response);
+      // Rollbar.handleError(response);
     });
 })();
 

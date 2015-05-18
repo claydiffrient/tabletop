@@ -20,5 +20,8 @@
   "App": {
     "apiUrl": "APP_API_URL",
     "mainUrl": "APP_URL"
+  },
+  "Scheduler": {
+    "ignoreWeekends": "SCHEDULER_IGNORE_WEEKENDS"
   }
 }

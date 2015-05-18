@@ -11,5 +11,8 @@
   "App": {
     "apiUrl": "http://localhost:4000/api",
     "mainUrl": "http://localhost:4000"
+  },
+  "Scheduler": {
+    "ignoreWeekends": true
   }
 }
