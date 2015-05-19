@@ -60,6 +60,11 @@ class GameList extends React.Component {
     stores.games.addListener('change', this.onChange);
     stores.votes.addListener('change', this.onChange);
     stores.users.addListener('change', this.onChange);
+
+    let query = this.context.router.getCurrentQuery();
+    if (query.filter) {
+      this.handleFilterChange(query.filter);
+    }
   }
 
   componentWillUnmount () {
@@ -125,6 +130,10 @@ class GameList extends React.Component {
     this.setState({
       games: newGames,
       currentFilter: letter
+    }, () => {
+      this.context.router.transitionTo('games', {}, {
+        filter: letter
+      });
     });
   }
 
@@ -189,7 +198,8 @@ class GameList extends React.Component {
 }
 
 GameList.contextTypes = {
-  flux: React.PropTypes.object
+  flux: React.PropTypes.object,
+  router: React.PropTypes.func
 };
 
 export default GameList;
