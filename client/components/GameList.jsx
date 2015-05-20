@@ -92,8 +92,12 @@ class GameList extends React.Component {
     if (!input.length) {
       let GameStore = this.context.flux.stores.games;
       results = GameStore.getAllGames();
+      this.context.router.transitionTo('games', {}, {});
     } else {
       results = this.fuse.search(input);
+      this.context.router.transitionTo('games', {}, {
+        search: input
+      });
     }
     this.setState({ games: results });
   }
