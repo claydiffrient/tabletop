@@ -43,7 +43,7 @@ class Filter extends React.Component {
     return (
       <div>
         <div className="col-xs-12">
-          Search: <input type="text" onChange={this.handleSearchInput} />
+          Search: <input type="text" onChange={this.handleSearchInput} value={this.props.initialValue} />
         </div>
         <div className="col-xs-12">
           {this.renderFilters()}

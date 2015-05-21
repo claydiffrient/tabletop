@@ -60,11 +60,6 @@ class GameList extends React.Component {
     stores.games.addListener('change', this.onChange);
     stores.votes.addListener('change', this.onChange);
     stores.users.addListener('change', this.onChange);
-
-    let query = this.context.router.getCurrentQuery();
-    if (query.filter) {
-      this.handleFilterChange(query.filter);
-    }
   }
 
   componentWillUnmount () {
@@ -83,8 +78,16 @@ class GameList extends React.Component {
         return (vote.user === ENV.user._id) || (vote.user._id === ENV.user._id);
       }
     });
+    let query = this.context.router.getCurrentQuery();
     this.setState(_.assign(storeChanges, {userVote}));
     this.fuse = new Fuse(this.state.games, FUSE_OPTIONS);
+    if (query.filter) {
+      this.handleFilterChange(query.filter, true);
+    }
+    if (query.search) {
+      this.handleSearch(query.search);
+    }
+
   }
 
   handleSearch (input) {
@@ -102,8 +105,8 @@ class GameList extends React.Component {
     this.setState({ games: results });
   }
 
-  handleFilterChange (letter) {
-    if (this.state.currentFilter === letter) {
+  handleFilterChange (letter, fromQuery) {
+    if (!fromQuery && (this.state.currentFilter === letter)) {
       letter = 'all';
     }
     var GameStore = this.context.flux.stores.games;
@@ -135,9 +138,11 @@ class GameList extends React.Component {
       games: newGames,
       currentFilter: letter
     }, () => {
-      this.context.router.transitionTo('games', {}, {
-        filter: letter
-      });
+      if (!fromQuery) {
+        this.context.router.transitionTo('games', {}, {
+          filter: letter
+        });
+      }
     });
   }
 
@@ -191,7 +196,10 @@ class GameList extends React.Component {
     return (
       <div>
         <div className="GameList__Actions row center-xs">
-          <Filter onChange={this.handleFilterChange} onSearchChange={this.handleSearch} />
+          <Filter onChange={this.handleFilterChange}
+                  onSearchChange={this.handleSearch}
+                  initialValue={this.context.router.getCurrentQuery().search}
+          />
           {this.renderAddGameArea()}
         </div>
         {this.renderGames()}
