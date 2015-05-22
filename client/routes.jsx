@@ -7,7 +7,6 @@ import Index from './components/Index';
 import GameList from './components/GameList';
 import AddGame from './components/AddGame';
 import EditAvailability from './components/EditAvailability';
-import EditGame from './components/EditGame';
 import Profile from './components/Profile';
 
 export default (
@@ -16,7 +15,6 @@ export default (
     <Route name="games" path="games" handler={GameList} />
     <Route name="addGame" path="games/add" handler={AddGame} />
     <Route name="editAvailability" path="games/availability/:id" handler={EditAvailability} />
-    <Route name="editGame" path="games/edit/:id" handler={EditGame} />
     <Route name="profile" path="users/:id" handler={Profile} />
   </Route>
 );

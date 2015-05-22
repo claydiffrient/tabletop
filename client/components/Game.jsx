@@ -96,7 +96,6 @@ class Game extends React.Component {
     return (
       <div>
         {voteBtn}
-        <Link className="Game__Buttons-Edit btn btn-link" to="editGame" params={this.props}>Edit Game</Link>
         <Link className="Game__Buttons-Available btn btn-link" to="editAvailability" params={this.props}>Modify Availability</Link>
         <button className="Game__Buttons-Hide btn btn-link" type="button" onClick={this.handleIgnoreClick.bind(this)}>Ignore</button>
       </div>
