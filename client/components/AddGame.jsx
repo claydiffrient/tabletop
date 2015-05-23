@@ -171,24 +171,6 @@ class AddGame extends React.Component {
                   <Row className="center-xs" autoColumns="xs">
                     <Field name="bggId" />
                   </Row>
-                  <Row className="center-xs" autoColumns="xs">
-                    <Field name="title" />
-                  </Row>
-                  <Row className="center-xs" autoColumns="xs">
-                    <Field name="thumbnail" />
-                  </Row>
-                  <Row className="center-xs" autoColumns="xs">
-                    <Field name="numPlayers" />
-                  </Row>
-                  <Row className="center-xs" autoColumns="xs">
-                    <Field name="timeToPlay" />
-                  </Row>
-                  <Row className="center-xs" autoColumns="xs">
-                    <Field name="description" />
-                  </Row>
-                  <Row className="center-xs" autoColumns="xs">
-                    <Field name="available" />
-                  </Row>
                 </Container>
               </forms.RenderForm>
 
