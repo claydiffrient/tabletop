@@ -21,8 +21,16 @@ let loadBGGOptionsAsync = (input, callback) => {
     })
     .then(function (response) {
       let games = response.data;
-      console.log(games);
-      callback(null, { options: [{value: '1', label: 'One'}]});
+      // debugger;
+      if (games.items && games.items.item) {
+        var results = games.items.item.map((item) => {
+          return {
+            value: item.$.id,
+            label: item.name[0].$.value
+          };
+        });
+      }
+      callback(null, { options: results || []});
     });
 };
 
@@ -184,7 +192,8 @@ class AddGame extends React.Component {
           <div className="col-xs-10">
             <Select
               name="bggSearch"
-              asyncOptions={loadBGGOptionsAsync} />
+              asyncOptions={loadBGGOptionsAsync}
+              placeholder="Search BGG for a Game" />
             <form className="AddGame__Form" ref="addGameFormContainer" onSubmit={this.handleSubmit}>
               <forms.RenderForm form={AddGameForm} ref="addGameForm" onChange={this.handleFormChange.bind(this)}>
                 <Container className="AddGame__FormFieldContainer">
