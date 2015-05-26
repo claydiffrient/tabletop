@@ -12,7 +12,8 @@ var GameSchema = new Schema({
   thumbnail: String,
   numPlayers: String,
   playTime: Number,
-  description: String
+  description: String,
+  mechanics: [String]
 });
 
 GameSchema.plugin(uniqueValidator);

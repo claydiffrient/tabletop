@@ -186,6 +186,7 @@ class GameList extends React.Component {
           thumbnailUrl={game.thumbnail}
           title={game.title}
           owners={game.owners}
+          mechanics={game.mechanics}
           votedFor={votedFor}
           userHasVoted={userHasVoted} />
       );

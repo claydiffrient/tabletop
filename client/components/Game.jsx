@@ -84,22 +84,40 @@ class Game extends React.Component {
     let voteBtn = null;
     if (this.props.votedFor) {
       voteBtn = (<button
-                  className="Game__Buttons-Vote--voted btn btn-success"
-                  type="button"
+                  className='Game__Buttons-Vote--voted btn btn-success'
+                  type='button'
                   onClick={this.handleUnVoteClick.bind(this)}
                  >
                   ✓ Voted
                  </button>);
     } else {
-      voteBtn = (<button className="Game__Buttons-Vote btn btn-primary" type="button" disabled={!available || this.props.userHasVoted} onClick={this.handleVoteClick.bind(this)}>Vote</button>);
+      voteBtn = (<button className='Game__Buttons-Vote btn btn-primary' type='button' disabled={!available || this.props.userHasVoted} onClick={this.handleVoteClick.bind(this)}>Vote</button>);
     }
     return (
       <div>
         {voteBtn}
-        <Link className="Game__Buttons-Available btn btn-link" to="editAvailability" params={this.props}>Modify Availability</Link>
-        <button className="Game__Buttons-Hide btn btn-link" type="button" onClick={this.handleIgnoreClick.bind(this)}>Ignore</button>
+        <Link className='Game__Buttons-Available btn btn-link' to='editAvailability' params={this.props}>Modify Availability</Link>
+        <button className='Game__Buttons-Hide btn btn-link' type='button' onClick={this.handleIgnoreClick.bind(this)}>Ignore</button>
       </div>
     );
+  }
+
+  renderMechanics () {
+    let mechanics = this.props.mechanics.map((mechanic, index) => {
+      return (<li className='Game__MechanicItem' key={index}>{mechanic}</li>);
+    });
+    if (this.props.mechanics.length) {
+      return (
+        <div className='Game__MechanicsContainer'>
+          <h4>Mechanics:</h4>
+          <ul className='Game__Mechanics'>
+            {mechanics}
+          </ul>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   render () {
@@ -119,8 +137,8 @@ class Game extends React.Component {
       // Read Less Actually
       readMoreLessLink = (
         <button
-          type="button"
-          className="Game__ReadToggle btn btn-link"
+          type='button'
+          className='Game__ReadToggle btn btn-link'
           onClick={this.handleReadLessClick.bind(this)}
         >Read Less</button>
       );
@@ -129,8 +147,8 @@ class Game extends React.Component {
       // Read More Link
       readMoreLessLink = (
         <button
-          type="button"
-          className="Game__ReadToggle btn btn-link"
+          type='button'
+          className='Game__ReadToggle btn btn-link'
           onClick={this.handleReadMoreClick.bind(this)}
         >Read More</button>
       );
@@ -138,19 +156,20 @@ class Game extends React.Component {
 
     return (
       <div className={gameClasses}>
-        <div className="Game__ImageColumn col-xs-2">
-          <img className="Game__Image img-responsive" src={this.props.thumbnailUrl} />
+        <div className='Game__ImageColumn col-xs-2'>
+          <img className='Game__Image img-responsive' src={this.props.thumbnailUrl} />
         </div>
-        <div className="Game__DescriptionColumn col-xs-8">
-          <h3 className="Game__Title">{this.props.title}<small className="Game__Title-Details">{details}</small></h3>
-          <p className="Game__Description">{description}</p>
+        <div className='Game__DescriptionColumn col-xs-8'>
+          <h3 className='Game__Title'>{this.props.title}<small className='Game__Title-Details'>{details}</small></h3>
+          {this.renderMechanics()}
+          <p className='Game__Description'>{description}</p>
           {readMoreLessLink}
           <h4>Owners:</h4>
-          <ul className="Game__Owners">
+          <ul className='Game__Owners'>
             {this.renderOwners(this.props.owners)}
           </ul>
         </div>
-        <div className="Game__VoteColumn col-xs-2">
+        <div className='Game__VoteColumn col-xs-2'>
           {this.renderGameButtons()}
 
         </div>
@@ -163,5 +182,20 @@ class Game extends React.Component {
 Game.contextTypes = {
   flux: React.PropTypes.object
 };
+
+Game.propTypes = {
+  owners: React.PropTypes.array,
+  mechanics: React.PropTypes.arrayOf(React.PropTypes.string),
+  votedFor: React.PropTypes.object,
+  id: React.PropTypes.string.isRequired,
+  userHasVoted: React.PropTypes.bool.isRequired,
+  numPlayers: React.PropTypes.string.isRequired,
+  description: React.PropTypes.string.isRequired,
+  playTime: React.PropTypes.number.isRequired,
+  thumbnailUrl: React.PropTypes.string.isRequired,
+  title: React.PropTypes.string.isRequired
+};
+
+Game.displayName = 'Game';
 
 export default Game;

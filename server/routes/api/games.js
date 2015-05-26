@@ -56,6 +56,7 @@ router.post('/', function (req, res) {
       req.body.numPlayers = response.data.minPlayers + '-' + response.data.maxPlayers;
       req.body.playTime = response.data.playingTime;
       req.body.description = entities.decode(response.data.description);
+      req.body.mechanics = response.data.mechanics;
       createGame(req.body, res);
     });
   } else {

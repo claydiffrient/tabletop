@@ -19,7 +19,10 @@ var fakeSplendor = {
   minPlayers: 2,
   maxPlayers: 4,
   playingTime: 30,
-  description: 'Fake splendor is so fake'
+  description: 'Fake splendor is so fake',
+  mechanics: [
+    'Set Collection'
+  ]
 };
 
 var testGameObjId = mongoose.Types.ObjectId();
@@ -116,6 +119,7 @@ describe('Games API', function () {
       .expect(200)
       .end(function (err, res) {
         if (err) throw new Error(err);
+        debugger;
         expect(res.body._id).to.be(testGameObjId.toString());
         done();
       });
