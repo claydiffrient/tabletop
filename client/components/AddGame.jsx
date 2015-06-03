@@ -156,10 +156,15 @@ class AddGame extends React.Component {
         }
         that.setState({searchOptions: results});
         resolve(
-          results.map((game) => { return game.label; })
+          results
+          // results.map((game) => { return game.value; })
         );
       });
     });
+  }
+
+  getLabelForOption (value) {
+    return value.label;
   }
 
   handleSearchChange (newValue) {
@@ -246,6 +251,7 @@ class AddGame extends React.Component {
           <div className="col-xs-10">
             <Combobox
               getOptionsForInputValue={this.getOptionsForInputValue}
+              getLabelForOption={this.getLabelForOption}
               onChange={this.handleSearchChange}
               value={this.state.searchValue} />
             <form className="AddGame__Form" ref="addGameFormContainer" onSubmit={this.handleSubmit}>
