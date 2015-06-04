@@ -64,13 +64,15 @@ class AddGame extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.getOptionsForInputValue = _.debounce(this.getOptionsForInputValue, 100);
     this.getOptionsForInputValue = this.getOptionsForInputValue.bind(this);
+    this.handleSearchComplete = this.handleSearchComplete.bind(this);
     let storeState = this.getStateFromStores();
     this.state = {
       formValid: false,
       isLoading: storeState.isLoading,
       searchOptions: [],
-      searchValue: false
+      searchValue: ''
     };
   }
 
@@ -171,6 +173,13 @@ class AddGame extends React.Component {
     this.setState({searchValue: newValue});
   }
 
+  handleSearchComplete (newValue) {
+    if (newValue) {
+      let form = this.refs.addGameForm.getForm();
+      form.updateData({bggId: newValue.value});
+    }
+  }
+
   handleSubmit (event) {
     event.preventDefault();
     let form = this.refs.addGameForm.getForm();
@@ -249,10 +258,12 @@ class AddGame extends React.Component {
         </div>
         <div className="AddGame__Form-Container row center-xs">
           <div className="col-xs-10">
+            <label>Search BGG for the game</label>
             <Combobox
               getOptionsForInputValue={this.getOptionsForInputValue}
               getLabelForOption={this.getLabelForOption}
               onChange={this.handleSearchChange}
+              onComplete={this.handleSearchComplete}
               value={this.state.searchValue} />
             <form className="AddGame__Form" ref="addGameFormContainer" onSubmit={this.handleSubmit}>
               <forms.RenderForm form={AddGameForm} ref="addGameForm" onChange={this.handleFormChange.bind(this)}>
