@@ -54,7 +54,7 @@
     "jsx-loader": "0.13.2",
     "lodash": "3.9.3",
     "method-override": "2.3.3",
-    "minimal-flux": "claydiffrient/minimal-flux#patch-1",
+    "minimal-flux": "0.4.11",
     "moment": "2.10.3",
     "mongoose": "4.0.4",
     "mongoose-findorcreate": "0.1.2",
