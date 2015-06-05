@@ -22,7 +22,8 @@ let AddGameForm = forms.Form.extend({
   bggId: forms.IntegerField({
     label: 'BoardGameGeek ID',
     helpText: 'If provided this will pull data from BoardGameGeek.com',
-    cssClass: 'row center-xs'
+    cssClass: 'row center-xs',
+    controlled: true
   }),
   title: forms.CharField(),
   thumbnail: forms.URLField(),
