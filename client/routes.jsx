@@ -8,13 +8,15 @@ import GameList from './components/GameList';
 import AddGame from './components/AddGame';
 import EditAvailability from './components/EditAvailability';
 import Profile from './components/Profile';
+import LoginPage from './components/LoginPage';
 
 export default (
-  <Route name="app" path="/" handler={App}>
-    <DefaultRoute name="index" handler={Index} />
-    <Route name="games" path="games" handler={GameList} />
-    <Route name="addGame" path="games/add" handler={AddGame} />
-    <Route name="editAvailability" path="games/availability/:id" handler={EditAvailability} />
-    <Route name="profile" path="users/:id" handler={Profile} />
+  <Route name='app' path='/' handler={App}>
+    <DefaultRoute name='index' handler={Index} />
+    <Route name='games' path='games' handler={GameList} />
+    <Route name='addGame' path='games/add' handler={AddGame} />
+    <Route name='editAvailability' path='games/availability/:id' handler={EditAvailability} />
+    <Route name='profile' path='users/:id' handler={Profile} />
+    <Route name='login' path='login' handler={LoginPage} />
   </Route>
 );
