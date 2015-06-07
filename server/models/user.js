@@ -1,8 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var axios = require('axios');
+var crypto = require('crypto');
+var bcrypt = require('bcryptjs');
 
 var UserSchema = new Schema({
+  username: {type: String, trim: true, required: true},
+  password: String
   firstName: String,
   lastName: String,
   email: {
@@ -24,6 +28,26 @@ var UserSchema = new Schema({
   },
   ignoredGames: [{type: Schema.Types.ObjectId, ref: 'Game'}]
 });
+
+UserSchema.pre('save', function (next) {
+  var user = this;
+  if (!user.isModified('password')) return next();
+  bcrypt.getSalt(10, function (err, salt) {
+    if (err) return next(err);
+    bcrypt.hash(user.password, salt, function (err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+UserSchema.methods.comparePassword = function (potential, callback) {
+  bcrypt.compare(potential, this.password, function (err, isMatch) {
+    if (err) return callback(err);
+    callback(null, isMatch);
+  });
+}
 
 var createUser = function (userObj, callback) {
   /* I think this only really works because it is being called from the

@@ -12,6 +12,7 @@ var compress = require('compression');
 var config = require('config');
 var passport = require('passport');
 var SlackStrategy = require('passport-slack').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var axios = require('axios');
 
@@ -80,6 +81,22 @@ passport.deserializeUser(function (id, done) {
     done(err, user);
   });
 });
+
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    User.findOne({username: username}, function (err, user) {
+      if (err) return done(err);
+      if (!user) {
+        return done(null, false, {message: 'User not found'});
+      }
+      if (!user.comparePassword(password)) {
+        return done(null, false, {message: 'Incorrect password'});
+      }
+
+      return done(null, user);
+    });
+  }
+));
 
 passport.use(new SlackStrategy({
     clientID: config.get('Slack.clientId'),
