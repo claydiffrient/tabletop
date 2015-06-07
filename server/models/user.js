@@ -1,12 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var axios = require('axios');
-var crypto = require('crypto');
 var bcrypt = require('bcryptjs');
 
 var UserSchema = new Schema({
   username: {type: String, trim: true, required: true},
-  password: String
+  password: String,
   firstName: String,
   lastName: String,
   email: {
@@ -47,7 +46,7 @@ UserSchema.methods.comparePassword = function (potential, callback) {
     if (err) return callback(err);
     callback(null, isMatch);
   });
-}
+};
 
 var createUser = function (userObj, callback) {
   /* I think this only really works because it is being called from the

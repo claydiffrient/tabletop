@@ -114,6 +114,10 @@
   float: right;
 }
 
+.Modal__Overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 /* REACT-PICK STYLES */
 .InputWithPopup {
   display: inline-block;
