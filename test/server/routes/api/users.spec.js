@@ -54,7 +54,8 @@ describe('Users API', function () {
           _id: testUserId,
           firstName: 'Test',
           lastName: 'Tester',
-          email: 'testing@test.com'
+          email: 'testing@test.com',
+          username: 'testmaster'
         }, function (err, model) {
           complete(err, model);
         });

@@ -54,6 +54,32 @@ class LoginPage extends React.Component {
             </div>
           </div>
         </div>
+        <div className='row center-xs'>
+          <div className='col-xs-6'>
+            <h2>Sign Up?</h2>
+          </div>
+        </div>
+        <div className='row center-xs'>
+          <div className='col-xs-12'>
+            <p>Don't have an account yet?  Make one:</p>
+          </div>
+        </div>
+        <div className='SignupButton__Row row center-xs middle-xs'>
+          <div className='col-xs-2'>
+            <div className='SignupButton__Container'>
+              <button className='SignupButton SignupButton-Local btn btn-default'>
+                <span className='fa fa-user' aria-hidden='true'></span> Local Signup
+              </button>
+            </div>
+          </div>
+          <div className='col-xs-2'>
+            <div className='SignupButton__Container'>
+              <a href='/auth/slack' className='SignupButton SignupButton-Slack btn btn-default'>
+                <span className='fa fa-slack' aria-hidden='true'></span> Slack
+              </a>
+            </div>
+          </div>
+        </div>
         <ReactModal
           isOpen={this.state.showLocalLogin}
           onRequestClose={this.closeLocalLoginModal}

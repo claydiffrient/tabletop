@@ -69,7 +69,8 @@ describe('Games API', function () {
           _id: testUserId,
           firstName: 'Test',
           lastName: 'Tester',
-          email: 'testing@test.com'
+          email: 'testing@test.com',
+          username: 'testmaster'
         }, function (err, model) {
           complete(err, model);
         });
@@ -119,7 +120,6 @@ describe('Games API', function () {
       .expect(200)
       .end(function (err, res) {
         if (err) throw new Error(err);
-        debugger;
         expect(res.body._id).to.be(testGameObjId.toString());
         done();
       });

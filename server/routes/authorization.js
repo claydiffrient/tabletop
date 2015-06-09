@@ -13,6 +13,14 @@ router.get('/slack/callback', passport.authenticate('slack',
     successRedirect: '/'
   }));
 
+/**
+ * Local authentication
+ */
+router.post('/local', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
 router.get('/logout', function (req, res) {
   var userId = req.user.id;
   debug('Logging out ' + userId);
