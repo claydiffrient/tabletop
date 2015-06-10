@@ -21,6 +21,11 @@ router.post('/local', passport.authenticate('local', {
   failureRedirect: '/login'
 }));
 
+router.post('/local-signup', passport.authenticate('local-signup', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
 router.get('/logout', function (req, res) {
   var userId = req.user.id;
   debug('Logging out ' + userId);

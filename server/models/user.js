@@ -13,14 +13,18 @@ var UserSchema = new Schema({
     match: [/.+\@.+\..+/, 'Please fill a valid e-mail address']
   },
   avatarUrl: String, // For future use?
-  provider: String,
-  slackName: String,
-  slackId: {
-    type: String,
-    unique: true,
-    trim: true
+  authentication: {
+    slack: {
+      name: String,
+      id: {
+        type: String,
+        unique: true,
+        trim: true
+      },
+      teamId: String,
+      token: String
+    }
   },
-  slackTeamId: String,
   created: {
     type: Date,
     default: Date.now
@@ -46,6 +50,10 @@ UserSchema.methods.comparePassword = function (potential, callback) {
     if (err) return callback(err);
     callback(null, isMatch);
   });
+};
+
+UserSchema.methods.generateHash = function (password) {
+  return bcrypt.hasSync(password, bcrypt.genSaltSync(8), null);
 };
 
 var createUser = function (userObj, callback) {
