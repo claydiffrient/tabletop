@@ -5,11 +5,14 @@ class LoginPage extends React.Component {
   constructor (props, context) {
     super(props, context);
     this.state = {
-      showLocalLogin: false
+      showLocalLogin: false,
+      showLocalSignup: false
     };
     // Bindings
     this.handleLocalLoginClick = this.handleLocalLoginClick.bind(this);
     this.closeLocalLoginModal = this.closeLocalLoginModal.bind(this);
+    this.handleLocalSignupClick = this.handleLocalSignupClick.bind(this);
+    this.closeLocalSignupModal = this.closeLocalSignupModal.bind(this);
 
     // React Modal setup
     let appElement = document.getElementById('content') || document.body;
@@ -22,6 +25,14 @@ class LoginPage extends React.Component {
 
   closeLocalLoginModal () {
     this.setState({showLocalLogin: false});
+  }
+
+  handleLocalSignupClick () {
+    this.setState({showLocalSignup: true});
+  }
+
+  closeLocalSignupModal () {
+    this.setState({showLocalSignup: false});
   }
 
   render () {
@@ -61,13 +72,14 @@ class LoginPage extends React.Component {
         </div>
         <div className='row center-xs'>
           <div className='col-xs-12'>
-            <p>Don't have an account yet?  Make one:</p>
+            <p>{'Don\'t have an account yet?  Make one:'}</p>
           </div>
         </div>
         <div className='SignupButton__Row row center-xs middle-xs'>
           <div className='col-xs-2'>
             <div className='SignupButton__Container'>
-              <button className='SignupButton SignupButton-Local btn btn-default'>
+              <button className='SignupButton SignupButton-Local btn btn-default'
+                      onClick={this.handleLocalSignupClick}>
                 <span className='fa fa-user' aria-hidden='true'></span> Local Signup
               </button>
             </div>
@@ -81,6 +93,7 @@ class LoginPage extends React.Component {
           </div>
         </div>
         <ReactModal
+          ref='loginModal'
           isOpen={this.state.showLocalLogin}
           onRequestClose={this.closeLocalLoginModal}
           className='modal-dialog'
@@ -103,9 +116,9 @@ class LoginPage extends React.Component {
                     <label className='control-label' htmlFor='local_username'>Username:</label>
                     <input className='form-control' id='local_username' type='text' name='username'/>
                   </div>
-                  <div>
+                  <div className='form-group'>
                     <label className='control-label' htmlFor='local_password'>Password:</label>
-                    <input className='form-control'  id='local_password' type='password' name='password'/>
+                    <input className='form-control' id='local_password' type='password' name='password'/>
                   </div>
                 </div>
                 <div className='modal-footer'>
@@ -124,7 +137,55 @@ class LoginPage extends React.Component {
               </form>
             </div>
         </ReactModal>
-
+        <ReactModal
+          ref='signupModal'
+          isOpen={this.state.showLocalSignup}
+          onRequestClose={this.closeLocalSignupModal}
+          className='modal-dialog'
+          overlayClassName='Modal__Overlay'
+        >
+            <div className='modal-content'>
+              <div className='modal-header'>
+                <button type='button'
+                        className='close'
+                        aria-label='Close'
+                        onClick={this.closeLocalSignupModal}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 className='modal-title'>Local Signup</h4>
+              </div>
+              <form action='/auth/local-signup' method='post'>
+                <div className='modal-body'>
+                  <div className='form-group'>
+                    <label className='control-label' htmlFor='local_username'>Username:</label>
+                    <input className='form-control' id='local_username' type='text' name='username'/>
+                  </div>
+                  <div className='form-group'>
+                    <label className='control-label' htmlFor='local_password'>Password:</label>
+                    <input className='form-control' id='local_password' type='password' name='password'/>
+                  </div>
+                  <div className='form-group'>
+                    <label className='control-label' htmlFor='confirmPassword'>Confirm Password:</label>
+                    <input className='form-control' id='confirmPassword' type='password' name='password'/>
+                  </div>
+                </div>
+                <div className='modal-footer'>
+                  <button type='button'
+                          className='btn btn-default'
+                          onClick={this.closeLocalSignupModal}
+                  >
+                    Close
+                  </button>
+                  <button type='submit'
+                          className='btn btn-primary'
+                  >
+                    Signup
+                  </button>
+                </div>
+              </form>
+            </div>
+        </ReactModal>
       </div>
 
     );
