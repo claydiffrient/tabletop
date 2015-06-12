@@ -18,12 +18,14 @@ router.get('/slack/callback', passport.authenticate('slack',
  */
 router.post('/local', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/login'
+  failureRedirect: '/login',
+  failureFlash: true
 }));
 
 router.post('/local-signup', passport.authenticate('local-signup', {
   successRedirect: '/',
-  failureRedirect: '/login'
+  failureRedirect: '/login',
+  failureFlash: true
 }));
 
 router.get('/logout', function (req, res) {

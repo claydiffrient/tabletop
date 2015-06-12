@@ -8,7 +8,8 @@ router.get('*', function (req, res) {
   res.render('home', {
     user: JSON.stringify(user),
     env: process.env.NODE_ENV,
-    rollbarToken: config.get('Rollbar.clientToken')
+    rollbarToken: config.get('Rollbar.clientToken'),
+    message: JSON.stringify(req.flash())
   });
 });
 

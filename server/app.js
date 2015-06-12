@@ -15,6 +15,7 @@ var SlackStrategy = require('passport-slack').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var axios = require('axios');
+var flash = require('connect-flash');
 
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -66,6 +67,7 @@ app.use(session({
     resave: true,
     secret: config.get('Session.sessionSecret')
 }));
+app.use(flash());
 
 // Use passport for authentication/authorization
 var User = mongoose.model('User');
