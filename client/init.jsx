@@ -5,7 +5,6 @@ import routes from './routes';
 import GameAPIUtils from './utils/GameAPIUtils';
 import VoteAPIUtils from './utils/VoteAPIUtils';
 import toastr from 'toastr';
-import _ from 'lodash';
 const { HistoryLocation } = Router;
 
 console.log('Initializing in ' + NODE_ENV + ' mode.');

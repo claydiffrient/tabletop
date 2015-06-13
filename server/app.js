@@ -92,17 +92,21 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, {message: 'User not found'});
       }
-      if (!user.comparePassword(password)) {
-        return done(null, false, {message: 'Incorrect password'});
-      }
-
-      return done(null, user);
+      user.comparePassword(password, function (err, match) {
+        if (err) return done(err);
+        if (!match) {
+          return done(null, false, {message: 'Incorrect password'});
+        }
+        return done(null, user);
+      });
     });
   }
 ));
 
 // Local Signup
 passport.use('local-signup', new LocalStrategy({
+  usernameField: 'local_username',
+  passwordField: 'local_password',
   passReqToCallback: true
 }, function (req, username, password, done) {
     process.nextTick(function () {

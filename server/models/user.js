@@ -4,7 +4,7 @@ var axios = require('axios');
 var bcrypt = require('bcryptjs');
 
 var UserSchema = new Schema({
-  username: {type: String, trim: true, required: true},
+  username: {type: String, trim: true, required: true, unique: true},
   password: String,
   firstName: String,
   lastName: String,
@@ -18,7 +18,6 @@ var UserSchema = new Schema({
       name: String,
       id: {
         type: String,
-        unique: true,
         trim: true
       },
       teamId: String,
@@ -35,7 +34,7 @@ var UserSchema = new Schema({
 UserSchema.pre('save', function (next) {
   var user = this;
   if (!user.isModified('password')) return next();
-  bcrypt.getSalt(10, function (err, salt) {
+  bcrypt.genSalt(10, function (err, salt) {
     if (err) return next(err);
     bcrypt.hash(user.password, salt, function (err, hash) {
       if (err) return next(err);
@@ -53,7 +52,7 @@ UserSchema.methods.comparePassword = function (potential, callback) {
 };
 
 UserSchema.methods.generateHash = function (password) {
-  return bcrypt.hasSync(password, bcrypt.genSaltSync(8), null);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 var createUser = function (userObj, callback) {

@@ -32,7 +32,7 @@ class App extends React.Component {
 
   renderLoggedInAsButton () {
     return (
-      <DropdownButton title={'You are logged in as ' + this.state.user.slackName}>
+      <DropdownButton title={'You are logged in as ' + this.state.user.username}>
         <MenuItemLink to="profile" params={{id: this.state.user._id}}>Profile</MenuItemLink>
         <MenuItem href="/auth/logout">Logout</MenuItem>
       </DropdownButton>

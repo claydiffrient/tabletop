@@ -159,15 +159,15 @@ class LoginPage extends React.Component {
                 <div className='modal-body'>
                   <div className='form-group'>
                     <label className='control-label' htmlFor='local_username'>Username:</label>
-                    <input className='form-control' id='local_username' type='text' name='username'/>
+                    <input className='form-control' id='local_username' type='text' name='local_username'/>
                   </div>
                   <div className='form-group'>
                     <label className='control-label' htmlFor='local_password'>Password:</label>
-                    <input className='form-control' id='local_password' type='password' name='password'/>
+                    <input className='form-control' id='local_password' type='password' name='local_password'/>
                   </div>
                   <div className='form-group'>
                     <label className='control-label' htmlFor='confirmPassword'>Confirm Password:</label>
-                    <input className='form-control' id='confirmPassword' type='password' name='password'/>
+                    <input className='form-control' id='confirmPassword' type='password' name='confirmPassword'/>
                   </div>
                 </div>
                 <div className='modal-footer'>
