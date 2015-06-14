@@ -17,16 +17,26 @@ router.get('/slack/callback', passport.authenticate('slack',
  * Local authentication
  */
 router.post('/local', passport.authenticate('local', {
-  successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: true
-}));
+}), function (req, res) {
+  res.cookie('username', req.user.username);
+  res.cookie('firstname', req.user.firstName || '');
+  res.cookie('lastname', req.user.lastName || '');
+  res.cookie('ignoredGames', req.user.ignoredGames || []);
+  res.redirect('/');
+});
 
 router.post('/local-signup', passport.authenticate('local-signup', {
-  successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: true
-}));
+}), function (req, res) {
+  res.cookie('username', req.user.username);
+  res.cookie('firstname', req.user.firstName || '');
+  res.cookie('lastname', req.user.lastName || '');
+  res.cookie('ignoredGames', req.user.ignoredGames || []);
+  res.redirect('/');
+});
 
 router.get('/logout', function (req, res) {
   var userId = req.user.id;
