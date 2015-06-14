@@ -23,10 +23,9 @@ class App extends React.Component {
 
   renderLoginButton () {
     return (
-      <NavItem href='/auth/slack'>
-        <img className="GlobalNav__LoginButton-Logo" src="/images/slack_sticker.png" />
-        Login with Slack
-      </NavItem>
+      <NavItemLink to='login'>
+        Login/Signup
+      </NavItemLink>
     );
   }
 

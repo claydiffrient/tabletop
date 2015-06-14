@@ -47,29 +47,6 @@ class Index extends React.Component {
     });
   }
 
-  renderAuthButton() {
-    var props = {};
-    if (!ENV.user) {
-      props.href = '/auth/slack';
-      props.innerText = "Sign In With Slack";
-    } else {
-      props.href = '/auth/logout';
-      props.innerText = "Logout";
-    }
-    return (
-      <div className="LoginButton__Row row center-xs middle-xs">
-        <div className="col-xs-6">
-          <div className="LoginButton__Container">
-            <a href={props.href} className="LoginButton btn btn-primary">
-              <img className="LoginButton__Logo" src="/images/slack_sticker.png" />
-              {props.innerText}
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   render() {
     var votes = this.talleyVotes(this.state.votes);
 
@@ -95,7 +72,6 @@ class Index extends React.Component {
             <Link className={voteBtnClasses} to="games">Go to the Game List</Link>
           </div>
         </div>
-        {this.renderAuthButton()}
       </div>
     );
   }
