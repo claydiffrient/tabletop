@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
-// var favicon = require('serve-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -51,7 +51,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
 // uncomment after placing your favicon in /public
-// app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 if (app.get('env') === 'development') {
   app.use(logger('dev'));
 } else if (app.get('env') === 'production') {
@@ -120,7 +120,6 @@ passport.use('local-signup', new LocalStrategy({
           var newUser = new User({
             username: username
           });
-          newUser.password = newUser.generateHash(password);
           newUser.save(function (err) {
             if (err) {
               return done(err);
