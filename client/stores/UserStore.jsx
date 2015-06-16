@@ -7,12 +7,14 @@ export default class UserStore extends Store {
     super(actions);
     this.setState({
       user: {
-        ignoredGames: []
+        ignoredGames: [],
+        authorizedAccounts: []
       }
     });
     this.handleAction('server.receiveIgnoredGames', this.handleRecieveIgnoredGames);
     this.handleAction('server.unIgnoreGame', this.handleUnIgnoreGame);
     this.handleAction('server.receiveIgnoredGame', this.handleRecieveIgnoredGame);
+    this.handleAction('server.recieveAuthorizedAccounts', this.handlRecieveAuthorizedAccounts);
   }
 
   handleUnIgnoreGame (gameId, userId) {
@@ -21,13 +23,28 @@ export default class UserStore extends Store {
       return (ignored === gameId);
     });
     this.setState({
-      user: { ignoredGames: currentlyIgnored}
+      user: {
+        ignoredGames: currentlyIgnored,
+        authorizedAccounts: this.state.authorizedAccounts
+      }
     });
   }
 
   handleRecieveIgnoredGames (games) {
     this.setState({
-      user: { ignoredGames: games }
+      user: {
+        ignoredGames: games,
+        authorizedAccounts: this.state.authorizedAccounts
+      }
+    });
+  }
+
+  handlRecieveAuthorizedAccounts (accounts) {
+    this.setState({
+      user: {
+        authorizedAccounts: accounts,
+        ignoredGames: this.state.user.ignoredGames
+      }
     });
   }
 
@@ -35,11 +52,18 @@ export default class UserStore extends Store {
     let ignored = this.state.user.ignoredGames;
     ignored.push(game);
     this.setState({
-      user: { ignoredGames: ignored }
+      user: {
+        ignoredGames: ignored,
+        authorizedAccounts: this.state.authorizedAccounts
+      }
     });
   }
 
   getIgnoredGames () {
     return this.state.user.ignoredGames;
+  }
+
+  getAuthorizedAccounts () {
+    return this.state.user.authorizedAccounts;
   }
 }

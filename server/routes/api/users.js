@@ -69,4 +69,22 @@ router.delete('/:id/ignoredgames/:gameId', function (req, res) {
   });
 });
 
+/* GET List all accounts the user has authorized */
+router.get('/:id/accounts', function (req, res) {
+  User.findById(req.params.id, function (err, user) {
+    if (err) {
+      return res.error(err);
+    }
+    var sanitized = {};
+    for (var service in user.authentication) {
+      sanitized[service] = {
+        name: user.authentication[service].name,
+        id: user.authentication[service].id
+      };
+    }
+
+    return res.json(sanitized);
+  });
+});
+
 module.exports = router;

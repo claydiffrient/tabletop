@@ -47,6 +47,20 @@ var UserAPIUtils = {
       .catch((response) => {
         Rollbar.error(response);
       });
+  },
+
+  getAuthorizedAccounts (options) {
+    // Circular dependency
+    let serverActions = require('../flux.jsx').actions.server;
+    axios
+      .get(USER_API_URL + options.userId + '/accounts')
+      .then((response) => {
+        let accounts = response.data;
+        serverActions.recieveAuthorizedAccounts(accounts);
+      })
+      .catch((response) => {
+        Rollbar.error(response);
+      });
   }
 };
 

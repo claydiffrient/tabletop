@@ -63,4 +63,8 @@ export default class ServerActions extends Actions {
     this.dispatch('unIgnoreGame', ignoredObject.gameId, ignoredObject.userId);
   }
 
+  recieveAuthorizedAccounts (accounts) {
+    this.dispatch('recieveAuthorizedAccounts', accounts);
+  }
+
 }
