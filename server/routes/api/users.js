@@ -76,10 +76,14 @@ router.get('/:id/accounts', function (req, res) {
       return res.error(err);
     }
     var sanitized = {};
-    for (var service in user.authentication) {
+    var auths = user.authentication.toJSON();
+    for (var service in auths) {
+      if (_.isEmpty(auths[service])) {
+        continue;
+      }
       sanitized[service] = {
-        name: user.authentication[service].name,
-        id: user.authentication[service].id
+        name: auths[service].name,
+        id: auths[service].id
       };
     }
 

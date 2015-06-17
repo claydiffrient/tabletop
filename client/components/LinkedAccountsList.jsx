@@ -1,5 +1,13 @@
 import React from 'react';
 import UserAPIUtils from '../utils/UserAPIUtils';
+import _ from 'lodash';
+
+// TODO: Refactor into seperate module
+const ACCOUNT_TYPES = [{
+  name: 'slack',
+  onAuthorize () {},
+  onDeauthorize () {}
+}];
 
 class LinkedAccountsList extends React.Component {
   constructor (props, context) {
@@ -41,7 +49,33 @@ class LinkedAccountsList extends React.Component {
   }
 
   renderLinkedAccounts () {
-    return (<li>Temporary</li>);
+    console.log(this.state.user.authorizedAccounts);
+    let auths = this.state.user.authorizedAccounts;
+    let linkedAccounts = ACCOUNT_TYPES.map((account) => {
+      if (_.contains(auths, account.name)) {
+        return (
+          <li>
+            {account.name}
+            <button type='button' onClick={account.onDeauthorize}>Deauthorize</button>
+          </li>
+        );
+      } else {
+        return (
+          <li>
+            {account.name}
+            <button type='button' onClick={account.onAuthorize}>Authorize</button>
+          </li>
+        );
+      }
+    });
+    // this.state.user.authorizedAccounts.map((account) => {
+    //   console.log(account)
+    // });
+    if (linkedAccounts.length) {
+      return linkedAccounts;
+    } else {
+      return null;
+    }
   }
 
   render () {
