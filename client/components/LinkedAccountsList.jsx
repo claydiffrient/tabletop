@@ -56,21 +56,18 @@ class LinkedAccountsList extends React.Component {
         return (
           <li>
             {account.name}
-            <button type='button' onClick={account.onDeauthorize}>Deauthorize</button>
+            <button type='button' className='btn btn-default LinkedAccountsList__Button' onClick={account.onDeauthorize}>Deauthorize</button>
           </li>
         );
       } else {
         return (
           <li>
             {account.name}
-            <button type='button' onClick={account.onAuthorize}>Authorize</button>
+            <button type='button' className='btn btn-primary LinkedAccountsList__Button' onClick={account.onAuthorize}>Authorize</button>
           </li>
         );
       }
     });
-    // this.state.user.authorizedAccounts.map((account) => {
-    //   console.log(account)
-    // });
     if (linkedAccounts.length) {
       return linkedAccounts;
     } else {
