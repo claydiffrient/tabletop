@@ -20,7 +20,7 @@ router.post('/local', passport.authenticate('local', {
   failureRedirect: '/login',
   failureFlash: true
 }), function (req, res) {
-  res.cookie('username', req.user.username);
+  res.cookie('username', req.user.username || '');
   res.cookie('firstname', req.user.firstName || '');
   res.cookie('lastname', req.user.lastName || '');
   res.cookie('ignoredGames', req.user.ignoredGames || []);
@@ -31,7 +31,7 @@ router.post('/local-signup', passport.authenticate('local-signup', {
   failureRedirect: '/login',
   failureFlash: true
 }), function (req, res) {
-  res.cookie('username', req.user.username);
+  res.cookie('username', req.user.username || '');
   res.cookie('firstname', req.user.firstName || '');
   res.cookie('lastname', req.user.lastName || '');
   res.cookie('ignoredGames', req.user.ignoredGames || []);
