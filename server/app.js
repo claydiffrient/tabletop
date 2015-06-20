@@ -140,67 +140,87 @@ passport.use(new SlackStrategy({
     callbackURL: config.get('Slack.callbackURL'),
     team: config.get('Slack.teamId'),
     scope: ['identify', 'read'],
-    scopeSeparator: ','
-}, function (accessToken, refreshToken, profile, done) {
-  User.findOne({slackId: profile.id}, function (err, user) {
-    if (err) {return done(err);}
-    if (user) {return done(err, user);}
-    if (!user) {
-      var userObj = {
-        provider: profile.provider,
-        slackId: profile.id,
-        slackName: profile.displayName,
-        slackTeamId: profile._json.team_id
+    scopeSeparator: ',',
+    passReqToCallback: true
+}, function (req, accessToken, refreshToken, profile, done) {
+
+  // Handle the linking case
+  if (!req.user.isNew) {
+    User.findOne({username: req.user.username}, function (err, user) {
+      if (err) { return done(err);}
+      user.authentication.slack = {
+        name: profile.displayName,
+        id: profile.id,
+        teamId: profile._json.team_id,
+        token: accessToken
       };
-      if (accessToken) {
-        // We'll do a call to get more info if a token is provided.
-        axios
-          .get('https://slack.com/api/users.info', {
-            params: {
-              token: accessToken,
-              user: profile.id
-            }
-          })
-          .then(function (response) {
-            if (response.data.ok) {
-              // If this worked out... let's use this information to augment
-              // our user object.
-              userObj.firstName = response.data.user.profile.first_name;
-              userObj.lastName = response.data.user.profile.last_name;
-              userObj.email = response.data.user.profile.email;
-              var user = new User(userObj);
-              user.save(function (err) {
-                if (err) {return done(err);}
-                return done(err, user);
-              });
-            } else {
-              // If there was a problem with the response... go on with
-              // business as usual.
-              user = new User(userObj);
-              user.save(function (err) {
-                if (err) {return done(err);}
-                return done(err, user);
-              });
-            }
-          })
-          .catch(function (response) {
-                // If there was an error getting more info,
-                // we'll just ignore that and go with the original info.
+
+      user.save(function (err) {
+        if (err) {return done(err);}
+        return done(err, user);
+      });
+    });
+  } else {
+    User.findOne({slackId: profile.id}, function (err, user) {
+      if (err) {return done(err);}
+      if (user) {return done(err, user);}
+      if (!user) {
+        var userObj = {
+          provider: profile.provider,
+          slackId: profile.id,
+          slackName: profile.displayName,
+          slackTeamId: profile._json.team_id
+        };
+        if (accessToken) {
+          // We'll do a call to get more info if a token is provided.
+          axios
+            .get('https://slack.com/api/users.info', {
+              params: {
+                token: accessToken,
+                user: profile.id
+              }
+            })
+            .then(function (response) {
+              if (response.data.ok) {
+                // If this worked out... let's use this information to augment
+                // our user object.
+                userObj.firstName = response.data.user.profile.first_name;
+                userObj.lastName = response.data.user.profile.last_name;
+                userObj.email = response.data.user.profile.email;
                 var user = new User(userObj);
                 user.save(function (err) {
                   if (err) {return done(err);}
                   return done(err, user);
                 });
-              });
-      } else {
-        user = new User(userObj);
-        user.save(function (err) {
-          if (err) {return done(err);}
-          return done(err, user);
-        });
+              } else {
+                // If there was a problem with the response... go on with
+                // business as usual.
+                user = new User(userObj);
+                user.save(function (err) {
+                  if (err) {return done(err);}
+                  return done(err, user);
+                });
+              }
+            })
+            .catch(function (response) {
+                  // If there was an error getting more info,
+                  // we'll just ignore that and go with the original info.
+                  var user = new User(userObj);
+                  user.save(function (err) {
+                    if (err) {return done(err);}
+                    return done(err, user);
+                  });
+                });
+        } else {
+          user = new User(userObj);
+          user.save(function (err) {
+            if (err) {return done(err);}
+            return done(err, user);
+          });
+        }
       }
-    }
-  });
+    });
+  }
 }
 ));
 

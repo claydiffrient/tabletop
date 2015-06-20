@@ -13,6 +13,9 @@ router.get('/slack/callback', passport.authenticate('slack',
     successRedirect: '/'
   }));
 
+// Link slack to an existing account.
+router.get('/slack/link', passport.authorize('slack', { failureRedirect: '/login'}));
+
 /**
  * Local authentication
  */

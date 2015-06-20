@@ -2,10 +2,12 @@ import React from 'react';
 import UserAPIUtils from '../utils/UserAPIUtils';
 import _ from 'lodash';
 
-// TODO: Refactor into seperate module
+// TODO: Refactor into separate module
 const ACCOUNT_TYPES = [{
   name: 'slack',
-  onAuthorize () {},
+  onAuthorize () {
+    window.location = '/auth/slack/link';
+  },
   onDeauthorize () {}
 }];
 
@@ -54,16 +56,20 @@ class LinkedAccountsList extends React.Component {
     let linkedAccounts = ACCOUNT_TYPES.map((account) => {
       if (_.contains(auths, account.name)) {
         return (
-          <li>
-            {account.name}
-            <button type='button' className='btn btn-default LinkedAccountsList__Button' onClick={account.onDeauthorize}>Deauthorize</button>
+          <li className='LinkedAccountsList__Row row list-group-item'>
+            <div className='col-xs-2'>{account.name}</div>
+            <div className='col-xs-2'>
+              <button type='button' className='LinkedAccountsList__Button btn btn-xs btn-default' onClick={account.onDeauthorize}>Deauthorize</button>
+            </div>
           </li>
         );
       } else {
         return (
-          <li>
-            {account.name}
-            <button type='button' className='btn btn-primary LinkedAccountsList__Button' onClick={account.onAuthorize}>Authorize</button>
+          <li className='LinkedAccountsList__Row row list-group-item'>
+            <div className='col-xs-5'>{account.name}</div>
+            <div className='col-xs-7'>
+              <button type='button' className='LinkedAccountsList__Button btn btn-xs btn-primary' onClick={account.onAuthorize}>Authorize</button>
+            </div>
           </li>
         );
       }
