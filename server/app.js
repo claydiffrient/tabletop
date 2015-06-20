@@ -118,7 +118,8 @@ passport.use('local-signup', new LocalStrategy({
           return done(null, false, {message: 'Username already in use'});
         } else {
           var newUser = new User({
-            username: username
+            username: username,
+            password: password
           });
           newUser.save(function (err) {
             if (err) {
