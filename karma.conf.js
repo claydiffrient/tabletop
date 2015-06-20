@@ -11,7 +11,7 @@ module.exports = function (config) {
       'tests.webpack.js': [ 'webpack', 'sourcemap' ]
     },
     reporters: [ 'spec', 'coverage' ],
-    webpack: require('./webpack.development'),
+    webpack: require('./webpack.test'),
     webpackMiddleware: {
       noInfo: process.env.CONTINUOUS_INTEGRATION
     },

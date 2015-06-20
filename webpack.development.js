@@ -18,12 +18,4 @@ webpackConfig.module.preLoaders = [
   // { test: /\.jsx$/, exclude: /node_modules/, loader: 'jsxhint' },
 ];
 
-webpackConfig.module.postLoaders = [
-  {
-    test: /\.jsx$/,
-    exclude: /(test|node_modules|bower_components)\//,
-    loader: 'istanbul-instrumenter'
-  }
-];
-
 module.exports = webpackConfig;

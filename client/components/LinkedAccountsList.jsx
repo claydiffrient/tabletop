@@ -54,11 +54,11 @@ class LinkedAccountsList extends React.Component {
     console.log(this.state.user.authorizedAccounts);
     let auths = this.state.user.authorizedAccounts;
     let linkedAccounts = ACCOUNT_TYPES.map((account) => {
-      if (_.contains(auths, account.name)) {
+      if (_.has(auths, account.name)) {
         return (
           <li className='LinkedAccountsList__Row row list-group-item'>
-            <div className='col-xs-2'>{account.name}</div>
-            <div className='col-xs-2'>
+            <div className='col-xs-5'>{account.name}</div>
+            <div className='col-xs-7'>
               <button type='button' className='LinkedAccountsList__Button btn btn-xs btn-default' onClick={account.onDeauthorize}>Deauthorize</button>
             </div>
           </li>
