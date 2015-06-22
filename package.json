@@ -80,6 +80,7 @@
     "react-tools": "0.13.3",
     "react-typeahead": "^1.0.7",
     "rollbar": "0.5.4",
+    "sendgrid": "^1.8.0",
     "serve-favicon": "2.2.1",
     "style-loader": "0.12.3",
     "toastr": "2.0.4",

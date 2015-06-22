@@ -8,7 +8,10 @@ const ACCOUNT_TYPES = [{
   onAuthorize () {
     window.location = '/auth/slack/link';
   },
-  onDeauthorize () {}
+  onDeauthorize () {
+    // TODO: Delete the token from our system,
+    // then redirect to the token deletion page on Slack.
+  }
 }];
 
 class LinkedAccountsList extends React.Component {
@@ -51,7 +54,6 @@ class LinkedAccountsList extends React.Component {
   }
 
   renderLinkedAccounts () {
-    console.log(this.state.user.authorizedAccounts);
     let auths = this.state.user.authorizedAccounts;
     let linkedAccounts = ACCOUNT_TYPES.map((account) => {
       if (_.has(auths, account.name)) {

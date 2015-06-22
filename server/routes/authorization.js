@@ -2,6 +2,15 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var debug = require('debug')('tabletop:Authentication');
+var config = require('config');
+
+// Forgot password stuff
+var sendgrid = require('sendgrid')(config.get('Sendgrid.username'), config.get('Sendgrid.password'));
+// var bcrypt = require('bcryptjs');
+var async = require('async');
+var crypto = require('crypto');
+var mongoose = require('mongoose').set('debug', true);
+var User = mongoose.model('User');
 
 /**
  * Slack authentication
@@ -46,6 +55,55 @@ router.get('/logout', function (req, res) {
   debug('Logging out ' + userId);
   req.logout();
   res.redirect('/');
+});
+
+// Handles requesting a password reset.
+router.post('/local/forgotpassword', function (req, res, next) {
+  var email = req.body.email;
+  async.waterfall([
+    function (done) {
+      crypto.randomBytes(20, function (err, buf) {
+        var token = buf.toString('hex');
+        done(err, token);
+      });
+    },
+    function (token, done) {
+      User.findOne({ email: email}, function (err, user) {
+        if (!user) {
+          // req.flash('error', );
+          return res.status(404).json({error: 'No account with that email address.'});
+        }
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+        user.save(function (err2) {
+          if (err) {return done(err, token, user);}
+          return done(err2, token, user);
+        });
+      });
+    },
+    function (token, user, done) {
+      var mail = {
+        to: email,
+        from: 'no-reply@tabletop-selector.herokuapp.com',
+        subject: 'Tabletop Selector Password Reset',
+        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://' + req.headers.host + '/auth/local/resetpassword/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+      };
+
+      sendgrid.send(mail, function (err, json) {
+        done(err, token, user);
+      });
+    }
+  ], function (err) {
+    if (err) return next(err);
+    return res.json({
+      success: 'An e-mail has been sent to ' + email + ' with further instructions.'
+    });
+  });
+
 });
 
 module.exports = router;

@@ -118,6 +118,10 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+.Modal__LeftFooterLink {
+  float: left;
+}
+
 /* REACT-PICK STYLES */
 .InputWithPopup {
   display: inline-block;

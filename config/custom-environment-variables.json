@@ -23,5 +23,9 @@
   },
   "Scheduler": {
     "ignoreWeekends": "SCHEDULER_IGNORE_WEEKENDS"
+  },
+  "Sendgrid": {
+    "username": "SENDGRID_USERNAME",
+    "password": "SENDGRID_PASSWORD"
   }
 }

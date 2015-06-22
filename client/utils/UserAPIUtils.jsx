@@ -1,5 +1,6 @@
 /*globals Rollbar */
 import axios from 'axios';
+import toastr from 'toastr';
 
 const USER_API_URL = '/api/v1/users/';
 
@@ -60,6 +61,22 @@ var UserAPIUtils = {
       })
       .catch((response) => {
         Rollbar.error(response);
+      });
+  },
+
+  // TODO: Move this someplace better
+  sendForgotPassword (options) {
+    axios
+      .post('/auth/local/forgotpassword', {
+        email: options.email
+      })
+      .then((response) => {
+        response = response.data;
+        toastr.info(response.success);
+      })
+      .catch((response) => {
+        toastr.error(response.data.error);
+        Rollbar.warning(response);
       });
   }
 };

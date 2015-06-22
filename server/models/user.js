@@ -28,7 +28,9 @@ var UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  ignoredGames: [{type: Schema.Types.ObjectId, ref: 'Game'}]
+  ignoredGames: [{type: Schema.Types.ObjectId, ref: 'Game'}],
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 UserSchema.pre('save', function (next) {
