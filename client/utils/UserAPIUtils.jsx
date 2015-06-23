@@ -78,6 +78,20 @@ var UserAPIUtils = {
         toastr.error(response.data.error);
         Rollbar.warning(response);
       });
+  },
+
+  // TODO: Move this someplace better
+  checkValidPasswordResetToken (options, callback) {
+    axios
+      .get('/auth/local/resetpassword/' + options.token)
+      .then((response) => {
+        response = response.data;
+        callback(true);
+      })
+      .catch((response) => {
+        callback(false);
+        Rollbar.warning(response);
+      });
   }
 };
 

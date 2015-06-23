@@ -10,6 +10,7 @@ import EditAvailability from './components/EditAvailability';
 import Profile from './components/Profile';
 import LoginPage from './components/LoginPage';
 import ForgotPasswordPage from './components/ForgotPasswordPage';
+import ResetPasswordPage from './components/ResetPasswordPage';
 
 export default (
   <Route name='app' path='/' handler={App}>
@@ -20,5 +21,6 @@ export default (
     <Route name='profile' path='users/:id' handler={Profile} />
     <Route name='login' path='login' handler={LoginPage} />
     <Route name='forgotpassword' path='login/forgot' handler={ForgotPasswordPage} />
+    <Route name='resetpassword' path='resetpassword/:token' handler={ResetPasswordPage} />
   </Route>
 );
