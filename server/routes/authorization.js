@@ -106,6 +106,47 @@ router.post('/local/forgotpassword', function (req, res, next) {
 
 });
 
+// Handle reseting a password
+router.post('/local/resetpassword/:token', function (req, res, next) {
+  async.waterfall([
+    function (done) {
+      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
+        if (!user || err) {
+          return res.status(404).json({error: 'No account with that email address.'});
+        }
+
+        user.password = req.body.password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+
+        user.save(function (err) {
+          if (err) {
+            return res.status(500).json({error: 'Error saving user.'});
+          }
+          req.logIn(user, function (err) {
+            done(err, user);
+          });
+        });
+      });
+    },
+    function (user, done) {
+      var mail = {
+        to: user.email,
+        from: 'passwordreset@demo.com',
+        subject: 'Your password has been changed',
+        text: 'Hello,\n\n' +
+              'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      };
+      sendgrid.send(mail, function (err, json) {
+        done(err);
+      });
+    }],
+    function (err) {
+      if (err) { res.status(500).json({error: 'Error in async waterfall'});}
+      res.redirect('/');
+    });
+});
+
 // Handles checking if a password reset token is valid
 router.get('/local/resetpassword/:token', function (req, res, next) {
   console.log('In');
