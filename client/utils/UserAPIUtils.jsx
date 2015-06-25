@@ -92,6 +92,21 @@ var UserAPIUtils = {
         callback(false);
         Rollbar.warning(response);
       });
+  },
+
+  updateUserPassword (options, callback) {
+    axios
+      .post('/auth/local/resetpassword/' + options.token, {
+        password: options.password
+      })
+      .then((response) => {
+        response = response.data;
+        callback(true);
+      })
+      .catch((response) => {
+        callback(false);
+        Rollbar.warning(response);
+      });
   }
 };
 

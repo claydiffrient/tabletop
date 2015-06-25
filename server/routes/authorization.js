@@ -132,7 +132,7 @@ router.post('/local/resetpassword/:token', function (req, res, next) {
     function (user, done) {
       var mail = {
         to: user.email,
-        from: 'passwordreset@demo.com',
+        from: 'no-reply@tabletop-selector.herokuapp.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
               'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -143,7 +143,7 @@ router.post('/local/resetpassword/:token', function (req, res, next) {
     }],
     function (err) {
       if (err) { res.status(500).json({error: 'Error in async waterfall'});}
-      res.redirect('/');
+      res.json({success: true});
     });
 });
 

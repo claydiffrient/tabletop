@@ -24,7 +24,23 @@ class ResetPasswordPage extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault();
-    UserAPIUtils.updateUserPassword();
+    let password = React.findDOMNode(this.refs.password).value;
+    let confirm = React.findDOMNode(this.refs.confirm).value;
+    if (password !== confirm) {
+      toastr.error('Passwords do not match :(');
+      return false;
+    }
+    UserAPIUtils.updateUserPassword({
+      token: this.context.router.getCurrentParams().token,
+      password: password
+    }, (success) => {
+      if (success) {
+        toastr.success('Password changed');
+        window.location = '/';
+      } else {
+        toastr.error('Password change failed');
+      }
+    });
   }
 
   render () {
