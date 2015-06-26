@@ -15,5 +15,6 @@ addons:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - npm install npm@3.0-latest
 after_script:
   - ./node_modules/.bin/lcov-result-merger './coverage/*.info'| codeclimate
