@@ -15,6 +15,6 @@ addons:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - npm install npm@3.0-latest
+  - NODE_MONGOOSE_MIGRATIONS_CONFIG=./config/migrations.js mongoose-migrate
 after_script:
   - ./node_modules/.bin/lcov-result-merger './coverage/*.info'| codeclimate
