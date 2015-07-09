@@ -1,4 +1,6 @@
 #!/bin/sh
 webpack --progress --colors --config webpack.production.js -p
 
-NODE_MONGOOSE_MIGRATIONS_CONFIG=./config/migrations.js mongoose-migrate
+if [ -z "CONTINUOUS_INTEGRATION"]; then
+  NODE_MONGOOSE_MIGRATIONS_CONFIG=./config/migrations.js mongoose-migrate
+fi
