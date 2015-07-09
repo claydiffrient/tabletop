@@ -1,0 +1,3 @@
+#!/bin/sh
+
+NODE_MONGOOSE_MIGRATIONS_CONFIG=./config/migrations.js mongoose-migrate $1
