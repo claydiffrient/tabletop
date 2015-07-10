@@ -79,7 +79,7 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
+  User.findById(id, '-password', function (err, user) {
     done(err, user);
   });
 });
@@ -97,6 +97,12 @@ passport.use(new LocalStrategy(
         if (!match) {
           return done(null, false, {message: 'Incorrect password'});
         }
+        user = user.toObject();
+        user.id = user._id;
+        delete user.password;
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+        console.log(user);
+        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%');
         return done(null, user);
       });
     });
@@ -125,6 +131,7 @@ passport.use('local-signup', new LocalStrategy({
             if (err) {
               return done(err);
             }
+            delete newUser.password;
             return done(null, newUser);
           });
         }
