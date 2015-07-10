@@ -72,7 +72,20 @@ class Game extends React.Component {
         'Game__Owner': true,
         'Game__Owner--available': owner.available
       });
-      return (<li className={classes}>{ownerObj.firstName + ' ' + ownerObj.lastName} ({ownerObj.slackName})</li>);
+
+      let ownerListText = '';
+
+      if (ownerObj.firstName && ownerObj.lastName) {
+        ownerListText = ownerObj.firstName + ' ' + ownerObj.lastName +
+                        ' (' + ownerObj.username + ')';
+      } else if (ownerObj.firstName) {
+        ownerListText = ownerObj.firstName + ' (' + ownerObj.username + ')';
+      } else {
+        ownerListText = ownerObj.username;
+      }
+
+
+      return (<li className={classes}>{ownerListText}</li>);
     });
   }
 
@@ -165,7 +178,7 @@ class Game extends React.Component {
           <p className='Game__Description'>{description}</p>
           {readMoreLessLink}
           <h4>Owners:</h4>
-          <ul className='Game__Owners'>
+          <ul ref='gameOwners' className='Game__Owners'>
             {this.renderOwners(this.props.owners)}
           </ul>
         </div>
