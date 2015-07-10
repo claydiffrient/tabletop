@@ -54,6 +54,7 @@ describe('Users API', function () {
           _id: testUserId,
           firstName: 'Test',
           lastName: 'Tester',
+          password: 'abc123',
           email: 'testing@test.com',
           username: 'testmaster'
         }, function (err, model) {
@@ -66,6 +67,22 @@ describe('Users API', function () {
 
   afterEach(function () {
     mockgoose.reset();
+  });
+
+  describe('Security', function () {
+    it('should not send back a password when getting users', function (done) {
+      var url = '/api/v1/users/';
+      supertest(app)
+        .get(url)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) throw new Error(err);
+          expect(res.body).to.be.ok();
+          expect(res.body[0].password).not.to.be.ok();
+          done();
+        });
+    });
   });
 
   describe('Ignored Games', function () {

@@ -6,7 +6,7 @@ var _ = require('lodash');
 
 /* GET List all users */
 router.get('/', function (req, res) {
-  User.find(function (err, users) {
+  User.find({}, '-password', function (err, users) {
     if (err) {
       return res.send(err);
     }
@@ -17,7 +17,6 @@ router.get('/', function (req, res) {
 /* GET List all ignored games for a user */
 router.get('/:id/ignoredgames', function (req, res) {
   User.findById(req.params.id, function (err, user) {
-    console.log(user);
     if (err) {
       return res.send(err);
     }
