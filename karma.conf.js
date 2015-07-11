@@ -1,7 +1,7 @@
 module.exports = function (config) {
   config.set({
     browsers: [ process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome' ],
-    singleRun: true,
+    singleRun: process.env.CONTINUOUS_INTEGRATION,
     frameworks: [ 'mocha' ],
     browserNoActivityTimeout: 60000,// default 10000
     files: [
