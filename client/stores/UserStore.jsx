@@ -6,6 +6,7 @@ export default class UserStore extends Store {
   constructor (actions) {
     super(actions);
     this.setState({
+      users: [],
       user: {
         ignoredGames: [],
         authorizedAccounts: []
@@ -15,6 +16,11 @@ export default class UserStore extends Store {
     this.handleAction('server.unIgnoreGame', this.handleUnIgnoreGame);
     this.handleAction('server.receiveIgnoredGame', this.handleRecieveIgnoredGame);
     this.handleAction('server.recieveAuthorizedAccounts', this.handlRecieveAuthorizedAccounts);
+    this.handleAction('server.recieveAllUsers', this.handleRecieveAllUsers);
+  }
+
+  handleRecieveAllUsers (users) {
+    this.setState({users});
   }
 
   handleUnIgnoreGame (gameId, userId) {
@@ -65,5 +71,9 @@ export default class UserStore extends Store {
 
   getAuthorizedAccounts () {
     return this.state.user.authorizedAccounts;
+  }
+
+  getAllUsers () {
+    return this.state.users;
   }
 }

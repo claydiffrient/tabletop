@@ -67,4 +67,8 @@ export default class ServerActions extends Actions {
     this.dispatch('recieveAuthorizedAccounts', accounts);
   }
 
+  recieveAllUsers (users) {
+    this.dispatch('recieveAllUsers', users);
+  }
+
 }

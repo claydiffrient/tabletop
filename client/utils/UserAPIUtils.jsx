@@ -107,6 +107,21 @@ var UserAPIUtils = {
         callback(false);
         Rollbar.warning(response);
       });
+  },
+
+  getAllUsers () {
+    // Circular dependency
+    let serverActions = require('../flux.jsx').actions.server;
+
+    axios
+      .get(USER_API_URL)
+      .then((response) => {
+        response = response.data;
+        serverActions.recieveAllUsers(response);
+      })
+      .catch((response) => {
+        Rollbar.warning(response);
+      });
   }
 };
 
