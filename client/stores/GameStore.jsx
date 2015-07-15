@@ -11,7 +11,6 @@ export default class GameStore extends Store {
     this.handleAction('server.recieveUpdatedGame', this.handleRecieveUpdatedGame);
     this.handleAction('games.createGame', this.handleIsLoading);
     this.handleAction('server.handleFailedCreateGame', this.handleDoneLoading);
-
   }
 
   handleIsLoading () {

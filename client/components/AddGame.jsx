@@ -80,6 +80,7 @@ class AddGame extends React.Component {
     this.state = {
       formValid: false,
       isLoading: storeState.isLoading,
+      users: storeState.users,
       searchOptions: [],
       searchValue: ''
     };
@@ -88,7 +89,8 @@ class AddGame extends React.Component {
   getStateFromStores () {
     let stores = this.context.flux.stores;
     return {
-      isLoading: stores.games.isLoading()
+      isLoading: stores.games.isLoading(),
+      users: stores.users.getAllUsers()
     };
   }
 
@@ -98,12 +100,15 @@ class AddGame extends React.Component {
 
   componentDidMount () {
     let stores = this.context.flux.stores;
+    UserAPIUtils.getAllUsers();
     stores.games.addListener('change', this.onChange);
+    stores.users.addListener('change', this.onChange);
   }
 
   componentWillUnmount () {
     let stores = this.context.flux.stores;
     stores.games.removeListener('change', this.onChange);
+    stores.users.removeListener('change', this.onChange);
   }
 
   onChange () {
@@ -208,9 +213,10 @@ class AddGame extends React.Component {
           }
           requestObj[key] = cleanedData[key];
         }
+        let ownerObj = _.find(this.state.users, {username: cleanedData.owner});
         requestObj.owners.push({
-          owner: ENV.user._id,
-          available: cleanedData.available
+          owner: ownerObj._id,
+          available: true
         });
         this.context.flux.actions.games.createGame(requestObj, form);
       });
