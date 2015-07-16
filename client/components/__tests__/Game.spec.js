@@ -1,6 +1,7 @@
 /*eslint-env mocha */
 var stubRouterContext = require('./utils/stubRouterContext');
 var Game = require('../Game');
+var React = require('react');
 
 var expect = require('expect.js');
 var helpers = require('./utils/helpers');
@@ -38,7 +39,7 @@ describe('Game Component', function () {
   });
 
   afterEach(function () {
-    helpers.unmountComponent();
+    React.unmountComponentAtNode(React.findDOMNode(component).parentNode);
   });
 
   it('should render properly', () => {
