@@ -3,10 +3,12 @@ var Schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
 
 var GameSchema = new Schema({
-  title: { type: String, unique: true, required:true },
+  title: { type: String, unique: true, required: true },
   owners: [{
     owner: {type: Schema.Types.ObjectId, ref: 'User'},
-    available: Boolean
+    available: Boolean,
+    approved: Boolean,
+    approvalHash: String
   }],
   bggId: { type: Number, unique: true },
   thumbnail: String,
