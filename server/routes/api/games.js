@@ -17,6 +17,15 @@ var createGame = function (gameRequest, res) {
   });
 };
 
+var removeUnapproved = function (games) {
+  return games.map(function (game) {
+    _.remove(game.owners, function (owner) {
+      return !owner.approved;
+    });
+    return game;
+  });
+};
+
 /**
  * List all games
  */
@@ -30,7 +39,9 @@ router.get('/', function (req, res) {
         if (err) {
           return res.send(err);
         }
-        res.json(games);
+        // Remove owners that have not approved their ownership
+        var onlyApproved = removeUnapproved(games);
+        res.json(onlyApproved);
       });
 });
 
@@ -57,6 +68,11 @@ router.post('/', function (req, res) {
       req.body.playTime = response.data.playingTime;
       req.body.description = entities.decode(response.data.description);
       req.body.mechanics = response.data.mechanics;
+
+      if (req.user._id !== req.body.owner) {
+        // This gets hit if the user is adding the game for someone else.
+      }
+
       createGame(req.body, res);
     });
   } else {
