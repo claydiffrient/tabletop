@@ -59,7 +59,19 @@ describe('Games API', function () {
           playTime: 30,
           description: "It's just another test",
           __v: 0,
-          owners: [ ]
+          owners: [{
+            owner: testUserId,
+            available: true,
+            approved: false
+          }, {
+            owner: mongoose.Types.ObjectId(),
+            available: true,
+            approved: true
+          }, {
+            owner: mongoose.Types.ObjectId(),
+            available: true,
+            approved: true
+          }]
         }, function (err, model) {
           complete(err, model);
         });
@@ -148,6 +160,20 @@ describe('Games API', function () {
         expect(res.body).to.be.an(Array);
         expect(res.body[0].title).to.be('aTestGame2');
         expect(res.body[1].title).to.be('testGame');
+        done();
+      });
+  });
+
+  it('should exclude owners that have not approved from the list of owners', function (done) {
+    supertest(app)
+      .get('/api/v1/games/')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw new Error(err);
+        expect(res.body).to.be.an(Array);
+        expect(res.body[0].owners).to.be.ok();
+        expect(res.body[0].owners.length).to.eql(2);
         done();
       });
   });
