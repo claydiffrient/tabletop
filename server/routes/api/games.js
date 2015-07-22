@@ -69,9 +69,9 @@ router.post('/', function (req, res) {
       req.body.description = entities.decode(response.data.description);
       req.body.mechanics = response.data.mechanics;
 
-      if (req.user._id !== req.body.owner) {
-        // This gets hit if the user is adding the game for someone else.
-      }
+      // if (req.user._id !== req.body.owner) {
+      //   // This gets hit if the user is adding the game for someone else.
+      // }
 
       createGame(req.body, res);
     });
