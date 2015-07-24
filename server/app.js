@@ -16,9 +16,16 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var axios = require('axios');
 var flash = require('connect-flash');
+var Rollbar = require('rollbar');
+Rollbar.init(config.get('Rollbar.serverToken'));
 
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Send errors to Rollbar if in prod
+if (process.env.NODE_ENV === 'production') {
+  Rollbar.handleUncaughtExceptions(config.get('Rollbar.serverToken'));
+}
 
 // Make testing better maybe?
 if (process.env.NODE_ENV === 'test') {
@@ -261,6 +268,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,

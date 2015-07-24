@@ -1,10 +1,14 @@
 var Game = require('mongoose').model('Game');
+var User = require('mongoose').model('User');
 var bggLookup = require('./utils/bggLookup');
 var express = require('express');
 var router = express.Router();
 var Entities = require('html-entities').Html5Entities;
 var entities = new Entities();
 var _ = require('lodash');
+var Rollbar = require('rollbar');
+var config = require('config');
+Rollbar.init(config.get('Rollbar.serverToken'));
 
 var createGame = function (gameRequest, res) {
   var game = new Game(gameRequest);
@@ -76,6 +80,16 @@ router.post('/', function (req, res) {
         console.log(req.body.owner);
         console.log('*****************************');
         // This gets hit if the user is adding the game for someone else.
+        User.findOne({username: req.body.owner}, function (err, owner) {
+          if (err) {
+            Rollbar.handleError(err);
+            return res.send(err);
+          }
+
+          // TODO: Generate token
+          // TODO: Send email to owner specified
+
+        });
       }
 
       createGame(req.body, res);
