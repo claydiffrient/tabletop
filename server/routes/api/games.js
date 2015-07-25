@@ -8,6 +8,9 @@ var entities = new Entities();
 var _ = require('lodash');
 var Rollbar = require('rollbar');
 var config = require('config');
+var crypto = require('crypto');
+var sendgrid = require('sendgrid');
+var async = require('async');
 Rollbar.init(config.get('Rollbar.serverToken'));
 
 var createGame = function (gameRequest, res) {
@@ -60,7 +63,7 @@ router.get('/:id', function (req, res) {
 });
 
 /* POST Create a new game */
-router.post('/', function (req, res) {
+router.post('/', function (req, res, next) {
   if (req.body.bggId) {
     bggLookup(req.body.bggId, function (err, response) {
       if (err) {
@@ -85,9 +88,37 @@ router.post('/', function (req, res) {
             Rollbar.handleError(err);
             return res.send(err);
           }
+          var email = owner.email;
+          async.waterfall([
+            function (done) {
+              crypto.randomBytes(20, function (err, buf) {
+                var token = buf.toString('hex');
+                done(err, token);
+              });
+            },
+            function (token, done) {
+              // TODO: Set the token here.
+              done(err, token, done);
+            },
+            function (token, done) {
+              var mail = {
+                to: email,
+                from: 'no-reply@tabletop-selector.herokuapp.com',
+                subject: 'Tabletop Selector Game Owner Authorization',
+                text: 'You are receiving this because somone requested that you be added as the owner of a game'
+              };
 
-          // TODO: Generate token
-          // TODO: Send email to owner specified
+              // TODO: Send email to owner specified
+              sendgrid.send(mail, function (err, json) {
+                done(err, token);
+              });
+            }
+          ], function (err) {
+            if (err) return next(err);
+            return res.json({
+              success: 'An e-mail has been sent to ' + email + ' with further instructions.'
+            });
+          });
 
         });
       }
