@@ -88,7 +88,6 @@ router.post('/', function (req, res, next) {
             Rollbar.handleError(err);
             return res.send(err);
           }
-          var email = owner.email;
           async.waterfall([
             function (done) {
               crypto.randomBytes(20, function (err, buf) {
@@ -98,17 +97,25 @@ router.post('/', function (req, res, next) {
             },
             function (token, done) {
               // TODO: Set the token here.
+              req.body.owner = [{
+                owner: owner._id,
+                available: false,
+                approved: false,
+                approvalHash: token
+              }];
               done(err, token, done);
             },
             function (token, done) {
               var mail = {
-                to: email,
+                to: owner.email,
                 from: 'no-reply@tabletop-selector.herokuapp.com',
                 subject: 'Tabletop Selector Game Owner Authorization',
-                text: 'You are receiving this because somone requested that you be added as the owner of a game'
+                text: 'You are receiving this because somone requested that you be added as the owner of a game.\n\n' +
+                      'If you would like to confirm this please go to:\n\n' +
+                      'http://' + req.headers.host + '/confirmowner/' + token + '\n\n' +
+                      'otherwise, if this was done in error, please ignore this email.'
               };
 
-              // TODO: Send email to owner specified
               sendgrid.send(mail, function (err, json) {
                 done(err, token);
               });
@@ -116,7 +123,7 @@ router.post('/', function (req, res, next) {
           ], function (err) {
             if (err) return next(err);
             return res.json({
-              success: 'An e-mail has been sent to ' + email + ' with further instructions.'
+              success: 'An e-mail has been sent to ' + owner.email + ' with further instructions.'
             });
           });
 
