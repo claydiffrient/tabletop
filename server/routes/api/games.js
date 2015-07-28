@@ -251,4 +251,29 @@ router.put('/:id/owners/:ownerId', function (req, res) {
   });
 });
 
+// Confirm game ownership.
+router.get('/confirmowner/:token', function (req, res) {
+  Game.findOne({ 'owners': {
+    $elemMatch: {'approvalHash': req.params.token}
+  }}, function (err, game) {
+    if (err) {
+      Rollbar.handleError(err);
+      return res.status(500).send(err);
+    }
+    var ownerObj = _.find(game.owners, function (owner) {
+      return owner.approvalHash === req.params.token;
+    });
+
+    ownerObj.approved = true;
+
+    game.save(function (err) {
+      if (err) {
+        Rollbar.handleError(err);
+        return res.status(500).send(err);
+      }
+      return res.redirect('/games?search=' + game.title);
+    });
+  });
+});
+
 module.exports = router;
