@@ -96,7 +96,6 @@ router.post('/', function (req, res, next) {
               });
             },
             function (token, done) {
-              // TODO: Set the token here.
               req.body.owner = [{
                 owner: owner._id,
                 available: false,
@@ -112,7 +111,7 @@ router.post('/', function (req, res, next) {
                 subject: 'Tabletop Selector Game Owner Authorization',
                 text: 'You are receiving this because somone requested that you be added as the owner of a game.\n\n' +
                       'If you would like to confirm this please go to:\n\n' +
-                      'http://' + req.headers.host + '/confirmowner/' + token + '\n\n' +
+                      'http://' + req.headers.host + '/api/v1/games/confirmowner/' + token + '\n\n' +
                       'otherwise, if this was done in error, please ignore this email.'
               };
 
@@ -265,6 +264,7 @@ router.get('/confirmowner/:token', function (req, res) {
     });
 
     ownerObj.approved = true;
+    delete ownerObj.approvalHash;
 
     game.save(function (err) {
       if (err) {
