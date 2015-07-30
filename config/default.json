@@ -14,5 +14,9 @@
   },
   "Scheduler": {
     "ignoreWeekends": true
+  },
+  "Voting": {
+    "multipleVotes": true,
+    "multipleVoteLimit": 10
   }
 }

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var axios = require('axios');
 var bcrypt = require('bcryptjs');
+var config = require('config');
 
 var UserSchema = new Schema({
   username: {type: String, trim: true, required: true, unique: true},
@@ -30,7 +31,8 @@ var UserSchema = new Schema({
   },
   ignoredGames: [{type: Schema.Types.ObjectId, ref: 'Game'}],
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+  availableVotes: {type: Number, default: config.get('Voting.multipleVoteLimit')}
 });
 
 UserSchema.pre('save', function (next) {

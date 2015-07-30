@@ -27,5 +27,9 @@
   "Sendgrid": {
     "username": "SENDGRID_USERNAME",
     "password": "SENDGRID_PASSWORD"
+  },
+  "Voting": {
+    "multipleVotes": "APP_MULTIPLE_VOTES",
+    "multipleVoteLimit": "APP_MULTIPLE_VOTE_LIMIT"
   }
 }

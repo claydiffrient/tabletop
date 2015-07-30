@@ -1,8 +1,11 @@
 var Vote = require('mongoose').model('Vote');
+var User = require('mongoose').model('User');
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
-
+var config = require('config');
+var Rollbar = require('rollbar');
+Rollbar.init(config.get('Rollbar.serverToken'));
 var today = moment().startOf('day');
 var tomorrow = moment(today).add(1, 'days');
 
@@ -48,6 +51,16 @@ router.post('/', function (req, res) {
     if (err) {
       return res.send(err);
     }
+    if (config.get('Voting.multipleVotes')) {
+      User.findById(savedVote.user, function (user) {
+        user.availableVotes = user.availableVotes - 1;
+        user.save(function (err) {
+          if (err) {
+            Rollbar.handleError(err);
+          }
+        });
+      });
+    }
     Vote.populate(savedVote, 'game user', function (err, populated) {
       if (err) {
         return res.send(err);
@@ -62,6 +75,16 @@ router.delete('/:id', function (req, res) {
   Vote.findByIdAndRemove(req.params.id, function (err, deleted) {
     if (err) {
       return res.send(err);
+    }
+    if (config.get('Voting.multipleVotes')) {
+      User.findById(deleted.user, function (user) {
+        user.availableVotes = user.availableVotes + 1;
+        user.save(function (err) {
+          if (err) {
+            Rollbar.handleError(err);
+          }
+        });
+      });
     }
     res.status(200).end();
   });
