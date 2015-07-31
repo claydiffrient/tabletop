@@ -159,9 +159,9 @@ describe('Votes API', function () {
   });
 
   it('should get votes for a given date', function (done) {
-      var yesterday = moment().subtract(1, 'days');
-      yesterday = yesterday.format('YYYY-MM-DD');
-      supertest(app)
+    var yesterday = moment().subtract(1, 'days');
+    yesterday = yesterday.format('YYYY-MM-DD');
+    supertest(app)
         .get('/api/v1/votes?date=' + yesterday)
         .expect('Content-Type', /json/)
         .expect(200)
@@ -192,7 +192,7 @@ describe('Votes API', function () {
       .end(function (err, res) {
         if (err) throw new Error(err);
         expect(res.body.length).to.be(1);
-        expect(res.body[0]._id).to.be(voteIdFour.toString())
+        expect(res.body[0]._id).to.be(voteIdFour.toString());
         done();
       });
   });
@@ -208,6 +208,5 @@ describe('Votes API', function () {
         done();
       });
   });
-
 
 });

@@ -68,7 +68,7 @@ router.post('/', function (req, res) {
             // For some reason, mockgoose doesn't handle populate properly
             // so we force this in for testing.
             if (process.env.NODE_ENV === 'test') {
-              populated.user = savedUser
+              populated.user = savedUser;
             }
             res.send(populated);
           });
