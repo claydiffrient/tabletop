@@ -1,6 +1,6 @@
+/* eslint-env mocha */
 var expect = require('expect.js');
 var supertest = require('supertest');
-var config = require('config');
 var app = require('../../../../server/app');
 var nock = require('nock');
 var mongoose = require('mongoose');
@@ -11,18 +11,17 @@ mockgoose(mongoose);
 
 var Game = require('../../../../server/models/game');
 var Vote = require('../../../../server/models/vote');
+var User = require('../../../../server/models/user');
 
 nock.enableNetConnect();
 
-
-
 var testGameObjId = mongoose.Types.ObjectId();
 var testGameObjIdTwo = mongoose.Types.ObjectId();
+var testUserObjId = mongoose.Types.ObjectId();
 var voteIdOne = mongoose.Types.ObjectId();
 var voteIdTwo = mongoose.Types.ObjectId();
 var voteIdThree = mongoose.Types.ObjectId();
 var voteIdFour = mongoose.Types.ObjectId();
-
 
 describe('Votes API', function () {
   beforeEach(function (done) {
@@ -34,10 +33,10 @@ describe('Votes API', function () {
         // Create the first game.
         Game.create({
           _id: testGameObjId,
-          title: "testGame",
+          title: 'testGame',
           bggId: 11111,
-          thumbnail: "//test.jpg",
-          numPlayers: "2-4",
+          thumbnail: '//test.jpg',
+          numPlayers: '2-4',
           playTime: 30,
           description: "It's just a test",
           __v: 0,
@@ -47,13 +46,21 @@ describe('Votes API', function () {
         });
       },
       function (complete) {
+        User.create({
+          _id: testUserObjId,
+          username: 'testUser'
+        }, function (err, model) {
+          complete(err, model);
+        });
+      },
+      function (complete) {
         // Create the second game
         Game.create({
           _id: testGameObjIdTwo,
-          title: "testGame2",
+          title: 'testGame2',
           bggId: 11112,
-          thumbnail: "//test.jpg",
-          numPlayers: "2-4",
+          thumbnail: '//test.jpg',
+          numPlayers: '2-4',
           playTime: 30,
           description: "It's just another test",
           __v: 0,
@@ -110,8 +117,8 @@ describe('Votes API', function () {
         ],
         function (err, result) {
           done(err, result);
+        });
       });
-    });
   });
 
   afterEach(function () {
@@ -123,12 +130,30 @@ describe('Votes API', function () {
       .post('/api/v1/votes')
       .send({
         date: new Date(),
-        game: testGameObjId
+        game: testGameObjId,
+        user: testUserObjId
       })
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function (err, res) {
         if (err) throw new Error(err);
+        done();
+      });
+  });
+
+  it('should reduce the available votes of a user when voting', function (done) {
+    supertest(app)
+      .post('/api/v1/votes')
+      .send({
+        date: new Date(),
+        game: testGameObjId,
+        user: testUserObjId
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw new Error(err);
+        expect(res.body.user.availableVotes).to.be(9);
         done();
       });
   });

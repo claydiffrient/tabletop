@@ -52,21 +52,37 @@ router.post('/', function (req, res) {
       return res.send(err);
     }
     if (config.get('Voting.multipleVotes')) {
-      User.findById(savedVote.user, function (user) {
+      User.findById(savedVote.user, function (err, user) {
+        if (err) {
+          Rollbar.handleError(err);
+        }
         user.availableVotes = user.availableVotes - 1;
-        user.save(function (err) {
+        user.save(function (err, savedUser) {
           if (err) {
             Rollbar.handleError(err);
           }
+          Vote.populate(savedVote, 'game user', function (err, populated) {
+            if (err) {
+              return res.send(err);
+            }
+            // For some reason, mockgoose doesn't handle populate properly
+            // so we force this in for testing.
+            if (process.env.NODE_ENV === 'test') {
+              populated.user = savedUser
+            }
+            res.send(populated);
+          });
         });
       });
+    } else {
+      // normal case, no multiple votes
+      Vote.populate(savedVote, 'game user', function (err, populated) {
+        if (err) {
+          return res.send(err);
+        }
+        res.send(populated);
+      });
     }
-    Vote.populate(savedVote, 'game user', function (err, populated) {
-      if (err) {
-        return res.send(err);
-      }
-      res.send(populated);
-    });
   });
 });
 
