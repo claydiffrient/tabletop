@@ -1,6 +1,12 @@
 # tabletop
 A game chooser system
 
+*NOTE:*The application is currently going through a transition to new technologies
+and a better setup.  This includes transitioning to use Waterline instead of Mongoose
+and to use Redux instead of minimal-flux.  I'm branching what is currently on master
+over to a branch called semi-stable.  Feel free to use it if you want something that
+is somewhat working.
+
 [![Build Status](https://travis-ci.org/claydiffrient/tabletop.svg)](https://travis-ci.org/claydiffrient/tabletop)
 [![Test Coverage](https://codeclimate.com/github/claydiffrient/tabletop/badges/coverage.svg)](https://codeclimate.com/github/claydiffrient/tabletop)
 [![Code Climate](https://codeclimate.com/github/claydiffrient/tabletop/badges/gpa.svg)](https://codeclimate.com/github/claydiffrient/tabletop)
