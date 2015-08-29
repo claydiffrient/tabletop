@@ -1,7 +1,7 @@
 # tabletop
 A game chooser system
 
-*NOTE:*The application is currently going through a transition to new technologies
+**NOTE:**The application is currently going through a transition to new technologies
 and a better setup.  This includes transitioning to use Waterline instead of Mongoose
 and to use Redux instead of minimal-flux.  I'm branching what is currently on master
 over to a branch called semi-stable.  Feel free to use it if you want something that
