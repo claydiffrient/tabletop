@@ -7,7 +7,7 @@
     "start": "bin/run",
     "compile": "bin/compile",
     "postinstall": "bin/compile",
-    "test": "bin/test",
+    "test": "gulp test",
     "coverage": "bin/coverage"
   },
   "engines": {
@@ -100,11 +100,16 @@
     "cobbler": "0.0.6",
     "codeclimate-test-reporter": "0.1.0",
     "database-cleaner": "0.10.0",
+    "eslint": "^0.24.1",
     "expect.js": "0.3.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
     "gulp-doxx": "0.0.5",
     "gulp-live-server": "0.0.25",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-mocha": "^2.1.3",
+    "gulp-semistandard": "^0.1.2",
+    "gulp-shell": "^0.4.3",
     "gulp-util": "^3.0.6",
     "istanbul": "0.3.18",
     "istanbul-react": "1.1.0",
@@ -125,6 +130,7 @@
     "passport-mock": "0.0.3",
     "phantomjs": "1.9.18",
     "sinon": "1.16.1",
+    "snazzy": "^2.0.1",
     "supertest": "1.1.0",
     "supervisor": "0.7.1",
     "webpack-dev-server": "1.10.1"

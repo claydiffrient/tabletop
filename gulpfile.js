@@ -5,6 +5,8 @@ var webpack = require('webpack');
 var webpackConfig = require('./webpack.development.js');
 var gls = require('gulp-live-server');
 var doxx = require('gulp-doxx');
+var semistandard = require('gulp-semistandard');
+var mocha = require('gulp-mocha');
 
 var server = gls.new('./bin/run');
 
@@ -24,6 +26,21 @@ gulp.task('babel:test', function () {
              .pipe(babel())
              .pipe(gulp.dest('compiled/test/server'));
 });
+
+gulp.task('lint', function () {
+  gulp.src(['src/**/*.js', 'gulpfile.js'])
+      .pipe(semistandard())
+      .pipe(semistandard.reporter('default', {
+        breakOnError: true
+      }));
+});
+
+gulp.task('test:server', ['babel:test'], function () {
+  return gulp.src('compiled/test/server/**/*.js')
+             .pipe(mocha());
+});
+
+gulp.task('test', ['lint', 'test:server']);
 
 /**
  * Watches the server source directory for changes and

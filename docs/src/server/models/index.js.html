@@ -71,10 +71,10 @@
       <div class="row">
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
-            <li class="active"><a href="/docs/index.html">Main</a></li>
+            <li><a href="/docs/index.html">Main</a></li>
             <li><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
             <li><a href="/docs/src/server/models/game.js.html">src/server/models/game.js</a></li>
-            <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
+            <li class="active"><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -82,15 +82,54 @@
           </div>
         </div>
         <div class="span9">
-          <section id="Main"><h1>tabletop</h1>
-<p>A game chooser system</p><p><strong>NOTE:</strong>The application is currently going through a transition to new technologies<br />and a better setup.  This includes transitioning to use Waterline instead of Mongoose<br />and to use Redux instead of minimal-flux.  I&#39;m branching what is currently on master<br />over to a branch called semi-stable.  Feel free to use it if you want something that<br />is somewhat working.</p><p><a href="https://travis-ci.org/claydiffrient/tabletop"><img src="https://travis-ci.org/claydiffrient/tabletop.svg" alt="Build Status"></a><br /><a href="https://codeclimate.com/github/claydiffrient/tabletop"><img src="https://codeclimate.com/github/claydiffrient/tabletop/badges/coverage.svg" alt="Test Coverage"></a><br /><a href="https://codeclimate.com/github/claydiffrient/tabletop"><img src="https://codeclimate.com/github/claydiffrient/tabletop/badges/gpa.svg" alt="Code Climate"></a><br /><a href="https://david-dm.org/claydiffrient/tabletop"><img src="https://david-dm.org/claydiffrient/tabletop.svg" alt="Dependencies"></a><br /><a href="https://github.com/Flet/semistandard"><img src="https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square" alt="js-semistandard-style"></a></p><p>Thanks for stopping by :smile: !  This is a system where when connected with the proper api can help you<br />select a game to play.  It&#39;s main purpose is to help Instructure&#39;s tabletop group decide what game will be<br />played in our daily games at lunch.</p><p>It uses Express to provide a server as well as a RESTful API through which all frontend actions take place.</p><p>To get started you need to have MongoDB installed, then simply running</p><pre><code>npm install
-</code></pre><p>from the repository&#39;s main directory will install all the dependencies.</p><p>There are a few scripts found within the <code>bin/</code> directory.  These are helpful for running things.  They are accessible easily<br />through <code>npm run</code>.</p><pre><code>npm start - starts the server
-npm test - runs all the tests
-npm run compile - will compile all the JSX for the client side.
-npm run coverage - runs the tests and outputs test coverage information
-</code></pre><p>Something else that might come in handy is directly running <code>bin/clientdev</code> which does almost the same as <code>npm run compile</code><br />however it will watch for changes and recompile on the fly.  It also does not do any optimization to the output.</p><h3>Slack Reporting</h3>
-<p>Inside the <code>bin/</code> directory one of the scripts is <code>postWinningVote</code> this is ideal to put on a scheduler so that you can announce in a slack channel what the winning vote on a given day is.  I use Heroku Scheduler to perform this each day just before our groups lunch game time.  All settings are configured via environment variables or through settings in the <code>node-config</code> files described below.</p><h3>Contributing</h3>
-<p>You can contribute by filing issues because obviously there are many.  I&#39;m also super open to pull requests if you think you can solve<br />a problem, I&#39;ll try and respond to those quickly.  Just make sure you include the appropriate details in commit messages.</p><p>If you are adding something that can be configured, we use <code>node-config</code> for configuation.  If the configuration setting is not sensitive, such as a simple boolean value, please add it directly to <code>config/default.json</code>.  If the data is sensitive, please add it to your own <code>config/local.json</code> so that it doesn&#39;t end up in the repository.  Ideally, you can provide a example bit of data in the <code>config/default.json</code> so that further work on that particular feature can be jump started with an example.  Regardless, all config variables should also be defined in the <code>config/custom-environment-variables.json</code> file so that they can be overriden with environment variables in production environments.</p><p>Pull requests should maintain a clean git history.  Therefore, please do not include &quot;line of thought&quot; commits or merge commits.<br />If you have things that contribute in a meaningful way, feel free to leave them.  The best rule of thumb to follow<br />however is to squash all your commits to one commit and include a detailed commit message.</p></section>
+          <div class="description"> </div>
+          <pre><code class="language-javascript">import memoryAdapter from 'sails-memory';
+import psqlAdapter from 'sails-postgresql';
+import Waterline from 'waterline';
+import fs from 'fs';
+import path from 'path';
+import config from 'config';
+
+let orm = new Waterline();
+
+let connections = {
+  'default': {
+    adapter: config.get('Database.defaultAdapter') || 'memory'
+  }
+};
+
+if (config.has('Database.psql')) {
+  connections.psql = {
+      adapter: 'psql',
+      host: config.get('Database.psql.host'),
+      user: config.get('Database.psql.user'),
+      password: config.get('Database.psql.password'),
+      database: config.get('Database.psql.database'),
+      pool: false,
+      ssl: false,
+      schema: true
+    };
+}
+
+let wlConfig = {
+  adapters: {
+    'memory': memoryAdapter,
+    'psql': psqlAdapter
+  },
+  connections
+};
+
+fs
+  .readdirSync(__dirname)
+  .filter((file) =&gt; {
+    return (file.indexOf('.') !== 0) &amp;&amp; (file !== 'index.js');
+  })
+  .forEach((file) =&gt; {
+    var model = require(path.join(__dirname, file));
+    orm.loadCollection(model);
+  });
+
+export default {waterline: orm, config: wlConfig};</code></pre>
         </div>
       </div>
     </div>
