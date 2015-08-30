@@ -6,7 +6,6 @@
   "scripts": {
     "start": "bin/run",
     "compile": "bin/compile",
-    "postinstall": "bin/compile",
     "test": "gulp test",
     "coverage": "bin/coverage"
   },
@@ -69,7 +68,6 @@
     "morgan": "1.6.1",
     "newforms": "0.12.1",
     "newforms-bootstrap": "2.0.0",
-    "npm": "^3.3.1",
     "passport": "0.3.0",
     "passport-local": "^1.0.0",
     "passport-slack": "0.0.4",
