@@ -15,15 +15,15 @@ let connections = {
 
 if (config.has('Database.psql')) {
   connections.psql = {
-      adapter: 'psql',
-      host: config.get('Database.psql.host'),
-      user: config.get('Database.psql.user'),
-      password: config.get('Database.psql.password'),
-      database: config.get('Database.psql.database'),
-      pool: false,
-      ssl: false,
-      schema: true
-    };
+    adapter: 'psql',
+    host: config.get('Database.psql.host'),
+    user: config.get('Database.psql.user'),
+    password: config.get('Database.psql.password'),
+    database: config.get('Database.psql.database'),
+    pool: false,
+    ssl: false,
+    schema: true
+  };
 }
 
 let wlConfig = {

@@ -1,8 +1,7 @@
-/*eslint-env node, mocha */
+/* eslint-env node, mocha */
 import expect from 'expect.js';
 import Waterline from 'waterline';
 import sailsMemoryAdapter from 'sails-memory';
-import util from 'util';
 
 describe('GameModel', () => {
   let waterline = new Waterline();

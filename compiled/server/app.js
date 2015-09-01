@@ -50,10 +50,6 @@ var _config = require('config');
 
 var _config2 = _interopRequireDefault(_config);
 
-var _passport = require('passport');
-
-var _passport2 = _interopRequireDefault(_passport);
-
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -61,11 +57,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 _fs2['default'].readdirSync(__dirname + '/models').forEach(function (file) {
   require('./models/' + file);
 });
-
-// Include in the route files
-var routes = require('./routes/index');
-var authorizationRoutes = require('./routes/authorization');
-var apiRoutes = require('./routes/api/index');
 
 var app = (0, _express2['default'])();
 
@@ -96,184 +87,6 @@ app.use((0, _expressSession2['default'])({
   resave: true,
   secret: _config2['default'].get('Session.sessionSecret')
 }));
-app.use(flash());
-
-// Use passport for authentication/authorization
-var User = mongoose.model('User');
-app.use(_passport2['default'].initialize());
-app.use(_passport2['default'].session());
-
-_passport2['default'].serializeUser(function (user, done) {
-  done(null, user.id);
-});
-
-_passport2['default'].deserializeUser(function (id, done) {
-  User.findById(id, '-password', function (err, user) {
-    done(err, user);
-  });
-});
-
-// Local Login
-_passport2['default'].use(new LocalStrategy(function (username, password, done) {
-  User.findOne({ username: username }, function (err, user) {
-    if (err) return done(err);
-    if (!user) {
-      return done(null, false, { message: 'User not found' });
-    }
-    user.comparePassword(password, function (err, match) {
-      if (err) return done(err);
-      if (!match) {
-        return done(null, false, { message: 'Incorrect password' });
-      }
-      user = user.toObject();
-      user.id = user._id;
-      delete user.password;
-      console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-      console.log(user);
-      console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-      return done(null, user);
-    });
-  });
-}));
-
-// Local Signup
-_passport2['default'].use('local-signup', new LocalStrategy({
-  usernameField: 'local_username',
-  passwordField: 'local_password',
-  passReqToCallback: true
-}, function (req, username, password, done) {
-  process.nextTick(function () {
-    User.findOne({ 'username': username }, function (err, user) {
-      if (err) {
-        return done(err);
-      }
-      if (user) {
-        return done(null, false, { message: 'Username already in use' });
-      } else {
-        var newUser = new User({
-          username: username,
-          password: password
-        });
-        newUser.save(function (err) {
-          if (err) {
-            return done(err);
-          }
-          delete newUser.password;
-          return done(null, newUser);
-        });
-      }
-    });
-  });
-}));
-
-// Slack Authentication
-_passport2['default'].use(new SlackStrategy({
-  clientID: _config2['default'].get('Slack.clientId'),
-  clientSecret: _config2['default'].get('Slack.clientSecret'),
-  callbackURL: _config2['default'].get('Slack.callbackURL'),
-  team: _config2['default'].get('Slack.teamId'),
-  scope: ['identify', 'read'],
-  scopeSeparator: ',',
-  passReqToCallback: true
-}, function (req, accessToken, refreshToken, profile, done) {
-
-  // Handle the linking case
-  if (!req.user.isNew) {
-    User.findOne({ username: req.user.username }, function (err, user) {
-      if (err) {
-        return done(err);
-      }
-      user.authentication.slack = {
-        name: profile.displayName,
-        id: profile.id,
-        teamId: profile._json.team_id,
-        token: accessToken
-      };
-
-      user.save(function (err) {
-        if (err) {
-          return done(err);
-        }
-        return done(err, user);
-      });
-    });
-  } else {
-    User.findOne({ slackId: profile.id }, function (err, user) {
-      if (err) {
-        return done(err);
-      }
-      if (user) {
-        return done(err, user);
-      }
-      if (!user) {
-        var userObj = {
-          provider: profile.provider,
-          slackId: profile.id,
-          slackName: profile.displayName,
-          slackTeamId: profile._json.team_id
-        };
-        if (accessToken) {
-          // We'll do a call to get more info if a token is provided.
-          axios.get('https://slack.com/api/users.info', {
-            params: {
-              token: accessToken,
-              user: profile.id
-            }
-          }).then(function (response) {
-            if (response.data.ok) {
-              // If this worked out... let's use this information to augment
-              // our user object.
-              userObj.firstName = response.data.user.profile.first_name;
-              userObj.lastName = response.data.user.profile.last_name;
-              userObj.email = response.data.user.profile.email;
-              var user = new User(userObj);
-              user.save(function (err) {
-                if (err) {
-                  return done(err);
-                }
-                return done(err, user);
-              });
-            } else {
-              // If there was a problem with the response... go on with
-              // business as usual.
-              user = new User(userObj);
-              user.save(function (err) {
-                if (err) {
-                  return done(err);
-                }
-                return done(err, user);
-              });
-            }
-          })['catch'](function (response) {
-            // If there was an error getting more info,
-            // we'll just ignore that and go with the original info.
-            var user = new User(userObj);
-            user.save(function (err) {
-              if (err) {
-                return done(err);
-              }
-              return done(err, user);
-            });
-          });
-        } else {
-          user = new User(userObj);
-          user.save(function (err) {
-            if (err) {
-              return done(err);
-            }
-            return done(err, user);
-          });
-        }
-      }
-    });
-  }
-}));
-
-app.use(_express2['default']['static'](_path2['default'].join(__dirname, 'public')));
-
-app.use('/auth', authorizationRoutes);
-app.use('/api', apiRoutes);
-app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

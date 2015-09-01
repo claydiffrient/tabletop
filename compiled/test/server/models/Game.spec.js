@@ -1,4 +1,4 @@
-/*eslint-env node, mocha */
+/* eslint-env node, mocha */
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -14,10 +14,6 @@ var _waterline2 = _interopRequireDefault(_waterline);
 var _sailsMemory = require('sails-memory');
 
 var _sailsMemory2 = _interopRequireDefault(_sailsMemory);
-
-var _util = require('util');
-
-var _util2 = _interopRequireDefault(_util);
 
 describe('GameModel', function () {
   var waterline = new _waterline2['default']();
