@@ -28,11 +28,11 @@ gulp.task('babel:test', function () {
 });
 
 gulp.task('lint', function () {
-  gulp.src(['src/**/*.js', 'gulpfile.js'])
-      .pipe(semistandard())
-      .pipe(semistandard.reporter('default', {
-        breakOnError: true
-      }));
+  return gulp.src(['src/**/*.js', 'gulpfile.js'])
+             .pipe(semistandard())
+             .pipe(semistandard.reporter('default', {
+               breakOnError: true
+             }));
 });
 
 gulp.task('test:server', ['babel:server', 'babel:test'], function () {
