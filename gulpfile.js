@@ -35,7 +35,7 @@ gulp.task('lint', function () {
       }));
 });
 
-gulp.task('test:server', ['babel:test'], function () {
+gulp.task('test:server', ['babel:server', 'babel:test'], function () {
   return gulp.src('compiled/test/server/**/*.js')
              .pipe(mocha());
 });
