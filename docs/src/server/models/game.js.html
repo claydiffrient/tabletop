@@ -73,8 +73,10 @@
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="/docs/index.html">Main</a></li>
             <li><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
-            <li class="active"><a href="/docs/src/server/models/game.js.html">src/server/models/game.js</a></li>
+            <li class="active"><a href="/docs/src/server/models/Game.js.html">src/server/models/Game.js</a></li>
+            <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
+            <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -83,6 +85,32 @@
         </div>
         <div class="span9">
           <div class="description"> </div>
+          <pre><code class="language-javascript">import Waterline from 'waterline';
+
+export default Waterline.Collection.extend({
+  identity: 'game',
+  connection: 'default',
+  attributes: {
+    bggId: {
+      type: 'integer',
+      index: true,
+      unique: true,
+      required: true
+    },
+    title: {
+      type: 'string',
+      unique: true,
+      required: true,
+      index: true
+    },
+    thumbnailUrl: {type: 'string'},
+    minPlayers: {type: 'integer'},
+    maxPlayers: {type: 'integer'},
+    description: {type: 'string'},
+    mechanics: {type: 'array'},
+    playTime: {type: 'integer'}
+  }
+});</code></pre>
         </div>
       </div>
     </div>

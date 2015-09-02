@@ -73,8 +73,10 @@
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="/docs/index.html">Main</a></li>
             <li><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
-            <li><a href="/docs/src/server/models/game.js.html">src/server/models/game.js</a></li>
+            <li><a href="/docs/src/server/models/Game.js.html">src/server/models/Game.js</a></li>
+            <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li class="active"><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
+            <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -100,15 +102,15 @@ let connections = {
 
 if (config.has('Database.psql')) {
   connections.psql = {
-      adapter: 'psql',
-      host: config.get('Database.psql.host'),
-      user: config.get('Database.psql.user'),
-      password: config.get('Database.psql.password'),
-      database: config.get('Database.psql.database'),
-      pool: false,
-      ssl: false,
-      schema: true
-    };
+    adapter: 'psql',
+    host: config.get('Database.psql.host'),
+    user: config.get('Database.psql.user'),
+    password: config.get('Database.psql.password'),
+    database: config.get('Database.psql.database'),
+    pool: false,
+    ssl: false,
+    schema: true
+  };
 }
 
 let wlConfig = {
