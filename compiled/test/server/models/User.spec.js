@@ -29,7 +29,9 @@ describe('UserModel', function () {
   };
 
   before(function (done) {
-    var gameModel = require('../../../server/models/User.js');
+    var gameModel = require('../../../server/models/Game.js');
+    var userModel = require('../../../server/models/User.js');
+    waterline.loadCollection(userModel);
     waterline.loadCollection(gameModel);
     waterline.initialize(config, function (err, collections) {
       if (err) return done(err);

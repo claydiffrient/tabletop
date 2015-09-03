@@ -26,6 +26,10 @@ exports['default'] = _waterline2['default'].Collection.extend({
       required: true,
       index: true
     },
+    owners: {
+      collection: 'user',
+      via: 'games'
+    },
     thumbnailUrl: { type: 'string' },
     minPlayers: { type: 'integer' },
     maxPlayers: { type: 'integer' },

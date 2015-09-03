@@ -8,6 +8,11 @@ export default Waterline.Collection.extend({
     firstName: {type: 'string'},
     lastName: {type: 'string'},
     email: {type: 'string'},
-    password: {type: 'string'}
+    password: {type: 'string'},
+    games: {
+      collection: 'game',
+      via: 'owners',
+      dominant: true
+    }
   }
 });

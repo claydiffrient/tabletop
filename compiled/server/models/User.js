@@ -18,7 +18,12 @@ exports['default'] = _waterline2['default'].Collection.extend({
     firstName: { type: 'string' },
     lastName: { type: 'string' },
     email: { type: 'string' },
-    password: { type: 'string' }
+    password: { type: 'string' },
+    games: {
+      collection: 'game',
+      via: 'owners',
+      dominant: true
+    }
   }
 });
 module.exports = exports['default'];

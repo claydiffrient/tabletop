@@ -17,7 +17,9 @@ describe('UserModel', () => {
   };
 
   before((done) => {
-    let gameModel = require('../../../server/models/User.js');
+    let gameModel = require('../../../server/models/Game.js');
+    let userModel = require('../../../server/models/User.js');
+    waterline.loadCollection(userModel);
     waterline.loadCollection(gameModel);
     waterline.initialize(config, (err, collections) => {
       if (err) return done(err);
