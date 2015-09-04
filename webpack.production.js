@@ -7,11 +7,11 @@ module.exports = {
   devtool: 'source-map',
   entry: {
     app: [
-      './client/init'
+      './src/client/init'
     ]
   },
   output: {
-    path: path.join(__dirname, 'server/public/javascripts'),
+    path: path.join(__dirname, 'compiled/client/'),
     publicPath: '/',
     filename: '[name].js'
   },

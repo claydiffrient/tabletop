@@ -10,6 +10,12 @@ var mocha = require('gulp-mocha');
 
 var server = gls.new('./bin/run');
 
+var devConfig = Object.create(webpackConfig);
+devConfig.devtool = 'inline-source-map';
+devConfig.debug = true;
+
+var devCompiler = webpack(devConfig);
+
 /**
  * Pipes all JS files from the server source directory
  * through babel and copies the resulting files to the
@@ -25,6 +31,19 @@ gulp.task('babel:test', function () {
   return gulp.src('src/test/server/**/*.js')
              .pipe(babel())
              .pipe(gulp.dest('compiled/test/server'));
+});
+
+/**
+ * Builds the assets with webpack via babel
+ */
+gulp.task('babel:client:dev', function (callback) {
+  devCompiler.run(function (err, stats) {
+    if (err) throw new gutil.PluginError('babel:client:dev', err);
+    gutil.log('[babel:client:dev]', stats.toString({
+      colors: true
+    }));
+    callback();
+  });
 });
 
 gulp.task('lint', function () {
