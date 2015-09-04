@@ -72,4 +72,39 @@ describe('GameModel', function () {
       (0, _expectJs2['default'])(game.title).to.be('Game of Tests');
     });
   });
+
+  xit('should be able to associate a user with the game', function () {
+    var Game = waterline.collections.game;
+    var User = waterline.collections.user;
+
+    User.create({
+      username: 'tester2015',
+      firstName: 'Test',
+      lastName: 'McTester',
+      email: 'tester2015@example.com',
+      password: 'password12345'
+    }, function () {
+
+      Game.create({
+        bggId: 123,
+        title: 'Game of Tests',
+        thumbnailUrl: 'http://example.com/image.png',
+        minPlayers: 1,
+        maxPlayers: 10,
+        description: 'A simple game for testing things',
+        mechanics: ['Deck Building', 'Test Taking'],
+        playTime: 2
+      }, function () {
+        Game.find(1).exec(function (err, game) {
+          if (err) throw new Error(err);
+          console.log(game);
+          game.owners.add([1]);
+
+          game.save(function (err2) {
+            if (err) throw new Error(err2);
+          });
+        });
+      });
+    });
+  });
 });

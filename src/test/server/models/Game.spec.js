@@ -63,4 +63,41 @@ describe('GameModel', () => {
 
   });
 
+  xit('should be able to associate a user with the game', () => {
+    let Game = waterline.collections.game;
+    let User = waterline.collections.user;
+
+    User.create({
+      username: 'tester2015',
+      firstName: 'Test',
+      lastName: 'McTester',
+      email: 'tester2015@example.com',
+      password: 'password12345'
+    }, () => {
+
+      Game.create({
+        bggId: 123,
+        title: 'Game of Tests',
+        thumbnailUrl: 'http://example.com/image.png',
+        minPlayers: 1,
+        maxPlayers: 10,
+        description: 'A simple game for testing things',
+        mechanics: ['Deck Building', 'Test Taking'],
+        playTime: 2
+      }, () => {
+        Game.find(1).exec(function (err, game) {
+          if (err) throw new Error(err);
+          console.log(game);
+          game.owners.add([1]);
+
+          game.save(function (err2) {
+            if (err) throw new Error(err2);
+          });
+
+        });
+      });
+    });
+
+  });
+
 });
