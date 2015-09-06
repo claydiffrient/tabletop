@@ -48,6 +48,16 @@ app.use(session({
   resave: true,
   secret: config.get('Session.sessionSecret')
 }));
+app.use(express.static(path.join(__dirname, '../client')));
+
+/* GET All routes, let react-router handle routing
+   on the client side
+*/
+app.get('*', (req, res) => {
+  res.render('home', {
+    env: process.env.NODE_ENV
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

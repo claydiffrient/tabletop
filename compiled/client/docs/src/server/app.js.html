@@ -77,6 +77,7 @@
             <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
             <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
+            <li><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -84,57 +85,12 @@
           </div>
         </div>
         <div class="span9">
-          <div class="description"> </div>
-          <pre><code class="language-javascript">import express from 'express';
-import path from 'path';
-import fs from 'fs';
-import favicon from 'serve-favicon';
-import logger from 'morgan';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import exphbs from 'express-handlebars';
-import session from 'express-session';
-import methodOverride from 'method-override';
-import compress from 'compression';
-import config from 'config';
-
-// Make sure our env variable is set
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
-// Read in all the models.
-fs.readdirSync(__dirname + '/models').forEach(function (file) {
-  require('./models/' + file);
+          <div class="description"><p>GET All routes, let react-router handle routing<br />   on the client side</p> </div>
+          <pre><code class="language-javascript">app.get('*', (req, res) =&gt; {
+  res.render('home', {
+    env: process.env.NODE_ENV
+  });
 });
-
-var app = express();
-
-// view engine setup
-var viewDir = path.join(__dirname, 'views');
-app.engine('handlebars', exphbs({
-  defaultLayout: 'main',
-  layoutsDir: viewDir + '/layouts',
-  partialsDir: viewDir + '/partials'
-}));
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'handlebars');
-
-// uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/favicon.ico'));
-if (app.get('env') === 'development') {
-  app.use(logger('dev'));
-} else if (app.get('env') === 'production') {
-  app.use(compress());
-}
-
-app.use(methodOverride());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(session({
-  saveUninitialized: true,
-  resave: true,
-  secret: config.get('Session.sessionSecret')
-}));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

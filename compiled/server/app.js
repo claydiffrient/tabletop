@@ -87,6 +87,16 @@ app.use((0, _expressSession2['default'])({
   resave: true,
   secret: _config2['default'].get('Session.sessionSecret')
 }));
+app.use(_express2['default']['static'](_path2['default'].join(__dirname, '../client')));
+
+/* GET All routes, let react-router handle routing
+   on the client side
+*/
+app.get('*', function (req, res) {
+  res.render('home', {
+    env: process.env.NODE_ENV
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

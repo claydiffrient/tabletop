@@ -72,12 +72,12 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="/docs/index.html">Main</a></li>
-            <li class="active"><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
+            <li><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
             <li><a href="/docs/src/server/models/Game.js.html">src/server/models/Game.js</a></li>
             <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
             <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
-            <li><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
+            <li class="active"><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -85,46 +85,69 @@
           </div>
         </div>
         <div class="span9">
-          <div class="description"><p>GET All routes, let react-router handle routing<br />   on the client side</p> </div>
-          <pre><code class="language-javascript">app.get('*', (req, res) =&gt; {
-  res.render('home', {
-    env: process.env.NODE_ENV
-  });
-});
+          <div class="description"><p>eslint-env node, mocha</p> </div>
+          <pre><code class="language-javascript">import expect from 'expect.js';
+import Waterline from 'waterline';
+import sailsMemoryAdapter from 'sails-memory';
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+describe('UserModel', () =&gt; {
+  let waterline = new Waterline();
+  let config = {
+    adapters: {
+      'memory': sailsMemoryAdapter
+    },
+    connections: {
+      default: {
+        adapter: 'memory'
+      }
+    }
+  };
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+  before((done) =&gt; {
+    let gameModel = require('../../../server/models/Game.js');
+    let userModel = require('../../../server/models/User.js');
+    waterline.loadCollection(userModel);
+    waterline.loadCollection(gameModel);
+    waterline.initialize(config, (err, collections) =&gt; {
+      if (err) return done(err);
+      done();
     });
   });
-}
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+  after(() =&gt; {
+    let adapters = config.adapters || {};
+    let promises = [];
 
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
+    Object.keys(adapters)
+          .forEach((adapter) =&gt; {
+            if (adapters[adapter].teardown) {
+              let promise = new Promise((resolve) =&gt; {
+                adapters[adapter].teardown(null, resolve);
+              });
+              promises.push(promise);
+            }
+          });
+    return Promise.all(promises);
   });
-});
 
-module.exports = app;</code></pre>
+  it('should be able to create a new user', () =&gt; {
+    let User = waterline.collections.user;
+
+    let testUser = User.create({
+      username: 'tester2015',
+      firstName: 'Test',
+      lastName: 'McTester',
+      email: 'tester2015@example.com',
+      password: 'password12345'
+    });
+
+    testUser.then((user) =&gt; {
+      expect(user.firstName).to.be('Test');
+    });
+
+  });
+
+});</code></pre>
         </div>
       </div>
     </div>

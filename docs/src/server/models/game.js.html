@@ -77,6 +77,7 @@
             <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
             <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
+            <li><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -102,6 +103,10 @@ export default Waterline.Collection.extend({
       unique: true,
       required: true,
       index: true
+    },
+    owners: {
+      collection: 'user',
+      via: 'games'
     },
     thumbnailUrl: {type: 'string'},
     minPlayers: {type: 'integer'},

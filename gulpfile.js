@@ -46,6 +46,8 @@ gulp.task('babel:client:dev', function (callback) {
   });
 });
 
+gulp.task('build', ['babel:server', 'babel:client:dev']);
+
 gulp.task('lint', function () {
   return gulp.src(['src/**/*.js', 'gulpfile.js'])
              .pipe(semistandard())
@@ -108,25 +110,6 @@ gulp.task('serve', function () {
 
 gulp.task('watch', ['watch:client', 'watch:server']);
 
-var devConfig = Object.create(webpackConfig);
-devConfig.devtool = 'inline-source-map';
-devConfig.debug = true;
-
-var devCompiler = webpack(devConfig);
-
-/**
- * Runs webpack on the client side assets for development.
- */
-gulp.task('webpack:client:build-dev', function (callback) {
-  devCompiler.run(function (err, stats) {
-    if (err) throw new gutil.PluginError('webpack:client:build', err);
-    gutil.log('[webpack:build-dev]', stats.toString({
-      colors: true
-    }));
-    callback();
-  });
-});
-
 /**
  * Generate documentation
  */
@@ -143,4 +126,4 @@ gulp.task('docs', function () {
 /**
  * The task that runs by default whenever another task isn't specified.
  */
-gulp.task('default', ['serve', 'watch:server', 'watch:client', 'docs']);
+gulp.task('default', ['build', 'serve', 'watch:server', 'watch:client', 'docs']);

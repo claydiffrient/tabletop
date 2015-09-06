@@ -77,6 +77,7 @@
             <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
             <li class="active"><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
+            <li><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -104,6 +105,8 @@ describe('GameModel', () =&gt; {
 
   before((done) =&gt; {
     let gameModel = require('../../../server/models/Game.js');
+    let userModel = require('../../../server/models/User.js');
+    waterline.loadCollection(userModel);
     waterline.loadCollection(gameModel);
     waterline.initialize(config, (err, collections) =&gt; {
       if (err) return done(err);
@@ -143,6 +146,43 @@ describe('GameModel', () =&gt; {
 
     testGame.then((game) =&gt; {
       expect(game.title).to.be('Game of Tests');
+    });
+
+  });
+
+  xit('should be able to associate a user with the game', () =&gt; {
+    let Game = waterline.collections.game;
+    let User = waterline.collections.user;
+
+    User.create({
+      username: 'tester2015',
+      firstName: 'Test',
+      lastName: 'McTester',
+      email: 'tester2015@example.com',
+      password: 'password12345'
+    }, () =&gt; {
+
+      Game.create({
+        bggId: 123,
+        title: 'Game of Tests',
+        thumbnailUrl: 'http://example.com/image.png',
+        minPlayers: 1,
+        maxPlayers: 10,
+        description: 'A simple game for testing things',
+        mechanics: ['Deck Building', 'Test Taking'],
+        playTime: 2
+      }, () =&gt; {
+        Game.find(1).exec(function (err, game) {
+          if (err) throw new Error(err);
+          console.log(game);
+          game.owners.add([1]);
+
+          game.save(function (err2) {
+            if (err) throw new Error(err2);
+          });
+
+        });
+      });
     });
 
   });

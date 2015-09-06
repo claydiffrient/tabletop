@@ -77,6 +77,7 @@
             <li class="active"><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
             <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
+            <li><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -91,11 +92,16 @@ export default Waterline.Collection.extend({
   identity: 'user',
   connection: 'default',
   attributes: {
-    username: { type: 'string', required: true, unique: true},
-    firstName: { type: 'string'},
-    lastName: { type: 'string'},
+    username: {type: 'string', required: true, unique: true},
+    firstName: {type: 'string'},
+    lastName: {type: 'string'},
     email: {type: 'string'},
-    password: {type: 'string'}
+    password: {type: 'string'},
+    games: {
+      collection: 'game',
+      via: 'owners',
+      dominant: true
+    }
   }
 });</code></pre>
         </div>
