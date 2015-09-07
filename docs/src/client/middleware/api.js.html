@@ -73,9 +73,13 @@
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="/docs/index.html">Main</a></li>
             <li><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
+            <li class="active"><a href="/docs/src/client/middleware/api.js.html">src/client/middleware/api.js</a></li>
+            <li><a href="/docs/src/client/reducers/index.js.html">src/client/reducers/index.js</a></li>
+            <li><a href="/docs/src/client/store/configureStore.js.html">src/client/store/configureStore.js</a></li>
             <li><a href="/docs/src/server/models/Game.js.html">src/server/models/Game.js</a></li>
-            <li class="active"><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
+            <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
+            <li><a href="/docs/src/server/routes/api/index.js.html">src/server/routes/api/index.js</a></li>
             <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
             <li><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
           </ul>
@@ -86,24 +90,16 @@
         </div>
         <div class="span9">
           <div class="description"> </div>
-          <pre><code class="language-javascript">import Waterline from 'waterline';
+          <pre><code class="language-javascript">import { Schema, arrayOf, normalize } from 'normalizr';
+import { camelizeKeys } from 'humps';
+import axios from 'axios';
+import config from 'config';
 
-export default Waterline.Collection.extend({
-  identity: 'user',
-  connection: 'default',
-  attributes: {
-    username: {type: 'string', required: true, unique: true},
-    firstName: {type: 'string'},
-    lastName: {type: 'string'},
-    email: {type: 'string'},
-    password: {type: 'string'},
-    games: {
-      collection: 'game',
-      via: 'owners',
-      dominant: true
-    }
-  }
-});</code></pre>
+const API_ROOT = config.get('App.apiUrl');
+
+function callApi (endpoint, schema) {
+
+}</code></pre>
         </div>
       </div>
     </div>

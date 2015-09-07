@@ -46,7 +46,7 @@ gulp.task('babel:client:dev', function (callback) {
   });
 });
 
-gulp.task('build', ['babel:server', 'babel:client:dev']);
+gulp.task('build', ['babel:server', 'babel:client:dev', 'copy:static_assets']);
 
 gulp.task('lint', function () {
   return gulp.src(['src/**/*.js', 'gulpfile.js'])
@@ -102,6 +102,11 @@ gulp.task('watch:test', function () {
 gulp.task('copy:server:views', function () {
   return gulp.src('src/server/views/**/*.handlebars')
              .pipe(gulp.dest('compiled/server/views'));
+});
+
+gulp.task('copy:static_assets', function () {
+  return gulp.src('src/static_assets/favicon.ico')
+             .pipe(gulp.dest('compiled/client'));
 });
 
 gulp.task('serve', function () {

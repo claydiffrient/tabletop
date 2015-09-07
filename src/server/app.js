@@ -11,6 +11,8 @@ import methodOverride from 'method-override';
 import compress from 'compression';
 import config from 'config';
 
+import apiRoutes from './routes/api/index';
+
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -32,7 +34,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(path.join(__dirname, '/../client/favicon.ico')));
 if (app.get('env') === 'development') {
   app.use(logger('dev'));
 } else if (app.get('env') === 'production') {
@@ -49,6 +51,8 @@ app.use(session({
   secret: config.get('Session.sessionSecret')
 }));
 app.use(express.static(path.join(__dirname, '../client')));
+
+app.use('/api', apiRoutes);
 
 /* GET All routes, let react-router handle routing
    on the client side

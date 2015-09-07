@@ -73,10 +73,14 @@
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="/docs/index.html">Main</a></li>
             <li><a href="/docs/src/server/app.js.html">src/server/app.js</a></li>
+            <li><a href="/docs/src/client/middleware/api.js.html">src/client/middleware/api.js</a></li>
+            <li><a href="/docs/src/client/reducers/index.js.html">src/client/reducers/index.js</a></li>
+            <li class="active"><a href="/docs/src/client/store/configureStore.js.html">src/client/store/configureStore.js</a></li>
             <li><a href="/docs/src/server/models/Game.js.html">src/server/models/Game.js</a></li>
             <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
-            <li class="active"><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
+            <li><a href="/docs/src/server/routes/api/index.js.html">src/server/routes/api/index.js</a></li>
+            <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
             <li><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
           </ul>
           <div class="scrollspy">
@@ -85,109 +89,32 @@
           </div>
         </div>
         <div class="span9">
-          <div class="description"><p>eslint-env node, mocha</p> </div>
-          <pre><code class="language-javascript">import expect from 'expect.js';
-import Waterline from 'waterline';
-import sailsMemoryAdapter from 'sails-memory';
+          <div class="description"> </div>
+          <pre><code class="language-javascript">import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import apiMiddleware from '../middleware/api';
+import loggerMiddleware from 'redux-logger';
+import rootReducer from '../reducers';
 
-describe('GameModel', () =&gt; {
-  let waterline = new Waterline();
-  let config = {
-    adapters: {
-      'memory': sailsMemoryAdapter
-    },
-    connections: {
-      default: {
-        adapter: 'memory'
-      }
-    }
-  };
+const createStoreWithMiddleware = applyMiddleware(
+  thunkMiddleware,
+  apiMiddleware,
+  loggerMiddleware
+)(createStore);
 
-  before((done) =&gt; {
-    let gameModel = require('../../../server/models/Game.js');
-    let userModel = require('../../../server/models/User.js');
-    waterline.loadCollection(userModel);
-    waterline.loadCollection(gameModel);
-    waterline.initialize(config, (err, collections) =&gt; {
-      if (err) return done(err);
-      done();
+export default function configureStore (initialState) {
+  const store = createStoreWithMiddleware(rootReducer, initialState);
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('../reducers', () =&gt; {
+      const nextRootReducer = require('../reducers');
+      store.replaceReducer(nextRootReducer);
     });
-  });
+  }
 
-  after(() =&gt; {
-    let adapters = config.adapters || {};
-    let promises = [];
-
-    Object.keys(adapters)
-          .forEach((adapter) =&gt; {
-            if (adapters[adapter].teardown) {
-              let promise = new Promise((resolve) =&gt; {
-                adapters[adapter].teardown(null, resolve);
-              });
-              promises.push(promise);
-            }
-          });
-    return Promise.all(promises);
-  });
-
-  it('should be able to create a new game', () =&gt; {
-    let Game = waterline.collections.game;
-
-    let testGame = Game.create({
-      bggId: 123,
-      title: 'Game of Tests',
-      thumbnailUrl: 'http://example.com/image.png',
-      minPlayers: 1,
-      maxPlayers: 10,
-      description: 'A simple game for testing things',
-      mechanics: ['Deck Building', 'Test Taking'],
-      playTime: 2
-    });
-
-    testGame.then((game) =&gt; {
-      expect(game.title).to.be('Game of Tests');
-    });
-
-  });
-
-  xit('should be able to associate a user with the game', () =&gt; {
-    let Game = waterline.collections.game;
-    let User = waterline.collections.user;
-
-    User.create({
-      username: 'tester2015',
-      firstName: 'Test',
-      lastName: 'McTester',
-      email: 'tester2015@example.com',
-      password: 'password12345'
-    }, () =&gt; {
-
-      Game.create({
-        bggId: 123,
-        title: 'Game of Tests',
-        thumbnailUrl: 'http://example.com/image.png',
-        minPlayers: 1,
-        maxPlayers: 10,
-        description: 'A simple game for testing things',
-        mechanics: ['Deck Building', 'Test Taking'],
-        playTime: 2
-      }, () =&gt; {
-        Game.find(1).exec(function (err, game) {
-          if (err) throw new Error(err);
-          console.log(game);
-          game.owners.add([1]);
-
-          game.save(function (err2) {
-            if (err) throw new Error(err2);
-          });
-
-        });
-      });
-    });
-
-  });
-
-});</code></pre>
+  return store;
+};</code></pre>
         </div>
       </div>
     </div>
