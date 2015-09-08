@@ -79,6 +79,7 @@
             <li><a href="/docs/src/server/models/Game.js.html">src/server/models/Game.js</a></li>
             <li><a href="/docs/src/server/models/User.js.html">src/server/models/User.js</a></li>
             <li><a href="/docs/src/server/models/index.js.html">src/server/models/index.js</a></li>
+            <li><a href="/docs/src/server/routes/api/games.js.html">src/server/routes/api/games.js</a></li>
             <li class="active"><a href="/docs/src/server/routes/api/index.js.html">src/server/routes/api/index.js</a></li>
             <li><a href="/docs/src/test/server/models/Game.spec.js.html">src/test/server/models/Game.spec.js</a></li>
             <li><a href="/docs/src/test/server/models/User.spec.js.html">src/test/server/models/User.spec.js</a></li>
@@ -91,10 +92,12 @@
         <div class="span9">
           <div class="description"><p>GET API Docs</p> </div>
           <pre><code class="language-javascript">router.get('/', (req, res) =&gt; {
-  res.redirect('/docs');
+  res.redirect('/docs/api');
 });
 
-export default router;</code></pre>
+return router;
+
+};</code></pre>
         </div>
       </div>
     </div>

@@ -1,17 +1,21 @@
-import express from 'express';
-let router = express.Router();
+import { Router } from 'express';
+let router = Router();
 
-// var gameRoutes = require('./games.js');
-// var userRoutes = require('./users.js');
-// var voteRoutes = require('./votes.js');
+export default function (app) {
 
-// router.use('/v1/games', gameRoutes);
-// router.use('/v1/users', userRoutes);
-// router.use('/v1/votes', voteRoutes);
+  let gameRoutes = require('./games')(app);
+  // var userRoutes = require('./users.js');
+  // var voteRoutes = require('./votes.js');
 
-/* GET API Docs */
-router.get('/', (req, res) => {
-  res.redirect('/docs');
-});
+  router.use('/v1/games', gameRoutes);
+  // router.use('/v1/users', userRoutes);
+  // router.use('/v1/votes', voteRoutes);
 
-export default router;
+  /* GET API Docs */
+  router.get('/', (req, res) => {
+    res.redirect('/docs/api');
+  });
+
+  return router;
+
+};

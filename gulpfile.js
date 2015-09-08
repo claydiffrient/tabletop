@@ -7,6 +7,7 @@ var gls = require('gulp-live-server');
 var doxx = require('gulp-doxx');
 var semistandard = require('gulp-semistandard');
 var mocha = require('gulp-mocha');
+var apidoc = require('gulp-apidoc');
 
 var server = gls.new('./bin/run');
 
@@ -46,7 +47,9 @@ gulp.task('babel:client:dev', function (callback) {
   });
 });
 
-gulp.task('build', ['babel:server', 'babel:client:dev', 'copy:static_assets']);
+gulp.task('build', ['babel:server', 'babel:client:dev', 'copy:static_assets'], function (callback) {
+  callback();
+});
 
 gulp.task('lint', function () {
   return gulp.src(['src/**/*.js', 'gulpfile.js'])
@@ -109,7 +112,7 @@ gulp.task('copy:static_assets', function () {
              .pipe(gulp.dest('compiled/client'));
 });
 
-gulp.task('serve', function () {
+gulp.task('serve', ['build'], function () {
   server.start();
 });
 
@@ -118,15 +121,29 @@ gulp.task('watch', ['watch:client', 'watch:server']);
 /**
  * Generate documentation
  */
-gulp.task('docs', function () {
-  gulp.src(['./src/**/*.js', 'README.md'], {base: '.'})
-      .pipe(doxx({
-        title: 'Tabletop Game Selector',
-        urlPrefix: '/docs'
-      }))
-      .pipe(gulp.dest('docs')) // For ease of access in the repo
-      .pipe(gulp.dest('compiled/client/docs')); // For hosting in the app
+gulp.task('docs:code', function () {
+  return gulp.src(['./src/**/*.js', 'README.md'], {base: '.'})
+             .pipe(doxx({
+                title: 'Tabletop Game Selector',
+                urlPrefix: '/docs'
+              }))
+             .pipe(gulp.dest('docs')) // For ease of access in the repo
+             .pipe(gulp.dest('compiled/client/docs')); // For hosting in the app
 });
+
+gulp.task('docs:api:generate', function () {
+  return apidoc.exec({
+    src: 'src/server/routes/api',
+    dest: 'docs/api'
+  });
+});
+
+gulp.task('docs:api', ['docs:api:generate'], function () {
+  return gulp.src('docs/api/**/*.*')
+             .pipe(gulp.dest('compiled/client/docs/api'));
+});
+
+gulp.task('docs', ['docs:code', 'docs:api']);
 
 /**
  * The task that runs by default whenever another task isn't specified.

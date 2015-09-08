@@ -11,8 +11,6 @@ import methodOverride from 'method-override';
 import compress from 'compression';
 import config from 'config';
 
-import apiRoutes from './routes/api/index';
-
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -51,6 +49,10 @@ app.use(session({
   secret: config.get('Session.sessionSecret')
 }));
 app.use(express.static(path.join(__dirname, '../client')));
+
+var apiRoutes = require('./routes/api/index')(app);
+console.log(apiRoutes);
+console.log(app);
 
 app.use('/api', apiRoutes);
 
