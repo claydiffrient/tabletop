@@ -4,11 +4,11 @@ let router = Router();
 export default function (app) {
 
   let gameRoutes = require('./games')(app);
-  // var userRoutes = require('./users.js');
+  let userRoutes = require('./users')(app);
   // var voteRoutes = require('./votes.js');
 
   router.use('/v1/games', gameRoutes);
-  // router.use('/v1/users', userRoutes);
+  router.use('/v1/users', userRoutes);
   // router.use('/v1/votes', voteRoutes);
 
   /* GET API Docs */

@@ -1,7 +1,16 @@
 import { Router } from 'express';
+import { remove } from 'lodash';
 let router = Router();
 
 export default function (app) {
+
+  let _removeUnapproved = (games) => {
+    return games.map((game) => {
+      remove(game.owners, (owner) => {
+        return !owner.approved;
+      });
+    });
+  };
 
   /**
    * @api {get} /games Request list of games
@@ -21,10 +30,10 @@ export default function (app) {
    * @apiSuccess {Number}   games.playTime      The average playtime in minutes
    *
    */
-  router.get('/', function (req, res) {
-    app.models.game.find({}).exec((err, models) => {
+  router.get('/', (req, res) => {
+    app.models.game.find({}).populate('owners').exec((err, models) => {
       if (err) return res.status(500).json({err});
-      res.json(models);
+      res.json(_removeUnapproved(models));
     });
   });
 

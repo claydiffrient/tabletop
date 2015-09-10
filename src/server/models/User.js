@@ -13,6 +13,11 @@ export default Waterline.Collection.extend({
       collection: 'game',
       via: 'owners',
       dominant: true
+    },
+    toJSON () {
+      let obj = this.toObject();
+      delete obj.password;
+      return obj;
     }
   }
 });
