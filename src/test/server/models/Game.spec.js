@@ -60,7 +60,6 @@ describe('GameModel', () => {
     testGame.then((game) => {
       expect(game.title).to.be('Game of Tests');
     });
-
   });
 
   xit('should be able to associate a user with the game', () => {
@@ -74,7 +73,6 @@ describe('GameModel', () => {
       email: 'tester2015@example.com',
       password: 'password12345'
     }, () => {
-
       Game.create({
         bggId: 123,
         title: 'Game of Tests',
@@ -93,11 +91,8 @@ describe('GameModel', () => {
           game.save(function (err2) {
             if (err) throw new Error(err2);
           });
-
         });
       });
     });
-
   });
-
 });

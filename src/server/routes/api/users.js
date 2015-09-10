@@ -2,7 +2,6 @@ import { Router } from 'express';
 let router = Router();
 
 export default function (app) {
-
   /**
    * @api {get} /users Request list of users
    * @apiName GetUsers
@@ -67,5 +66,4 @@ export default function (app) {
   });
 
   return router;
-
-};
+}

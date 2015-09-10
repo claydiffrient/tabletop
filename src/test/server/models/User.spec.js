@@ -57,7 +57,5 @@ describe('UserModel', () => {
     testUser.then((user) => {
       expect(user.firstName).to.be('Test');
     });
-
   });
-
 });

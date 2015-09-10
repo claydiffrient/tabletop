@@ -3,7 +3,6 @@ import { remove } from 'lodash';
 let router = Router();
 
 export default function (app) {
-
   let _removeUnapproved = (games) => {
     return games.map((game) => {
       remove(game.owners, (owner) => {
@@ -53,5 +52,4 @@ export default function (app) {
   });
 
   return router;
-
-};
+}

@@ -124,9 +124,9 @@ gulp.task('watch', ['watch:client', 'watch:server']);
 gulp.task('docs:code', function () {
   return gulp.src(['./src/**/*.js', 'README.md'], {base: '.'})
              .pipe(doxx({
-                title: 'Tabletop Game Selector',
-                urlPrefix: '/docs'
-              }))
+               title: 'Tabletop Game Selector',
+               urlPrefix: '/docs'
+             }))
              .pipe(gulp.dest('docs')) // For ease of access in the repo
              .pipe(gulp.dest('compiled/client/docs')); // For hosting in the app
 });

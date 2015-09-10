@@ -2,7 +2,6 @@ import { Router } from 'express';
 let router = Router();
 
 export default function (app) {
-
   let gameRoutes = require('./games')(app);
   let userRoutes = require('./users')(app);
   // var voteRoutes = require('./votes.js');
@@ -17,5 +16,4 @@ export default function (app) {
   });
 
   return router;
-
-};
+}
