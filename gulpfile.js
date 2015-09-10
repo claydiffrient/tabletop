@@ -8,6 +8,7 @@ var doxx = require('gulp-doxx');
 var semistandard = require('gulp-semistandard');
 var mocha = require('gulp-mocha');
 var apidoc = require('gulp-apidoc');
+var sourcemaps = require('gulp-sourcemaps');
 
 var server = gls.new('./bin/run');
 
@@ -24,7 +25,9 @@ var devCompiler = webpack(devConfig);
  */
 gulp.task('babel:server', function () {
   return gulp.src('src/server/**/*.js')
+             .pipe(sourcemaps.init())
              .pipe(babel())
+             .pipe(sourcemaps.write('.'))
              .pipe(gulp.dest('compiled/server'));
 });
 

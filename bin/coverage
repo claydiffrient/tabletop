@@ -1,1 +1,1 @@
-NODE_ENV=test istanbul cover _mocha -- -R spec test/**/*
+NODE_ENV=test babel-istanbul cover _mocha -- -R spec compiled/test/**/*.js
