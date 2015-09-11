@@ -17,16 +17,23 @@ export default function (app) {
    * @apiGroup Game
    * @apiVersion 1.0.0
    *
-   * @apiSuccess {Object[]} games               List of games
-   * @apiSuccess {Number}   games.bggId         BGG Id
-   * @apiSuccess {String}   games.title         Title of the game
-   * @apiSuccess {Object[]} games.owners        List of owners
-   * @apiSuccess {String}   games.thumbnailUrl  URL to a thumbnail image
-   * @apiSuccess {Number}   games.minPlayers    The minimum number of players
-   * @apiSuccess {Number}   games.maxPlayers    The maximum number of players
-   * @apiSuccess {String}   games.description   A description of the game
-   * @apiSuccess {String[]} games.mechanics     The game's mechanics
-   * @apiSuccess {Number}   games.playTime      The average playtime in minutes
+   * @apiSuccess {Object[]} games                   List of games
+   * @apiSuccess {Number}   games.bggId             BGG Id
+   * @apiSuccess {String}   games.title             Title of the game
+   * @apiSuccess {Object[]} games.owners            List of owners
+   * @apiSuccess {String}   games.owners.username   The username for the user
+   * @apiSuccess {String}   games.owners.firstName  The user's first name
+   * @apiSuccess {String}   games.owners.lastName   The user's last name
+   * @apiSuccess {String}   games.owners.email      The user's email address
+   * @apiSuccess {String}   games.owners.createdAt  When this record was created
+   * @apiSuccess {String}   games.owners.updatedAt  When this record was last updated
+   * @apiSuccess {Number}   games.owners.id         This records unique id
+   * @apiSuccess {String}   games.thumbnailUrl      URL to a thumbnail image
+   * @apiSuccess {Number}   games.minPlayers        The minimum number of players
+   * @apiSuccess {Number}   games.maxPlayers        The maximum number of players
+   * @apiSuccess {String}   games.description       A description of the game
+   * @apiSuccess {String[]} games.mechanics         The game's mechanics
+   * @apiSuccess {Number}   games.playTime          The average playtime in minutes
    *
    */
   router.get('/', (req, res) => {

@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import fs from 'fs';
 import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
@@ -13,11 +12,6 @@ import config from 'config';
 
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
-// Read in all the models.
-fs.readdirSync(__dirname + '/models').forEach(function (file) {
-  require('./models/' + file);
-});
 
 var app = express();
 
@@ -51,8 +45,6 @@ app.use(session({
 app.use(express.static(path.join(__dirname, '../client')));
 
 var apiRoutes = require('./routes/api/index')(app);
-console.log(apiRoutes);
-console.log(app);
 
 app.use('/api', apiRoutes);
 
