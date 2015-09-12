@@ -9,9 +9,9 @@ export default Waterline.Collection.extend({
     lastName: {type: 'string'},
     email: {type: 'string'},
     password: {type: 'string'},
-    games: {
+    ignoredGames: {
       collection: 'game',
-      via: 'owners',
+      via: 'ignoredByUsers',
       dominant: true
     },
     toJSON () {

@@ -16,9 +16,9 @@ export default Waterline.Collection.extend({
       required: true,
       index: true
     },
-    owners: {
+    ignoredByUsers: {
       collection: 'user',
-      via: 'games'
+      via: 'ignoredGames'
     },
     thumbnailUrl: {type: 'string'},
     minPlayers: {type: 'integer'},

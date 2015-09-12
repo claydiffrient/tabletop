@@ -72,27 +72,29 @@ describe('GameModel', () => {
       lastName: 'McTester',
       email: 'tester2015@example.com',
       password: 'password12345'
-    }, () => {
+    })
+    .then((user) => {
       Game.create({
-        bggId: 123,
-        title: 'Game of Tests',
+        bggId: 120,
+        title: 'Game of Tests 2',
         thumbnailUrl: 'http://example.com/image.png',
         minPlayers: 1,
         maxPlayers: 10,
         description: 'A simple game for testing things',
         mechanics: ['Deck Building', 'Test Taking'],
         playTime: 2
-      }, () => {
-        Game.find(1).exec(function (err, game) {
-          if (err) throw new Error(err);
-          console.log(game);
-          game.owners.add([1]);
+      })
+      .then((game) => {
+        console.log(game);
+        game.owners.add(user);
 
-          game.save(function (err2) {
-            if (err) throw new Error(err2);
-          });
-        });
-      });
+        return game.save();
+      })
+      .then(() => {
+        return Game.find().populate('owners');
+      })
+      .then(console.log)
+      .catch(console.error);
     });
   });
 });

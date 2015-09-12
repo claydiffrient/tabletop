@@ -17,8 +17,8 @@ describe('UserModel', () => {
   };
 
   before((done) => {
-    let gameModel = require('../../../server/models/Game.js');
-    let userModel = require('../../../server/models/User.js');
+    let gameModel = require('../../../server/models/Game');
+    let userModel = require('../../../server/models/User');
     waterline.loadCollection(userModel);
     waterline.loadCollection(gameModel);
     waterline.initialize(config, (err, collections) => {
@@ -56,6 +56,37 @@ describe('UserModel', () => {
 
     testUser.then((user) => {
       expect(user.firstName).to.be('Test');
+    });
+  });
+
+  xit('should be able to associate an ignored game', () => {
+    let User = waterline.collections.user;
+    let Game = waterline.collections.game;
+
+    User.create({
+      username: 'testmeplease',
+      firstName: 'Test',
+      lastName: 'McTester',
+      email: 'testerMePlease@example.com',
+      password: 'password12345'
+    }).exec((userError, user) => {
+      if (userError) throw new Error(userError);
+      Game.create({
+        bggId: 120,
+        title: 'Game of Tests 2',
+        thumbnailUrl: 'http://example.com/image.png',
+        minPlayers: 1,
+        maxPlayers: 10,
+        description: 'A simple game for testing things',
+        mechanics: ['Deck Building', 'Test Taking'],
+        playTime: 2
+      }).exec((gameError, game) => {
+        if (gameError) throw new Error(gameError);
+        user.ignoredGames.add(game.id);
+        user.save((saveError) => {
+          if (saveError) throw new Error(saveError);
+        });
+      });
     });
   });
 });
