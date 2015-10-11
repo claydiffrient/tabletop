@@ -65,5 +65,16 @@ export default function (app) {
     });
   });
 
+  router.post('/:id/:gameId/ignore', (req, res) => {
+    app.models.user.find(req.params.id).exec((err, user) => {
+      if (err) res.status(500).json({err});
+      user.ignoredGames.add(req.params.gameId);
+      user.save((saveError) => {
+        if (saveError) res.status(500).json({err: saveError});
+
+      });
+    });
+  });
+
   return router;
 }

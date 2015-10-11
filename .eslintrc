@@ -153,7 +153,7 @@
         "quote-props": 0,
         "quotes": [2, "single", "avoid-escape"],
         "radix": 2,
-        "react/display-name": 1,
+        "react/display-name": [1, { "acceptTranspilerName": true}],
         "react/jsx-uses-react": 1,
         "react/jsx-uses-vars": 1,
         "react/no-did-mount-set-state": 1,
