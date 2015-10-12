@@ -5,7 +5,10 @@ import { createHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router';
 import configureStore from './store/configureStore';
+
 import App from './components/App';
+
+import './styles/bootstrap4flex.css';
 
 const history = createHistory();
 const store = configureStore({

@@ -90,7 +90,7 @@ gulp.task('watch:server', function () {
  * the webpack:client:build-dev task
  */
 gulp.task('watch:client', function () {
-  var clientWatch = gulp.watch('src/client/**/*.js', ['webpack:client:build-dev', 'docs']);
+  var clientWatch = gulp.watch('src/client/**/*.*', ['babel:client:dev', 'docs']);
   clientWatch.on('change', function (event) {
     server.notify(event);
   });
@@ -111,7 +111,7 @@ gulp.task('copy:server:views', function () {
 });
 
 gulp.task('copy:static_assets', function () {
-  return gulp.src('src/static_assets/favicon.ico')
+  return gulp.src('src/static_assets/**/*.*')
              .pipe(gulp.dest('compiled/client'));
 });
 
@@ -134,11 +134,11 @@ gulp.task('docs:code', function () {
              .pipe(gulp.dest('compiled/client/docs')); // For hosting in the app
 });
 
-gulp.task('docs:api:generate', function () {
-  return apidoc.exec({
+gulp.task('docs:api:generate', (done) => {
+  return apidoc({
     src: 'src/server/routes/api',
     dest: 'docs/api'
-  });
+  }, done);
 });
 
 gulp.task('docs:api', ['docs:api:generate'], function () {
