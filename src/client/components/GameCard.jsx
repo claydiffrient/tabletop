@@ -15,6 +15,8 @@ let GameCard = (props) => {
 
 GameCard.propTypes = {
   imageUrl: React.PropTypes.string,
-}
+  title: React.PropTypes.string.isRequired,
+  description: React.PropTypes.string.isRequired
+};
 
 export default GameCard;
