@@ -71,7 +71,6 @@ export default function (app) {
       user.ignoredGames.add(req.params.gameId);
       user.save((saveError) => {
         if (saveError) res.status(500).json({err: saveError});
-
       });
     });
   });
