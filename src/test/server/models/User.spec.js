@@ -1,92 +1,92 @@
-/* eslint-env node, mocha */
-import expect from 'expect.js';
-import Waterline from 'waterline';
-import sailsMemoryAdapter from 'sails-memory';
+// /* eslint-env node, mocha */
+// import expect from 'expect.js';
+// import Waterline from 'waterline';
+// import sailsMemoryAdapter from 'sails-memory';
 
-describe('UserModel', () => {
-  let waterline = new Waterline();
-  let config = {
-    adapters: {
-      'memory': sailsMemoryAdapter
-    },
-    connections: {
-      default: {
-        adapter: 'memory'
-      }
-    }
-  };
+// describe('UserModel', () => {
+//   let waterline = new Waterline();
+//   let config = {
+//     adapters: {
+//       'memory': sailsMemoryAdapter
+//     },
+//     connections: {
+//       default: {
+//         adapter: 'memory'
+//       }
+//     }
+//   };
 
-  before((done) => {
-    let gameModel = require('../../../server/models/Game');
-    let userModel = require('../../../server/models/User');
-    waterline.loadCollection(userModel);
-    waterline.loadCollection(gameModel);
-    waterline.initialize(config, (err, collections) => {
-      if (err) return done(err);
-      done();
-    });
-  });
+//   before((done) => {
+//     let gameModel = require('../../../server/models/Game');
+//     let userModel = require('../../../server/models/User');
+//     waterline.loadCollection(userModel);
+//     waterline.loadCollection(gameModel);
+//     waterline.initialize(config, (err, collections) => {
+//       if (err) return done(err);
+//       done();
+//     });
+//   });
 
-  after(() => {
-    let adapters = config.adapters || {};
-    let promises = [];
+//   after(() => {
+//     let adapters = config.adapters || {};
+//     let promises = [];
 
-    Object.keys(adapters)
-          .forEach((adapter) => {
-            if (adapters[adapter].teardown) {
-              let promise = new Promise((resolve) => {
-                adapters[adapter].teardown(null, resolve);
-              });
-              promises.push(promise);
-            }
-          });
-    return Promise.all(promises);
-  });
+//     Object.keys(adapters)
+//           .forEach((adapter) => {
+//             if (adapters[adapter].teardown) {
+//               let promise = new Promise((resolve) => {
+//                 adapters[adapter].teardown(null, resolve);
+//               });
+//               promises.push(promise);
+//             }
+//           });
+//     return Promise.all(promises);
+//   });
 
-  it('should be able to create a new user', () => {
-    let User = waterline.collections.user;
+//   it('should be able to create a new user', () => {
+//     let User = waterline.collections.user;
 
-    let testUser = User.create({
-      username: 'tester2015',
-      firstName: 'Test',
-      lastName: 'McTester',
-      email: 'tester2015@example.com',
-      password: 'password12345'
-    });
+//     let testUser = User.create({
+//       username: 'tester2015',
+//       firstName: 'Test',
+//       lastName: 'McTester',
+//       email: 'tester2015@example.com',
+//       password: 'password12345'
+//     });
 
-    testUser.then((user) => {
-      expect(user.firstName).to.be('Test');
-    });
-  });
+//     testUser.then((user) => {
+//       expect(user.firstName).to.be('Test');
+//     });
+//   });
 
-  xit('should be able to associate an ignored game', () => {
-    let User = waterline.collections.user;
-    let Game = waterline.collections.game;
+//   xit('should be able to associate an ignored game', () => {
+//     let User = waterline.collections.user;
+//     let Game = waterline.collections.game;
 
-    User.create({
-      username: 'testmeplease',
-      firstName: 'Test',
-      lastName: 'McTester',
-      email: 'testerMePlease@example.com',
-      password: 'password12345'
-    }).exec((userError, user) => {
-      if (userError) throw new Error(userError);
-      Game.create({
-        bggId: 120,
-        title: 'Game of Tests 2',
-        thumbnailUrl: 'http://example.com/image.png',
-        minPlayers: 1,
-        maxPlayers: 10,
-        description: 'A simple game for testing things',
-        mechanics: ['Deck Building', 'Test Taking'],
-        playTime: 2
-      }).exec((gameError, game) => {
-        if (gameError) throw new Error(gameError);
-        user.ignoredGames.add(game.id);
-        user.save((saveError) => {
-          if (saveError) throw new Error(saveError);
-        });
-      });
-    });
-  });
-});
+//     User.create({
+//       username: 'testmeplease',
+//       firstName: 'Test',
+//       lastName: 'McTester',
+//       email: 'testerMePlease@example.com',
+//       password: 'password12345'
+//     }).exec((userError, user) => {
+//       if (userError) throw new Error(userError);
+//       Game.create({
+//         bggId: 120,
+//         title: 'Game of Tests 2',
+//         thumbnailUrl: 'http://example.com/image.png',
+//         minPlayers: 1,
+//         maxPlayers: 10,
+//         description: 'A simple game for testing things',
+//         mechanics: ['Deck Building', 'Test Taking'],
+//         playTime: 2
+//       }).exec((gameError, game) => {
+//         if (gameError) throw new Error(gameError);
+//         user.ignoredGames.add(game.id);
+//         user.save((saveError) => {
+//           if (saveError) throw new Error(saveError);
+//         });
+//       });
+//     });
+//   });
+// });

@@ -16,6 +16,6 @@ describe('GameModel', () => {
       playTime: 2
     });
 
-    expect(testGame.title).to.be('Game of Tests');
+    expect(testGame.title).to.equal('Game of Tests');
   });
 });

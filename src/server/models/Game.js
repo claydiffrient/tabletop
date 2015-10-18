@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
-let { Schema, model } = mongoose;
+let Schema = mongoose.Schema;
 
 let GameSchema = new Schema({
   title: { type: String, unique: true, required: true },
@@ -20,6 +20,6 @@ let GameSchema = new Schema({
 
 GameSchema.plugin(uniqueValidator);
 
-let GameModel = model('Game', GameSchema);
+let GameModel = mongoose.model('Game', GameSchema);
 
 export default GameModel;

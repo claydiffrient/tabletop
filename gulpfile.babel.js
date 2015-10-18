@@ -67,7 +67,7 @@ gulp.task('test:server', ['babel:server', 'babel:test'], function () {
              .pipe(mocha());
 });
 
-gulp.task('test', ['lint', 'test:server']);
+gulp.task('test', ['test:server']);
 
 /**
  * Watches the server source directory for changes and
