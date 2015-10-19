@@ -1,16 +1,9 @@
 #!/usr/bin/env node
 var debug = require('debug')('tabletop');
 var app = require('../compiled/server/app');
-var models = require('../compiled/server/models');
 
 app.set('port', process.env.PORT || 4000);
 
-models.waterline.initialize(models.config, function (err, models) {
-  if (err) throw err;
-  app.models = models.collections;
-  app.connections = models.connections;
-
-  var server = app.listen(app.get('port'), function () {
-    debug('Express server listening on port ' + server.address().port);
-  });
+var server = app.listen(app.get('port'), function () {
+  debug('Express server listening on port ' + server.address().port);
 });

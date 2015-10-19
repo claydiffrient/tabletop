@@ -43,6 +43,7 @@
     "express-session": "1.11.3",
     "gulp-run": "^1.6.11",
     "history": "^1.12.4",
+    "html-entities": "^1.2.0",
     "humps": "^1.0.0",
     "jquery": "^2.1.4",
     "lodash": "3.10.1",
@@ -86,7 +87,9 @@
     "lcov-result-merger": "^1.0.2",
     "mocha": "2.3.3",
     "mockgoose": "^4.0.2",
+    "nock": "^2.15.0",
     "sails-memory": "^0.10.5",
+    "supertest": "^1.1.0",
     "webpack-dev-server": "^1.12.0"
   },
   "apidoc": {

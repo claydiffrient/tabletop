@@ -1,19 +1,15 @@
 import { Router } from 'express';
 let router = Router();
 
-export default function (app) {
-  let gameRoutes = require('./games')(app);
-  let userRoutes = require('./users')(app);
-  // var voteRoutes = require('./votes.js');
+import gameRoutes from './games';
 
-  router.use('/v1/games', gameRoutes);
-  router.use('/v1/users', userRoutes);
-  // router.use('/v1/votes', voteRoutes);
+export default (app) => {
+  router.use('/v1/games', gameRoutes(app));
 
-  /* GET API Docs */
+  /* GET home page. */
   router.get('/', (req, res) => {
-    res.redirect('/docs/api');
+    res.render('api-index', { title: 'Tabletop API' });
   });
 
   return router;
-}
+};

@@ -73,7 +73,7 @@ gulp.task('test', ['test:server']);
  * Watches the server source directory for changes and
  * triggers the babel:server task
  */
-gulp.task('watch:server', function () {
+gulp.task('watch:server', ['copy:server:views'], function () {
   var jsWatcher = gulp.watch('src/server/**/*.js', ['babel:server', 'docs']);
   var viewWatcher = gulp.watch('src/server/views/**/*.handlebars', ['copy:server:views']);
   var notify = function (event) {
