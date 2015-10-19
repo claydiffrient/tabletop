@@ -63,7 +63,7 @@
     "redux-thunk": "^1.0.0",
     "sails-postgresql": "^0.10.16",
     "serve-favicon": "2.3.0",
-    "style-loader": "0.12.4",
+    "style-loader": "0.13.0",
     "waterline": "^0.10.26",
     "webpack": "1.12.2"
   },
