@@ -10,6 +10,8 @@ import methodOverride from 'method-override';
 import compress from 'compression';
 import config from 'config';
 import apiRoutes from './routes/api/index';
+import mongoose from 'mongoose';
+import mockgoose from 'mockgoose';
 
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -33,6 +35,13 @@ if (app.get('env') === 'development') {
 } else if (app.get('env') === 'production') {
   app.use(compress());
 }
+
+// Make testing better maybe?
+if (process.env.NODE_ENV === 'test') {
+  mockgoose(mongoose);
+}
+
+mongoose.connect(config.get('Db.url'));
 
 app.use(methodOverride());
 app.use(bodyParser.json());
