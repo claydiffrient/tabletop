@@ -39,9 +39,10 @@ if (app.get('env') === 'development') {
 // Make testing better maybe?
 if (process.env.NODE_ENV === 'test') {
   mockgoose(mongoose);
+  mongoose.connect('mongodb://localhost/TestingDB-58');
+} else {
+  mongoose.connect(config.get('Db.url'));
 }
-
-mongoose.connect(config.get('Db.url'));
 
 app.use(methodOverride());
 app.use(bodyParser.json());

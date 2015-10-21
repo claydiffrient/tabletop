@@ -1,23 +1,16 @@
-// import Waterline from 'waterline';
+export default function (mongoose) {
+  let Schema = mongoose.Schema;
 
-// export default Waterline.Collection.extend({
-//   identity: 'user',
-//   connection: 'default',
-//   attributes: {
-//     username: {type: 'string', required: true, unique: true},
-//     firstName: {type: 'string'},
-//     lastName: {type: 'string'},
-//     email: {type: 'string'},
-//     password: {type: 'string'},
-//     ignoredGames: {
-//       collection: 'game',
-//       via: 'ignoredByUsers',
-//       dominant: true
-//     },
-//     toJSON () {
-//       let obj = this.toObject();
-//       delete obj.password;
-//       return obj;
-//     }
-//   }
-// });
+  let UserSchema = new Schema({
+    username: {type: String, trim: true, required: true, unique: true},
+    password: String,
+    firstName: String,
+    lastName: String,
+    email: {
+      type: String,
+      match: [/.+\@.+\..+/, 'Please fill a valid e-mail address']
+    }
+  });
+
+  return mongoose.model('User', UserSchema);
+}
