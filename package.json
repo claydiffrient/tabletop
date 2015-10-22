@@ -53,7 +53,7 @@
     "mongoose": "^4.1.11",
     "mongoose-unique-validator": "^0.5.1",
     "morgan": "1.6.1",
-    "normalizr": "^1.1.0",
+    "normalizr": "^1.3.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
