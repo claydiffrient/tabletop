@@ -70,7 +70,7 @@
     "webpack": "1.12.2"
   },
   "devDependencies": {
-    "babel-istanbul": "^0.3.20",
+    "babel-istanbul": "^0.4.0",
     "codeclimate-test-reporter": "^0.1.1",
     "del": "^2.0.2",
     "expect.js": "0.3.1",
