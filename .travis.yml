@@ -7,7 +7,15 @@ node_js:
 script:
   - "npm test"
   - "npm run coverage"
+env:
+  - CXX=g++-4.8
 addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-4.8
+      - g++-4.8
   code_climate:
     repo_token: 14e6dec822455f51da491b00b538b49afe6d439ff395f471ed122b1dcfe2e359
 before_script:
