@@ -51,7 +51,7 @@
     "lodash": "3.10.1",
     "method-override": "2.3.5",
     "mongoose": "^4.1.11",
-    "mongoose-unique-validator": "^0.5.1",
+    "mongoose-unique-validator": "^0.6.0",
     "morgan": "1.6.1",
     "normalizr": "^1.1.0",
     "react": "^0.14.0",
