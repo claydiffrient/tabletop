@@ -98,5 +98,8 @@
   },
   "apidoc": {
     "title": "Tabletop API Documentation"
+  },
+  "semistandard": {
+    "parser": "babel-eslint"
   }
 }
