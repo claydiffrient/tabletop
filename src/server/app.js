@@ -1,3 +1,4 @@
+/** @flow */
 import express from 'express';
 import path from 'path';
 // import favicon from 'serve-favicon';
@@ -66,10 +67,20 @@ app.get('*', (req, res) => {
   });
 });
 
+// Create a custom Error type
+class HttpError extends Error {
+  message: string;
+  status: number;
+
+  constructor (message, status) {
+    super(message)
+    this.status = status;
+  }
+}
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
+  var err = new HttpError('Not Found', 404);
   next(err);
 });
 

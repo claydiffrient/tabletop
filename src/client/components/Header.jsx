@@ -1,6 +1,7 @@
+/** @flow */
 import React from 'react';
 
-let Header = (props) => {
+let Header = (): React.Element => {
   return (
     <nav className="navbar navbar-fixed-top navbar-light bg-faded">
       <a className="navbar-brand" href="#">Navbar</a>

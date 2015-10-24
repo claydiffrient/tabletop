@@ -1,6 +1,13 @@
+/** @flow */
 import React from 'react';
 
-let GameCard = (props) => {
+type Props = {
+  imageUrl: string,
+  title: string,
+  description: string
+};
+
+let GameCard = (props: Props): React.Element => {
   return (
     <div className="card">
       <img className="card-img-top img-responsive" src="http://placehold.it/375x200" alt="Card image cap" />
