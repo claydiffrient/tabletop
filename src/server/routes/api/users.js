@@ -1,7 +1,8 @@
+/** @flow */
 import { Router } from 'express';
 let router = Router();
 
-export default function (app) {
+export default function (app: Object) : Object {
   /**
    * @api {get} /users Request list of users
    * @apiName GetUsers

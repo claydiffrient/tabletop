@@ -1,6 +1,7 @@
+/* @flow */
 import uniqueValidator from 'mongoose-unique-validator';
 
-export default function (mongoose) {
+export default function (mongoose: Object) : Object {
   let Schema = mongoose.Schema;
 
   let GameSchema = new Schema({

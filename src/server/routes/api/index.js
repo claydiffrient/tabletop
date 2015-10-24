@@ -1,9 +1,10 @@
+/** @flow */
 import { Router } from 'express';
 let router = Router();
 
 import gameRoutes from './games';
 
-export default (app) => {
+export default (app: Object): Object => {
   router.use('/v1/games', gameRoutes(app));
 
   /* GET home page. */

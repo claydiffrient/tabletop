@@ -1,6 +1,7 @@
+/** @flow */
 import bcrypt from 'bcrypt';
 
-export default function (mongoose) {
+export default function (mongoose: Object) : Object {
   let Schema = mongoose.Schema;
 
   let UserSchema = new Schema({

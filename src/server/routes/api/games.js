@@ -1,3 +1,4 @@
+/** @flow */
 import { Router } from 'express';
 import { remove } from 'lodash';
 import { model } from 'mongoose';
@@ -6,7 +7,7 @@ import { Html5Entities } from 'html-entities';
 let entities = new Html5Entities();
 let router = Router();
 
-export let bggLookup = (bggId, callback) => {
+export let bggLookup = (bggId: String, callback: Function) => {
   const BGG_API = 'http://bgg-json.azurewebsites.net/thing';
   let url = `${BGG_API}/${bggId}`;
   axios.get(url)
@@ -18,7 +19,7 @@ export let bggLookup = (bggId, callback) => {
        });
 };
 
-export default function (app) {
+export default function (app: Object) : Object {
   let _removeUnapproved = (games) => {
     return games.map((game) => {
       remove(game.owners, (owner) => {

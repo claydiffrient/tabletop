@@ -9,6 +9,7 @@ var semistandard = require('gulp-semistandard');
 var mocha = require('gulp-mocha');
 var apidoc = require('gulp-apidoc');
 var sourcemaps = require('gulp-sourcemaps');
+import flow from 'gulp-flowtype';
 
 var server = gls.new('./bin/run');
 
@@ -61,6 +62,15 @@ gulp.task('lint', function () {
                breakOnError: true
              }));
 });
+
+gulp.task('flow:server', () => {
+  return gulp.src('src/server/**/*.js')
+             .pipe(flow({
+               weak: true
+             }));
+})
+
+gulp.task('flow', ['flow:server']);
 
 gulp.task('test:server', ['babel:server', 'babel:test'], function () {
   return gulp.src('compiled/test/server/**/*.js')

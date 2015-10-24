@@ -1,0 +1,8 @@
+[ignore]
+.*/node_modules/fbjs/.*
+.*/node_modules/gulp-flowtype/.*
+[include]
+
+[libs]
+
+[options]
