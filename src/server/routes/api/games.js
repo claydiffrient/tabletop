@@ -57,9 +57,25 @@ export default function (app: Object) : Object {
     let Game = model('Game');
     Game.find({}).populate('owners').exec((err, models) => {
       if (err) return res.status(500).json({err});
-      res.json(_removeUnapproved(models));
+      // res.json(_removeUnapproved(models));
+      return res.json(models);
     });
   });
+
+  /**
+   * @api {get} /games/:id Request game by id
+   * @apiName GetGame
+   * @apiGroup Game
+   * @apiVersion 1.0.0
+   */
+  router.get('/:id', (req, res) => {
+    let Game = model('Game');
+    Game.findById(req.params.id).populate('owners').exec((err, game) => {
+      if (err) return res.status(500).json({err});
+      // res.json(_removeUnapproved(models));
+      return res.json(game);
+    });
+  })
 
   /**
    * POST /games

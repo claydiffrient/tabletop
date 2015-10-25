@@ -14,6 +14,10 @@ describe('GameModel', () => {
     mockgoose.reset();
   });
 
+  after(() => {
+    mockgoose.reset();
+  });
+
   it('should be able to create a new game', (done) => {
     Game.create({
       bggId: 123,

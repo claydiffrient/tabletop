@@ -3,12 +3,14 @@ import { expect } from 'chai';
 import nock from 'nock';
 import supertest from 'supertest';
 import app from '../../../../server/app';
+import createServer from '../../../../server/createServer';
 import mockgoose from 'mockgoose';
 // import Game from '../../../../server/models/Game';
 import mongoose from 'mongoose';
 import { parallel } from 'async';
 
 mockgoose(mongoose);
+var server;
 
 describe('Game Routes', () => {
   let fakeSplendor = {
@@ -24,14 +26,23 @@ describe('Game Routes', () => {
   };
 
   beforeEach(() => {
+    server = createServer(app);
   });
 
+  afterEach((done) => {
+    server.close(done);
+  })
+
   describe('POST', () => {
+    after(() => {
+      mockgoose.reset();
+    })
+
     it('should create a new game given a bggId', (done) => {
       nock('http://bgg-json.azurewebsites.net/')
         .get('/thing/148228')
         .reply(200, fakeSplendor, {'Content-Type': 'application/json'});
-      supertest(app)
+      supertest(server)
         .post('/api/v1/games')
         .send({bggId: 148228})
         .expect('Content-Type', /json/)
@@ -47,7 +58,7 @@ describe('Game Routes', () => {
       nock('http://bgg-json.azurewebsites.net/')
         .get('/thing/148228')
         .reply(200, fakeSplendor, {'Content-Type': 'application/json'});
-      supertest(app)
+      supertest(server)
         .post('/api/v1/games')
         .send({title: 'A Title'})
         .expect('Content-Type', /json/)
@@ -62,7 +73,7 @@ describe('Game Routes', () => {
       nock('http://bgg-json.azurewebsites.net/')
         .get('/thing/148228')
         .reply(500);
-      supertest(app)
+      supertest(server)
         .post('/api/v1/games')
         .send({bggId: 148228})
         .expect('Content-Type', /json/)
@@ -75,19 +86,22 @@ describe('Game Routes', () => {
 
   describe('GET routes', () => {
     let Game = mongoose.model('Game');
+    let testGameObjId = mongoose.Types.ObjectId();
+    let testGameObj = {
+      _id: testGameObjId,
+      bggId: 1,
+      title: 'Game of Tests 1',
+      thumbnailUrl: 'http://example.com/image.png',
+      minPlayers: 1,
+      maxPlayers: 10,
+      description: 'A simple game for testing things',
+      mechanics: ['Deck Building', 'Test Taking'],
+      playTime: 2
+    };
     before((done) => {
       parallel([
         (callback) => {
-          Game.create({
-            bggId: 1,
-            title: 'Game of Tests 1',
-            thumbnailUrl: 'http://example.com/image.png',
-            minPlayers: 1,
-            maxPlayers: 10,
-            description: 'A simple game for testing things',
-            mechanics: ['Deck Building', 'Test Taking'],
-            playTime: 2
-          }, callback);
+          Game.create(testGameObj, callback);
         },
         (callback) => {
           Game.create({
@@ -118,12 +132,9 @@ describe('Game Routes', () => {
       });
     });
 
-    beforeEach(() => {
-      mockgoose.reset();
-    });
 
-    xit('should list all games when requesting the root route', (done) => {
-      supertest(app)
+    it('should list all games when requesting the root route', (done) => {
+      supertest(server)
         .get('/api/v1/games/')
         .expect('Content-Type', /json/)
         .expect(200)
@@ -134,8 +145,16 @@ describe('Game Routes', () => {
         });
     });
 
-    it('should list a single game when requesting by id', () => {
-
+    it('should list a single game when requesting by id', (done) => {
+      supertest(server)
+        .get(`/api/v1/games/${testGameObjId}`)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(function (err, res) {
+          expect(res.body).to.be.an('object');
+          expect(res.body.title).to.equal(testGameObj.title);
+          done(err);
+        });
     });
   });
 });

@@ -14,6 +14,10 @@ describe('UserModel', () => {
     mockgoose.reset();
   });
 
+  after(() => {
+    mockgoose.reset();
+  })
+
   it('should be able to create a new user', (done) => {
     User.create({
       username: 'tester2015',
