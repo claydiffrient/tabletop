@@ -4,10 +4,10 @@ import mockgoose from 'mockgoose';
 import mongoose from 'mongoose';
 mockgoose(mongoose);
 
-import GameModel from '../../../server/models/Game';
 mongoose.connect('mongodb://localhost/TestingDB-58');
+require('../../../server/models');
 
-let Game = GameModel(mongoose);
+let Game = mongoose.model('Game');
 
 describe('GameModel', () => {
   beforeEach(() => {

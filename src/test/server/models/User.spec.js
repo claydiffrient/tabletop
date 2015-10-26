@@ -1,13 +1,14 @@
 /* eslint-env node, mocha */
 import { expect } from 'chai';
+import config from 'config';
 import mockgoose from 'mockgoose';
 import mongoose from 'mongoose';
 mockgoose(mongoose);
 
-import UserModel from '../../../server/models/User';
-mongoose.connect('mongodb://localhost/TestingDB-58');
+mongoose.connect(config.get('Db.url'));
+require('../../../server/models');
 
-let User = UserModel(mongoose);
+let User = mongoose.model('User');
 
 describe('UserModel', () => {
   beforeEach(() => {

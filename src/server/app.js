@@ -10,9 +10,10 @@ import session from 'express-session';
 import methodOverride from 'method-override';
 import compress from 'compression';
 import config from 'config';
-import apiRoutes from './routes/api/index';
 import mongoose from 'mongoose';
 import mockgoose from 'mockgoose';
+
+import apiRoutes from './routes/api/index';
 
 // Make sure our env variable is set
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -43,6 +44,9 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 mongoose.connect(config.get('Db.url'));
+
+// Bring in the models
+require('./models');
 
 app.use(methodOverride());
 app.use(bodyParser.json());
