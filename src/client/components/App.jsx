@@ -12,11 +12,14 @@ class App extends React.Component {
   }
 
   render () : React.Element {
+    console.log(this.props);
     return (
       <div>
         <Header />
         <div className='card-deck'>
-          {this.props.children}
+          {this.props.gameList.games.map((game, index) => {
+            return (<GameCard {...game} />);
+          })}
         </div>
       </div>
     );

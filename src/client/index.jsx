@@ -7,6 +7,8 @@ import configureStore from './store/configureStore';
 import initialState from './store/initialState';
 import page from 'page';
 
+import { fetchGames } from './actions/gameActions';
+
 import App from './components/App';
 
 import './styles/bootstrap4flex.css';
