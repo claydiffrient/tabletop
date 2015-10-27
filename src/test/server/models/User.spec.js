@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 mockgoose(mongoose);
 
 mongoose.connect(config.get('Db.url'));
-require('../../../server/models');
+require('../../../server/models')();
 
 let User = mongoose.model('User');
 

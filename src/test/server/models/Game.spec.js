@@ -1,11 +1,12 @@
 /* eslint-env node, mocha */
 import { expect } from 'chai';
+import config from 'config';
 import mockgoose from 'mockgoose';
 import mongoose from 'mongoose';
 mockgoose(mongoose);
 
-mongoose.connect('mongodb://localhost/TestingDB-58');
-require('../../../server/models');
+mongoose.connect(config.get('Db.url'));
+require('../../../server/models')();
 
 let Game = mongoose.model('Game');
 

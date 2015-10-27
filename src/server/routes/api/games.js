@@ -1,7 +1,7 @@
 /** @flow */
 import { Router } from 'express';
 import { remove } from 'lodash';
-import { model } from 'mongoose';
+import mongoose from 'mongoose';
 import axios from 'axios';
 import { Html5Entities } from 'html-entities';
 let entities = new Html5Entities();
@@ -20,6 +20,7 @@ export let bggLookup = (bggId: String, callback: Function) => {
 };
 
 export default function (app: Object) : Object {
+  let Game = mongoose.model('Game');
   let _removeUnapproved = (games) => {
     return games.map((game) => {
       remove(game.owners, (owner) => {
@@ -54,7 +55,6 @@ export default function (app: Object) : Object {
    *
    */
   router.get('/', (req, res) => {
-    let Game = model('Game');
     Game.find({}).populate('owners').exec((err, models) => {
       if (err) return res.status(500).json({err});
       // res.json(_removeUnapproved(models));
@@ -69,7 +69,6 @@ export default function (app: Object) : Object {
    * @apiVersion 1.0.0
    */
   router.get('/:id', (req, res) => {
-    let Game = model('Game');
     Game.findById(req.params.id).populate('owners').exec((err, game) => {
       if (err) return res.status(500).json({err});
       // res.json(_removeUnapproved(models));
@@ -89,7 +88,6 @@ export default function (app: Object) : Object {
     if (req.body.bggId) {
       bggLookup(req.body.bggId, function (err, response) {
         if (err) {
-          console.log(err);
           return res.status(500).send(err);
         }
         req.body.title = response.data.name;
@@ -98,8 +96,6 @@ export default function (app: Object) : Object {
         req.body.playTime = response.data.playingTime;
         req.body.description = entities.decode(response.data.description);
         req.body.mechanics = response.data.mechanics;
-
-        let Game = model('Game');
 
         Game.create(req.body, (err, game) => {
           if (err) {

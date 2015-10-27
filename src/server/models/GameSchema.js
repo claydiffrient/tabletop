@@ -1,6 +1,8 @@
 /* @flow */
 import uniqueValidator from 'mongoose-unique-validator';
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
+
+let Schema = mongoose.Schema;
 
 let GameSchema = new Schema({
   title: { type: String, unique: true, required: true },

@@ -46,7 +46,8 @@ if (process.env.NODE_ENV === 'test') {
 mongoose.connect(config.get('Db.url'));
 
 // Bring in the models
-require('./models');
+app.models = {};
+require('./models')(app);
 
 app.use(methodOverride());
 app.use(bodyParser.json());

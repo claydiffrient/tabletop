@@ -1,6 +1,8 @@
 /** @flow */
 import bcrypt from 'bcrypt';
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
+
+let Schema = mongoose.Schema;
 
 
 let UserSchema = new Schema({

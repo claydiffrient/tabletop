@@ -10,6 +10,7 @@ import mongoose from 'mongoose';
 import { parallel } from 'async';
 
 mockgoose(mongoose);
+require('../../../../server/models')();
 var server;
 
 describe('Game Routes', () => {
