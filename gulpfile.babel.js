@@ -10,6 +10,7 @@ var mocha = require('gulp-mocha');
 var apidoc = require('gulp-apidoc');
 var sourcemaps = require('gulp-sourcemaps');
 import flow from 'gulp-flowtype';
+import karma from 'karma';
 
 var server = gls.new('./bin/run');
 
@@ -77,7 +78,15 @@ gulp.task('test:server', ['babel:server', 'babel:test'], function () {
              .pipe(mocha());
 });
 
-gulp.task('test', ['test:server']);
+gulp.task('test:client', (done) => {
+  let { Server } = karma;
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('test', ['test:server', 'test:client']);
 
 /**
  * Watches the server source directory for changes and
