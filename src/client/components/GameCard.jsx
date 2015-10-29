@@ -1,27 +1,29 @@
 /** @flow */
 import React from 'react';
+import '../styles/GameCard.css';
 
 type Props = {
-  imageUrl: string,
+  thumbnail: string,
   title: string,
   description: string
 };
 
 let GameCard = (props: Props): React.Element => {
+  let srcImage = props.thumbnail || "http://placehold.it/375x200"
+  let shortDesc = props.description.substring(0, 200)
   return (
-    <div className="card">
-      <img className="card-img-top img-responsive" src="http://placehold.it/375x200" alt="Card image cap" />
+    <div className="GameCard card">
+      <img className="card-img-top img-responsive" src={srcImage} alt="Game image" />
       <div className="card-block">
-        <h4 className="card-title">Card title</h4>
-        <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+        <h4 className="card-title">{props.title}</h4>
+        <p className="card-text">{shortDesc}</p>
       </div>
     </div>
   );
 };
 
 GameCard.propTypes = {
-  imageUrl: React.PropTypes.string,
+  thumbnail: React.PropTypes.string,
   title: React.PropTypes.string.isRequired,
   description: React.PropTypes.string.isRequired
 };

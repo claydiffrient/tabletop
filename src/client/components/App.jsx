@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import GameCard from './GameCard';
 import Header from './Header';
+import CardContainer from './CardContainer';
 
 class App extends React.Component {
 
@@ -12,15 +13,11 @@ class App extends React.Component {
   }
 
   render () : React.Element {
-    console.log(this.props);
+    console.log(CardContainer);
     return (
       <div>
         <Header />
-        <div className='card-deck'>
-          {this.props.gameList.games.map((game, index) => {
-            return (<GameCard {...game} />);
-          })}
-        </div>
+        <CardContainer games={this.props.gameList.games} />
       </div>
     );
   }
