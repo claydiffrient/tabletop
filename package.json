@@ -10,7 +10,7 @@
     "coverage": "bin/coverage"
   },
   "engines": {
-    "node": "4.2.x",
+    "node": "5.0.x || 4.2.x",
     "npm": "3.3.x"
   },
   "repository": {
