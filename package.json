@@ -73,6 +73,7 @@
   "devDependencies": {
     "babel-istanbul": "^0.4.0",
     "codeclimate-test-reporter": "^0.1.1",
+    "cz-conventional-changelog": "^1.1.4",
     "del": "^2.0.2",
     "expect.js": "0.3.1",
     "flow-bin": "^0.18.1",
@@ -113,5 +114,10 @@
   },
   "semistandard": {
     "parser": "babel-eslint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

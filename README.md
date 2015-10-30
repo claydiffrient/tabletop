@@ -12,6 +12,7 @@ is somewhat working.
 [![Code Climate](https://codeclimate.com/github/claydiffrient/tabletop/badges/gpa.svg)](https://codeclimate.com/github/claydiffrient/tabletop)
 [![Dependencies](https://david-dm.org/claydiffrient/tabletop.svg)](https://david-dm.org/claydiffrient/tabletop)
 [![js-semistandard-style](https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square)](https://github.com/Flet/semistandard)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 Thanks for stopping by :smile: !  This is a system where when connected with the proper api can help you
 select a game to play.  It's main purpose is to help Instructure's tabletop group decide what game will be
