@@ -33,7 +33,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.(jsx|js)$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime' },
+      { test: /\.(jsx|js)$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.scss$/, loader: 'style!css!scss' },
       { test: /\.css$/, loader: 'style!css' },
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
