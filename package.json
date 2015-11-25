@@ -97,7 +97,7 @@
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "karma-sourcemap-loader": "^0.3.6",
-    "karma-spec-reporter": "0.0.22",
+    "karma-spec-reporter": "0.0.23",
     "karma-webpack": "^1.7.0",
     "lcov-result-merger": "^1.0.2",
     "mocha": "2.3.3",
