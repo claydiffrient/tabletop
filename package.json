@@ -68,7 +68,7 @@
     "serve-favicon": "2.3.0",
     "style-loader": "0.13.0",
     "waterline": "^0.10.26",
-    "webpack": "1.12.2"
+    "webpack": "1.12.9"
   },
   "devDependencies": {
     "babel-istanbul": "^0.5.9",
