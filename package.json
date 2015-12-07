@@ -105,7 +105,7 @@
     "karma-webpack": "^1.7.0",
     "lcov-result-merger": "^1.0.2",
     "mocha": "2.3.4",
-    "mockgoose": "^4.0.2",
+    "mockgoose": "^5.0.10",
     "nock": "^3.3.2",
     "sails-memory": "^0.10.5",
     "sinon": "^1.17.2",
