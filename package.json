@@ -65,7 +65,7 @@
     "redux": "^3.0.3",
     "redux-actions": "^0.8.0",
     "redux-devtools": "^2.1.5",
-    "redux-logger": "^2.0.3",
+    "redux-logger": "^2.2.1",
     "redux-thunk": "^1.0.0",
     "sails-postgresql": "^0.10.16",
     "serve-favicon": "2.3.0",
