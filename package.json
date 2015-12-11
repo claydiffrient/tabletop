@@ -63,7 +63,7 @@
     "react-redux": "^4.0.0",
     "react-router": "^1.0.0-rc3",
     "redux": "^3.0.3",
-    "redux-actions": "^0.8.0",
+    "redux-actions": "^0.9.0",
     "redux-devtools": "^2.1.5",
     "redux-logger": "^2.0.3",
     "redux-thunk": "^1.0.0",
