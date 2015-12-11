@@ -53,7 +53,7 @@
     "jquery": "^2.1.4",
     "lodash": "3.10.1",
     "method-override": "2.3.5",
-    "mongoose": "^4.2.2",
+    "mongoose": "^4.3.1",
     "mongoose-unique-validator": "^0.6.0",
     "morgan": "1.6.1",
     "normalizr": "^1.3.1",
