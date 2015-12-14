@@ -47,7 +47,7 @@
     "express-handlebars": "2.0.1",
     "express-session": "1.12.1",
     "gulp-run": "^1.6.11",
-    "history": "^1.12.4",
+    "history": "^1.16.0",
     "html-entities": "^1.2.0",
     "humps": "^1.0.0",
     "jquery": "^2.1.4",
