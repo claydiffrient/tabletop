@@ -106,7 +106,7 @@
     "lcov-result-merger": "^1.0.2",
     "mocha": "2.3.4",
     "mockgoose": "^4.0.2",
-    "nock": "^3.3.2",
+    "nock": "^3.5.0",
     "sails-memory": "^0.10.5",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0",
