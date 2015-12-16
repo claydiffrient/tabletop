@@ -82,7 +82,7 @@
     "expect.js": "0.3.1",
     "flow-bin": "^0.19.1",
     "gulp": "^3.9.0",
-    "gulp-apidoc": "^0.2.0",
+    "gulp-apidoc": "^0.2.2",
     "gulp-babel": "^6.1.1",
     "gulp-doxx": "0.0.5",
     "gulp-flowtype": "^0.4.8",
