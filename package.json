@@ -33,7 +33,7 @@
     "babel-preset-stage-0": "^6.1.18",
     "babel-runtime": "6.3.13",
     "bcrypt": "^0.8.5",
-    "body-parser": "1.14.1",
+    "body-parser": "1.14.2",
     "bootstrap": "twbs/bootstrap#v4-dev",
     "bundle-loader": "0.5.4",
     "chai": "^3.3.0",
