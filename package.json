@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "babel-istanbul": "^0.5.9",
-    "babel-plugin-add-module-exports": "^0.1.1",
+    "babel-plugin-add-module-exports": "^0.1.2",
     "codeclimate-test-reporter": "^0.1.1",
     "cz-conventional-changelog": "^1.1.4",
     "del": "^2.0.2",
