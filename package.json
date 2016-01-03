@@ -70,7 +70,7 @@
     "sails-postgresql": "^0.10.16",
     "serve-favicon": "2.3.0",
     "style-loader": "0.13.0",
-    "waterline": "^0.10.26",
+    "waterline": "^0.10.29",
     "webpack": "1.12.9"
   },
   "devDependencies": {
