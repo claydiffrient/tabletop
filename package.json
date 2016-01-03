@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/claydiffrient/tabletop",
   "dependencies": {
-    "async": "^1.4.2",
+    "async": "^1.5.1",
     "axios": "0.7.0",
     "babel-core": "6.3.17",
     "babel-loader": "6.2.0",
